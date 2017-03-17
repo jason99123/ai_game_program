@@ -7,15 +7,24 @@ function character(){
     this.speedX = 0; //X acceleration
     this.x = 0; //x location
     this.y = 0; //y location
-    this.width = 150;
-    this.height = 100;
+    this.width = 90; //image width
+    this.height = 104; //image height
+    
+    
+    
     this.maxSpeed = 10; // player maxium walking speed
     this.walkingSpeed = 5; //player walking speed
+    this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:attackB 4:defense 5:jump
+    
+    
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the character animation change
+    
+    
+    this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
     
     this.loadImage = function(){
@@ -49,22 +58,28 @@ function character(){
     this.newPos = function(){
         gravityMove(instance);
         walking(instance);
+        checkOnGround(instance);
     }
     
     //player action by player input, ref:MainGameFunctions:init()
     this.playerAction = function(e){
         switch(e.keyCode){
             case 37: //left button
+                instance.side=-1;
                 instance.ActionStatus = 1;
                 if (instance.speedX > -instance.maxSpeed) {
                     instance.speedX -= instance.walkingSpeed;
                 }
                 break;
             case 38: //up button
-                    instance.ActionStatus = 5;
-                    instance.gravitySpeed = -instance.jumpDistance;
+                    if (instance.onGround) { // check if player is onground in order to jump
+                        instance.onGround = false;
+                        instance.ActionStatus = 5;
+                        instance.gravitySpeed = -instance.jumpDistance;
+                    }
                 break;
             case 39: //right button
+                instance.side=1;
                 instance.ActionStatus = 1;
                 
                 if (instance.speedX < instance.maxSpeed) {
@@ -91,15 +106,38 @@ function character(){
                 instance.ActionStatus = 0;
     }
     
+    
+    
+    
+    
+    
+    
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
+        var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
-        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,90,104,instance.x,instance.y,90,104);
+        
+        
+        if(instance.side==-1){
+            opposite_side_correction=90; 
+        }else{
+            opposite_side_correction=0; 
+        }
+        
+        
+        ctx.save();
+        ctx.scale(instance.side, 1);
+        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+        ctx.restore();
         instance.seq++;
-        ctx.fillText(instance.x,100,100);
-        ctx.fillText(instance.y,200,100);
-        ctx.fillText(instance.seq,300,100);
+        
+        //temp usage : showing coordiate only    
+        ctx.fillStyle = "black";
+        ctx.fillText("X:"+instance.x,100,20);
+        ctx.fillText("Y:"+instance.y,200,20);
+        ctx.fillText("frame squence:"+instance.seq,300,20);
+        ctx.fillText("Player mode:"+instance.ActionStatus,450,20);
     }
 }

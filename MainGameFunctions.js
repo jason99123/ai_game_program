@@ -2,6 +2,8 @@
 var player;
 var ctx;
 var update_interval = 17; //frame update rate
+var height = 600; //canvas height
+var width = 1000; //canvas width
 
 
 //initiation of game
@@ -13,9 +15,6 @@ function init(){
     
     //start game initiation when ctx is ready
     if (ctx) {
-        ctx.fillStyle = "#f1f1f1";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
         //gameObject initiation
         player = new character();
         player.loadImage();
@@ -39,8 +38,12 @@ function init(){
 //draw : update game visual output  
  function draw(){
         // Clear the canvas
-        ctx.clearRect(0, 0, 1000, 600);
-        ctx.fillStyle = "black";
+        ctx.clearRect(0, 0, width, height);
+        
+        //draw background 
+        ctx.fillStyle = "#f1f1f1";
+        ctx.fillRect(0, 0, width, height);
+                
         player.draw();
 }
 
@@ -48,7 +51,7 @@ function init(){
  function gravityMove(object) {
         object.gravitySpeed += object.gravity;
         object.y += object.speedY + object.gravitySpeed;
-        if (object.y>=496) {
+        if (object.onGround) {
             object.y = 496;
         }
     }
@@ -57,3 +60,10 @@ function init(){
  function walking(object) {
         object.x += object.speedX;
         }
+        
+function checkOnGround(object){ //check player is on ground (not yet fully implemented)
+    //if condition => on ground
+    if (object.y>=496) {
+        object.onGround = true;
+    }
+}
