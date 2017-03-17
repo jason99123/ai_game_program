@@ -138,6 +138,6 @@ function character(){
         ctx.fillText("X:"+instance.x,100,20);
         ctx.fillText("Y:"+instance.y,200,20);
         ctx.fillText("frame squence:"+instance.seq,300,20);
-        ctx.fillText("Player mode:"+instance.ActionStatus,450,20);
+        ctx.fillText("drop speed:"+instance.gravitySpeed,450,20);
     }
 }
