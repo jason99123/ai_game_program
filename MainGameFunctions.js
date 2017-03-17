@@ -1,0 +1,59 @@
+//global variable
+var player;
+var ctx;
+var update_interval = 17; //frame update rate
+
+
+//initiation of game
+function init(){
+    //init canvas
+    var canvas = document.getElementById("game");
+    ctx=canvas.getContext && canvas.getContext('2d');
+    
+    
+    //start game initiation when ctx is ready
+    if (ctx) {
+        ctx.fillStyle = "#f1f1f1";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        //gameObject initiation
+        player = new character();
+        player.loadImage();
+        
+        //Player Control inintiation
+        window.addEventListener('keydown',player.playerAction,false);
+        window.addEventListener('keyup',player.stopWalking,false);
+        
+        //game start
+        gameStart();
+    }
+}
+
+//gamestart : call all update function
+ function gameStart(){
+    player.update();
+    draw();
+    setTimeout(gameStart,update_interval);
+ }
+    
+//draw : update game visual output  
+ function draw(){
+        // Clear the canvas
+        ctx.clearRect(0, 0, 1000, 600);
+        ctx.fillStyle = "black";
+        player.draw();
+}
+
+//gravityMove : gravity Engine
+ function gravityMove(object) {
+        object.gravitySpeed += object.gravity;
+        object.y += object.speedY + object.gravitySpeed;
+        if (object.y>=496) {
+            object.y = 496;
+        }
+    }
+    
+//walking : walking Engine
+ function walking(object) {
+        object.x += object.speedX;
+        }
