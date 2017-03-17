@@ -5,6 +5,7 @@ var update_interval = 17; //frame update rate
 var height = 600; //canvas height
 var width = 1000; //canvas width
 var obstacleList = new Array();
+var background = new Image();
 
 //initiation of game
 function init(){
@@ -16,6 +17,8 @@ function init(){
     //start game initiation when ctx is ready
     if (ctx) {
         //gameObject initiation
+        background.src="./image/background.jpg";
+        
         player = new character();
         player.loadImage();
         
@@ -43,8 +46,7 @@ function init(){
         ctx.clearRect(0, 0, width, height);
         
         //draw background 
-        ctx.fillStyle = "#f1f1f1";
-        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(background,0,-300);
         
         drawObstacle();
         
@@ -55,7 +57,7 @@ function init(){
  function initObstacle(){
     obstacleList[0] = new obstacle(0,450,400,25);
     obstacleList[1] = new obstacle(0,575,1000,25);
-    obstacleList[2] = new obstacle(500,400,300,25);
+    obstacleList[2] = new obstacle(600,400,300,25);
  }
 
  function drawObstacle(){
