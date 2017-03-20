@@ -39,8 +39,8 @@ function enemyA(){
     
     //update player position, ref:character:update()
     this.newPos = function(){
-        gravityMove(instance);
         this.randomAction();
+        gravityMove(instance);
         walking(instance);
         checkOnGround(instance);
     }
@@ -49,7 +49,7 @@ function enemyA(){
         instance.count++;
 
         if (instance.count<50) {
-            instance.side=-1;
+            instance.side=1;
             instance.ActionStatus = 1;
             instance.speedX=3;
         }else{
@@ -59,7 +59,11 @@ function enemyA(){
         }
         
         if (instance.count>=100) {
+            if (instance.onGround) {
+            instance.onGround = false;
+            instance.gravitySpeed = -instance.jumpDistance;
             instance.count = 0;
+            }
         }
     }
     
@@ -82,7 +86,11 @@ function enemyA(){
         ctx.scale(instance.side, 1);
         ctx.fillStyle="red";
         ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+        ctx.fillStyle="black";
+        ctx.font="30px Arial";
+        ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
         ctx.restore();
         instance.seq++;
+        
     }
 }

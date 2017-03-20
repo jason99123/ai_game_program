@@ -63,11 +63,14 @@ function init(){
     obstacleList[0] = new obstacle(0,450,400,25);
     obstacleList[1] = new obstacle(0,575,1000,25);
     obstacleList[2] = new obstacle(600,400,300,25);
+    obstacleList[3] = new obstacle(0,200,200,25);
+    obstacleList[4] = new obstacle(800,300,100,25);
+
  }
 
  function drawObstacle(){
     for(var i=0;i<obstacleList.length;i++){
-        obstacleList[i].draw(); 
+        obstacleList[i].draw();
     }
  }
 
@@ -93,7 +96,7 @@ function checkWall(object){ //check if colliding on wall
             return true;
         }else{
             for (var i=0;i<obstacleList.length;i++) {
-            if (object.x+object.width/2+10>=obstacleList[i].x && object.x+object.width/2-10<=obstacleList[i].x+obstacleList[i].width && object.y+object.height-10>=obstacleList[i].y && object.y+10<=obstacleList[i].y+obstacleList[i].height) {
+            if (object.x+object.width/2+10>=obstacleList[i].x && object.x+object.width/2-10<=obstacleList[i].x+obstacleList[i].width && object.y+object.height-15>=obstacleList[i].y && object.y+10<=obstacleList[i].y+obstacleList[i].height) {
                     return true;
                 }
             }

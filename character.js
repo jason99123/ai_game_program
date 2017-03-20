@@ -10,23 +10,23 @@ function character(){
     this.width = 90; //image width
     this.height = 104; //image height
     
-    
-    
     this.maxSpeed = 10; // player maxium walking speed
     this.walkingSpeed = 5; //player walking speed
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:attackB 4:defense 5:jump
     
-    
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the character animation change
     
-    
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
-    
+        
+    this.bullet = new Array();
+    this.maxBullet = 5;
+    this.bulletCount = 0;
+        
     this.loadImage = function(){
         instance.image[0]= new Image();
         instance.image[0].src="./image/character/stand.png";
@@ -52,6 +52,7 @@ function character(){
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
+        instance.bulletPos();
     }
     
     //update player position, ref:character:update()
@@ -90,6 +91,15 @@ function character(){
                 break;
             case 65: //A button
                 instance.ActionStatus = 2;
+                if (!instance.bullet[instance.bulletCount]) {
+                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side);
+                }
+                instance.bulletCount++;
+                
+                if (instance.bulletCount >= instance.maxBullet) {
+                    instance.bulletCount = 0;
+                }
+                
                 break;
             case 68: //d button
                 instance.ActionStatus = 4;
@@ -106,11 +116,24 @@ function character(){
                 instance.ActionStatus = 0;
     }
     
+    this.bulletPos = function(){
+        for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+                instance.bullet[i].newPos();
+            if (checkWall(instance.bullet[i])) {
+                delete instance.bullet[i];
+                }
+            }
+        }
+    }
     
-    
-    
-    
-    
+    this.drawBullet = function(){
+        for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+                instance.bullet[i].draw();
+            }
+        }
+    }
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
@@ -139,5 +162,7 @@ function character(){
         ctx.fillText("Y:"+instance.y,200,20);
         ctx.fillText("frame squence:"+instance.seq,300,20);
         ctx.fillText("drop speed:"+instance.gravitySpeed,450,20);
+        
+        instance.drawBullet();
     }
 }
