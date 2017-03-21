@@ -84,6 +84,7 @@ function enemyA(){
     
     this.drawSkillAction = function(){
             ctx.save();
+            ctx.fillStyle="black";
             ctx.font="30px Arial";
             ctx.fillText("Heal!",instance.x,instance.y-50);
             instance.skillCount--;
@@ -128,7 +129,6 @@ function enemyA(){
         ctx.font="30px Arial";
         ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
         ctx.restore();
-             }
         }
     }
 }
