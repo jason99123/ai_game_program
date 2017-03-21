@@ -173,7 +173,7 @@ function character(){
         ctx.fillStyle = "black";
         ctx.fillText("X:"+instance.x,100,20);
         ctx.fillText("Y:"+instance.y,200,20);
-        ctx.fillText("frame squence:"+enemy.seq,300,20);
+        ctx.fillText("count"+enemy.count,300,20);
         ctx.fillText("Action:"+enemy.ActionStatus,450,20);
         
         instance.drawBullet();

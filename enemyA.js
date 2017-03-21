@@ -79,25 +79,36 @@ function enemyA(){
             instance.lifetimes++;
         }
             
-        if (instance.count<50) {
+        if (instance.count<30) {
             instance.side=1;
             if (!instance.delay()) {
-                instance.ActionStatus = 2;
+                instance.ActionStatus = 1;
             }
-            instance.speedX=3;
+            instance.speedX=6;
+        }else if (instance.count<80) {
+            instance.speedX=0;
+            if (!instance.delay()) {
+                instance.ActionStatus = 0;
+            }
+        }else if (instance.count<130) {
+            instance.side=-1;
+            if (!instance.delay()) {
+                instance.ActionStatus = 1;
+            }
+            instance.speedX=-6;
         }else{
             instance.side=-1;
             if (!instance.delay()) {
                 instance.ActionStatus = 2;
+                instance.shootBullet();
             }
-            instance.speedX=-3;
+            instance.speedX=0;
         }
         
         if(checkWall(instance)){
            instance.jump();
         }
         
-        instance.shootBullet();
         
         for(var i = 0;i < player.bullet.length;i++){
             if(player.bullet[i]){
@@ -107,7 +118,7 @@ function enemyA(){
            }
         }
         
-        if(instance.count > 100){
+        if(instance.count > 150){
          instance.count = 0;
         }
     }
