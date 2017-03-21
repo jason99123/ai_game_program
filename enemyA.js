@@ -87,7 +87,7 @@ function enemyA(){
         if(instance.skillCount > 0){
             ctx.save();
             ctx.font="30px Arial";
-            ctx.fillText("Heal!",instance.side*instance.x-opposite_side_correction,instance.y-50);
+            ctx.fillText("Heal!",instance.x,instance.y-50);
             instance.skillCount--;
             ctx.restore();
         }
