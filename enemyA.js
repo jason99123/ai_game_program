@@ -52,7 +52,7 @@ function enemyA(){
     
         
         if(instance.hp<=1 && instance.lifetimes<5){
-            instance.hp=10;
+            instance.heal();            
             instance.lifetimes++;
         }
             
@@ -74,6 +74,11 @@ function enemyA(){
             }
         }
     }
+    this.heal = function()
+    {
+     instance.skillCount = 10;
+     instance.hp = 10;   
+    }
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
@@ -93,6 +98,11 @@ function enemyA(){
             opposite_side_correction=0; 
         }
         
+        if(instance.skillCount !=0){
+            ctx.font="30px Arial";
+            ctx.fillText("Heal!",instance.side*instance.x-opposite_side_correction,instance.y-50);
+            instance.skillCount--;
+        }
         
         ctx.save();
         ctx.scale(instance.side, 1);
