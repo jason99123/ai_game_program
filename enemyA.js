@@ -9,7 +9,7 @@ function enemyA(){
     this.y = 0; //y location
     this.width = 90; //image width
     this.height = 104; //image height
-    
+    this.lifetimes = 0;
     
     
     this.maxSpeed = 10; // player maxium walking speed
@@ -49,9 +49,11 @@ function enemyA(){
     
     this.randomAction = function(){ //test random action
         instance.count++;
+    
         
-        if(instance.hp<=1){
+        if(instance.hp<=1 && instance.lifetimes<10){
             instance.hp=10;
+            lifetimes++;
         }
             
         if (instance.count<50) {
