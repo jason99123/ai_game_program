@@ -10,7 +10,7 @@ function enemyA(){
     this.width = 90; //image width
     this.height = 104; //image height
     this.lifetimes = 0;
-    
+    this.opposite_side_correction = 0;
     
     this.maxSpeed = 10; // player maxium walking speed
     this.walkingSpeed = 5; //player walking speed
@@ -93,10 +93,10 @@ function enemyA(){
             ctx.save();
             ctx.scale(instance.side, 1);
             ctx.fillStyle="blue";
-            ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+            ctx.fillRect(instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
             ctx.fillStyle="black";
             ctx.font="30px Arial";
-            ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
+            ctx.fillText("Dickson",instance.side*instance.x-instance.opposite_side_correction,instance.y+50);
             ctx.restore();
     }
     
@@ -114,9 +114,9 @@ function enemyA(){
         
         
         if(instance.side==-1){
-            opposite_side_correction=90; 
+            instance.opposite_side_correction=90; 
         }else{
-            opposite_side_correction=0; 
+            instance.opposite_side_correction=0; 
         }
             
         if(instance.skillCount > 0){
@@ -125,10 +125,10 @@ function enemyA(){
             ctx.save();
             ctx.scale(instance.side, 1);
             ctx.fillStyle="red";
-            ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+            ctx.fillRect(instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
             ctx.fillStyle="black";
             ctx.font="30px Arial";
-            ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
+            ctx.fillText("Dickson",instance.side*instance.x-instance.opposite_side_correction,instance.y+50);
             ctx.restore();
          }
       }
