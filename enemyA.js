@@ -67,19 +67,25 @@ function enemyA(){
             instance.speedX=-3;
         }
         
-        if (instance.count>=100) {
-            if (instance.onGround) {
-            instance.onGround = false;
-            instance.gravitySpeed = -instance.jumpDistance;
-            instance.count = 0;
+        for(var i = 0;i < player.bullet.length;i++){
+            if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
+                      instance.jump();
             }
-        }
+        }  
+         instance.count = 0;
     }
     
     this.heal = function()
     {
      instance.skillCount = 50;
      instance.hp = 10;   
+    }
+    
+    this.jump = function(){
+         if (instance.onGround) {
+            instance.onGround = false;
+            instance.gravitySpeed = -instance.jumpDistance;
+         }
     }
     
     this.drawSkillAction = function(){
