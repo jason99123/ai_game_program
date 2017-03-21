@@ -197,15 +197,15 @@ function gameover(){
         }else{
         ctx.fillText("you die...",300,250);
         }
-        ctx.fillRect(425,350,100,50);
+        ctx.fillRect(405,350,180,50);
         ctx.fillStyle="black";
         ctx.font="20px Arial";
-        ctx.fillText("Restart",442.5,382.5);
-        canvas.addEventListener('mousedown',restart,false);
+        ctx.fillText("Click R to restart",422.5,382.5);
+        window.addEventListener('keydown',restart,false);
 }
 
 function restart(e) {
-        if (e.clientX>610 && e.clientX<710 && e.clientY>360 && e.clientY<415) {
+        if (e.keyCode == 82) {
         location.reload();
     }
 }
