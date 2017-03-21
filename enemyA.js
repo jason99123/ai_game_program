@@ -78,7 +78,7 @@ function enemyA(){
     
     this.heal = function()
     {
-     instance.skillCount = 20;
+     instance.skillCount = 50;
      instance.hp = 10;   
     }
     
