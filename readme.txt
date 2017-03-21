@@ -8,3 +8,7 @@ Cal have finished the basic animation part and will continue the implementation.
 We need to finish the other component such as starting screen, choosing boss, AI behaviour script and end game script.
 
 I will come up with some boss mechanism later. The first task which can be done is to introduce a starting screen and a screen with select box that allow player to choose the boss to fight with.
+
+
+The web URL for our project is  https://jason99123.github.io/ai_game_program/
+Correctly using the git function can allow auto update of the web. Please make use of the git.
