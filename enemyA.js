@@ -49,7 +49,11 @@ function enemyA(){
     
     this.randomAction = function(){ //test random action
         instance.count++;
-
+        
+        if(instance.hp<=1){
+            instance.hp=10;
+        }
+            
         if (instance.count<50) {
             instance.side=1;
             instance.ActionStatus = 1;
