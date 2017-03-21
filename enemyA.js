@@ -23,6 +23,7 @@ function enemyA(){
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the character animation change
     this.show=true; // show enemy.image
+    this.skillCount = 0;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
@@ -76,7 +77,7 @@ function enemyA(){
     }
     this.heal = function()
     {
-     instance.skillCount = 10;
+     instance.skillCount = 20;
      instance.hp = 10;   
     }
     
@@ -99,9 +100,11 @@ function enemyA(){
         }
         
         if(instance.skillCount !=0){
+            ctx.save();
             ctx.font="30px Arial";
             ctx.fillText("Heal!",instance.side*instance.x-opposite_side_correction,instance.y-50);
             instance.skillCount--;
+            ctx.restore();
         }
         
         ctx.save();
