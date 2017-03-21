@@ -122,17 +122,15 @@ function enemyA(){
         if(instance.skillCount > 0){
             instance.drawSkillAction();
         }else{
-        ctx.save();
-        ctx.scale(instance.side, 1);
-        ctx.fillStyle="red";
-        ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
-        ctx.fillStyle="black";
-        ctx.font="30px Arial";
-        ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
-        ctx.restore();
-                }
-            }
-        }
-     }
-  }
+            ctx.save();
+            ctx.scale(instance.side, 1);
+            ctx.fillStyle="red";
+            ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+            ctx.fillStyle="black";
+            ctx.font="30px Arial";
+            ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
+            ctx.restore();
+         }
+      }
+    }
 }
