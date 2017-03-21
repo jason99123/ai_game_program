@@ -1,6 +1,7 @@
 //global variable
 var player;
 var enemy;
+var canvas;
 var ctx;
 var update_interval = 17; //frame update rate
 var height = 600; //canvas height
@@ -11,7 +12,7 @@ var background = new Image();
 //initiation of game
 function init(){
     //init canvas
-    var canvas = document.getElementById("game");
+    canvas = document.getElementById("game");
     ctx=canvas.getContext && canvas.getContext('2d');
     
     
@@ -200,11 +201,11 @@ function gameover(){
         ctx.fillStyle="black";
         ctx.font="20px Arial";
         ctx.fillText("Restart",442.5,382.5);
-        window.addEventListener('mousedown',restart,false);
+        canvas.addEventListener('mousedown',restart,false);
 }
 
 function restart(e) {
-    if (e.clientX>610 && e.clientX<710 && e.clientY>360 && e.clientY<415) {
+        if (e.clientX>610 && e.clientX<710 && e.clientY>360 && e.clientY<415) {
         location.reload();
     }
 }
