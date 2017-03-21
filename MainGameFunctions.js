@@ -25,6 +25,9 @@ function init(){
         player.loadImage();
         
         enemy = new enemyA(); //create enemy object A/B/C
+        enemy.loadImage();
+        
+        loadBulletImage();
         
         initObstacle();
         

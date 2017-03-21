@@ -95,7 +95,7 @@ function character(){
             case 65: //A button
                 instance.ActionStatus = 2;
                 if (!instance.bullet[instance.bulletCount]) {
-                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,"blue");
+                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,0);
                 }
                 instance.bulletCount++;
                 
@@ -173,8 +173,8 @@ function character(){
         ctx.fillStyle = "black";
         ctx.fillText("X:"+instance.x,100,20);
         ctx.fillText("Y:"+instance.y,200,20);
-        ctx.fillText("frame squence:"+instance.seq,300,20);
-        ctx.fillText("skill count:"+enemy.skillCount,450,20);
+        ctx.fillText("frame squence:"+enemy.seq,300,20);
+        ctx.fillText("Action:"+enemy.ActionStatus,450,20);
         
         instance.drawBullet();
     }

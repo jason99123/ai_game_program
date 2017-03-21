@@ -21,6 +21,7 @@ function enemyA(){
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the character animation change
+    this.actionDelay = 0;
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
@@ -37,7 +38,22 @@ function enemyA(){
     this.hp=10;
     
     this.loadImage = function(){
-        //null now
+        instance.image[0]= new Image();
+        instance.image[0].src="./image/enemyA/stand.png";
+        instance.image[1]= new Image();
+        instance.image[1].src="./image/enemyA/walking.png";
+        instance.image[2]= new Image();
+        instance.image[2].src="./image/enemyA/attackA.png";
+        instance.image[3]= new Image();
+        instance.image[3].src="./image/enemyA/attackB.png";
+        instance.image[5]= new Image();
+        instance.image[5].src="./image/enemyA/jump.png";
+        
+        instance.imageFrame[0]=4;
+        instance.imageFrame[1]=4;
+        instance.imageFrame[2]=3;
+        instance.imageFrame[3]=3;
+        instance.imageFrame[5]=1;
     }
     
     //update player information, ref:MainGameFunctions:gameStart()
@@ -65,11 +81,15 @@ function enemyA(){
             
         if (instance.count<50) {
             instance.side=1;
-            instance.ActionStatus = 1;
+            if (!instance.delay()) {
+                instance.ActionStatus = 2;
+            }
             instance.speedX=3;
         }else{
             instance.side=-1;
-            instance.ActionStatus = 1;
+            if (!instance.delay()) {
+                instance.ActionStatus = 2;
+            }
             instance.speedX=-3;
         }
         
@@ -101,13 +121,24 @@ function enemyA(){
     this.jump = function(){
          if (instance.onGround) {
             instance.onGround = false;
+            instance.ActionStatus = 5;
+            instance.actionDelay = 15;
             instance.gravitySpeed = -instance.jumpDistance;
          }
     }
     
+    this.delay = function(){
+        if (instance.actionDelay>0) {
+            instance.actionDelay--;
+            return true;
+        }else{
+        return false;
+        }
+    }
+    
     this.shootBullet = function(){
             if (!instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]) {
-                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,"red");
+                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,1);
             }
             instance.bulletCount++;
                 
@@ -178,12 +209,9 @@ function enemyA(){
         }else{
             ctx.save();
             ctx.scale(instance.side, 1);
-            ctx.fillStyle="red";
-            ctx.fillRect(instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
-            ctx.fillStyle="black";
-            ctx.font="30px Arial";
-            ctx.fillText("Dickson",instance.side*instance.x-instance.opposite_side_correction,instance.y+50);
+            ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
             ctx.restore();
+            instance.seq++;
          }
       }
             instance.drawBullet();
