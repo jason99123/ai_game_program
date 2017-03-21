@@ -51,9 +51,9 @@ function enemyA(){
         instance.count++;
     
         
-        if(instance.hp<=1 && instance.lifetimes<10){
+        if(instance.hp<=1 && instance.lifetimes<5){
             instance.hp=10;
-            lifetimes++;
+            instance.lifetimes++;
         }
             
         if (instance.count<50) {
