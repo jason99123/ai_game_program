@@ -84,6 +84,14 @@ function enemyA(){
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
+        if(instance.skillCount > 0){
+            ctx.save();
+            ctx.font="30px Arial";
+            ctx.fillText("Heal!",instance.side*instance.x-opposite_side_correction,instance.y-50);
+            instance.skillCount--;
+            ctx.restore();
+        }
+        
         if (!instance.show) {
             instance.show = true;
         }else{
@@ -98,14 +106,6 @@ function enemyA(){
             opposite_side_correction=90; 
         }else{
             opposite_side_correction=0; 
-        }
-        
-        if(instance.skillCount > 0){
-            ctx.save();
-            ctx.font="30px Arial";
-            ctx.fillText("Heal!",instance.side*instance.x-opposite_side_correction,instance.y-50);
-            instance.skillCount--;
-            ctx.restore();
         }
         
         ctx.save();
