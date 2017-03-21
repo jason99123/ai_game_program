@@ -22,11 +22,13 @@ function enemyA(){
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the character animation change
-    
+    this.show=true; // show enemy.image
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
     this.count = 0;
+    
+    this.hp=10;
     
     this.loadImage = function(){
         //null now
@@ -69,6 +71,10 @@ function enemyA(){
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
+        if (!instance.show) {
+            instance.show = true;
+        }else{
+        
         var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
@@ -91,6 +97,6 @@ function enemyA(){
         ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
         ctx.restore();
         instance.seq++;
-        
+        }
     }
 }

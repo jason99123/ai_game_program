@@ -17,7 +17,7 @@ function enemyB(){
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:attackB 4:defense 5:jump
-    
+    this.show=true; // show enemy.image
     
     this.image = new Array();
     this.imageFrame = new Array();
@@ -26,6 +26,8 @@ function enemyB(){
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
+    
+    this.hp=10;
     
     this.loadImage = function(){
         //null now

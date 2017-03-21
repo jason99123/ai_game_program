@@ -27,6 +27,8 @@ function enemyC(){
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
     
+    this.hp=10;
+    
     this.loadImage = function(){
         //null now
     }

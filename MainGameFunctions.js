@@ -47,6 +47,9 @@ function init(){
 //draw : update game visual output  
  function draw(){
         // Clear the canvas
+        if (player.hp<=0 || enemy.hp<=0) {
+            gameover();
+        }else{
         ctx.clearRect(0, 0, width, height);
         
         //draw background 
@@ -56,7 +59,8 @@ function init(){
         
         player.draw();
         enemy.draw();
-        
+        drawHP();
+        }
 }
 
  function initObstacle(){
@@ -122,5 +126,85 @@ function checkOnGround(object){ //check player is on ground (not yet fully imple
     }else{
         object.gravity = 0.25;     
     }
+}
 
+function checkAttackEnemy(object){ //check if attack sucess to enemy
+    if (object.x>=enemy.x && object.x<=enemy.x+enemy.width && object.y>=enemy.y && object.y<=enemy.y+enemy.height) {
+        enemy.hp--;
+        enemy.show=false;
+        return true
+    }else{
+        return false;
+    }
+}
+
+function drawHP(){
+    ctx.save();
+    ctx.fillStyle="#0489B1";
+    ctx.fillRect(66,82.5,150,40);
+    ctx.strokeStyle="#08298A";
+    ctx.strokeRect(66,82.5,150,40);
+    ctx.fillStyle="#08298A";
+    ctx.fillRect(65,41,20,43);
+    ctx.fillStyle="black";
+    ctx.fillRect(85,42.5,290,40);
+    ctx.fillStyle="#D7DF01";
+    ctx.fillRect(95,50,player.hp*27,25);
+    ctx.fillStyle="black";
+    for(var i=0;i<10;i++){
+        ctx.fillRect(95+i*27,50,4,25);
+    }
+    ctx.strokeStyle="#08298A";
+    ctx.strokeRect(85,42.5,290,40);
+    ctx.drawImage(player.image[0],20,20,50,40,66,82,50,40)
+    ctx.strokeRect(66.5,82.5,50,40);
+    ctx.font="20px Arial";
+    ctx.fillText("Player",130,110);
+    ctx.restore();
+    
+    ctx.save();
+    ctx.fillStyle="#FE2E2E";
+    ctx.fillRect(773,82.5,150,40);
+    ctx.strokeStyle="#8A0808";
+    ctx.strokeRect(773,82.5,150,40);
+    ctx.fillStyle="#8A0808";
+    ctx.fillRect(905,41,20,43);
+    ctx.fillStyle="black";
+    ctx.fillRect(615,42.5,290,40);
+    ctx.fillStyle="#D7DF01";
+    ctx.fillRect(895,50,-enemy.hp*27,25);
+    ctx.fillStyle="black";
+    for(var i=0;i<10;i++){
+        ctx.fillRect(625+i*27,50,4,25);
+    }
+    ctx.strokeStyle="#8A0808";
+    ctx.strokeRect(615,42.5,290,40);
+    ctx.drawImage(player.image[0],20,20,50,40,66,82,50,40)
+    ctx.strokeRect(873.5,82.5,50,40);
+    ctx.font="20px Arial";
+    ctx.fillText("Enemy",790,110);
+    ctx.restore();
+}
+
+function gameover(){
+        ctx.fillStyle="black";
+        ctx.fillRect(0,0,width,height);
+        ctx.fillStyle="white";
+        ctx.font="100px Arial";
+        if (enemy.hp<=0) {
+            ctx.fillText("you win!",300,250);
+        }else{
+        ctx.fillText("you die...",300,250);
+        }
+        ctx.fillRect(425,350,100,50);
+        ctx.fillStyle="black";
+        ctx.font="20px Arial";
+        ctx.fillText("Restart",442.5,382.5);
+        window.addEventListener('mousedown',restart,false);
+}
+
+function restart(e) {
+    if (e.clientX>610 && e.clientX<710 && e.clientY>360 && e.clientY<415) {
+        location.reload();
+    }
 }

@@ -6,7 +6,7 @@ function character(){
     this.speedY = 0; //Y acceleration
     this.speedX = 0; //X acceleration
     this.x = 0; //x location
-    this.y = 0; //y location
+    this.y = 300; //y location
     this.width = 90; //image width
     this.height = 104; //image height
     
@@ -26,6 +26,8 @@ function character(){
     this.bullet = new Array();
     this.maxBullet = 5;
     this.bulletCount = 0;
+    
+    this.hp=10;
         
     this.loadImage = function(){
         instance.image[0]= new Image();
@@ -102,9 +104,16 @@ function character(){
                 
                 break;
             case 68: //d button
+                instance.hp--;
                 instance.ActionStatus = 4;
                 break;
             case 83: //s button
+                this.melee = new function(){
+                    this.x=instance.x+instance.width/2+instance.width*instance.side;
+                    this.y=instance.y+instance.height/2;
+                }
+                checkAttackEnemy(melee);
+                delete this.melee;
                 instance.ActionStatus = 3;
                 break;
         }
@@ -120,7 +129,7 @@ function character(){
         for(var i=0;i<instance.bullet.length;i++){    
             if (instance.bullet[i]) {
                 instance.bullet[i].newPos();
-            if (checkWall(instance.bullet[i])) {
+            if (checkWall(instance.bullet[i]) || checkAttackEnemy(instance.bullet[i]) ) {
                 delete instance.bullet[i];
                 }
             }
