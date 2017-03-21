@@ -23,7 +23,12 @@ function enemyA(){
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the character animation change
     this.show=true; // show enemy.image
+    
+    this.bullet = new Array();
+    this.maxBullet = 3;
+    this.bulletCount = 0;
     this.skillCount = 0;
+    this.bulletSpeed = 30;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
@@ -38,6 +43,7 @@ function enemyA(){
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
+        instance.bulletPos();
     }
     
     //update player position, ref:character:update()
@@ -71,6 +77,8 @@ function enemyA(){
            instance.jump();
         }
         
+        instance.shootBullet();
+        
         for(var i = 0;i < player.bullet.length;i++){
             if(player.bullet[i]){
                 if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
@@ -96,6 +104,37 @@ function enemyA(){
             instance.gravitySpeed = -instance.jumpDistance;
          }
     }
+    
+    this.shootBullet = function(){
+            if (!instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]) {
+                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,"red");
+            }
+            instance.bulletCount++;
+                
+            if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
+                instance.bulletCount = 0;
+            }
+    }
+    
+    this.bulletPos = function(){
+        for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+                instance.bullet[i].newPos();
+            if (checkWall(instance.bullet[i]) || checkAttackPlayer(instance.bullet[i]) ) {
+                delete instance.bullet[i];
+                }
+            }
+        }
+    }
+    
+    this.drawBullet = function(){
+        for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+                instance.bullet[i].draw();
+            }
+        }
+    }
+    
     
     this.drawSkillAction = function(){
             ctx.save();
@@ -147,5 +186,6 @@ function enemyA(){
             ctx.restore();
          }
       }
+            instance.drawBullet();
     }
 }

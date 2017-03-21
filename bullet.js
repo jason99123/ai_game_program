@@ -1,4 +1,4 @@
-function bullet(x,y,side){
+function bullet(x,y,side,color){
     var instance=this;
     this.x=x;
     this.y=y;
@@ -12,7 +12,7 @@ function bullet(x,y,side){
     }
     
     this.draw = function(){
-        ctx.fillStyle="blue";
+        ctx.fillStyle=color;
         ctx.fillRect(this.x,this.y,this.width,this.height);
     }
 }

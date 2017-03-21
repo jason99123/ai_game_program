@@ -139,6 +139,16 @@ function checkAttackEnemy(object){ //check if attack sucess to enemy
     }
 }
 
+function checkAttackPlayer(object){ //check if attack sucess to enemy
+    if (object.x>=player.x && object.x<=player.x+player.width && object.y>=player.y && object.y<=player.y+player.height) {
+        player.hp-=1;
+        player.show=false;
+        return true
+    }else{
+        return false;
+    }
+}
+
 function drawHP(){
     ctx.save();
     ctx.fillStyle="#0489B1";

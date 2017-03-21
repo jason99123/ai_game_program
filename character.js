@@ -26,6 +26,7 @@ function character(){
     this.bullet = new Array();
     this.maxBullet = 5;
     this.bulletCount = 0;
+    this.show=true;
     
     this.hp=10;
         
@@ -94,7 +95,7 @@ function character(){
             case 65: //A button
                 instance.ActionStatus = 2;
                 if (!instance.bullet[instance.bulletCount]) {
-                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side);
+                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,"blue");
                 }
                 instance.bulletCount++;
                 
@@ -146,25 +147,29 @@ function character(){
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
-        var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
-        if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
-            instance.seq = 0;
-        }
         
-        
-        if(instance.side==-1){
-            opposite_side_correction=90; 
+        if (!instance.show) {
+            instance.show = true;
         }else{
-            opposite_side_correction=0; 
+            var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
+            if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
+                instance.seq = 0;
+            }
+        
+            
+            if(instance.side==-1){
+                opposite_side_correction=90; 
+            }else{
+                opposite_side_correction=0; 
+            }
+            
+        
+            ctx.save();
+            ctx.scale(instance.side, 1);
+            ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+            ctx.restore();
+            instance.seq++;
         }
-        
-        
-        ctx.save();
-        ctx.scale(instance.side, 1);
-        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
-        ctx.restore();
-        instance.seq++;
-        
         //temp usage : showing coordiate only    
         ctx.fillStyle = "black";
         ctx.fillText("X:"+instance.x,100,20);
