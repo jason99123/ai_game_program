@@ -6,18 +6,29 @@ function character(){
     this.speedY = 0; //Y acceleration
     this.speedX = 0; //X acceleration
     this.x = 0; //x location
-    this.y = 0; //y location
-    this.width = 150;
-    this.height = 100;
+    this.y = 300; //y location
+    this.width = 90; //image width
+    this.height = 104; //image height
+    
     this.maxSpeed = 10; // player maxium walking speed
     this.walkingSpeed = 5; //player walking speed
+    this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:attackB 4:defense 5:jump
+    
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the character animation change
-    this.seq = 0; 
     
+    this.side = 1; //which side player facing left:-1 right:1
+    this.seq = 0; 
+        
+    this.bullet = new Array();
+    this.maxBullet = 5;
+    this.bulletCount = 0;
+    
+    this.hp=10;
+        
     this.loadImage = function(){
         instance.image[0]= new Image();
         instance.image[0].src="./image/character/stand.png";
@@ -43,28 +54,35 @@ function character(){
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
+        instance.bulletPos();
     }
     
     //update player position, ref:character:update()
     this.newPos = function(){
         gravityMove(instance);
         walking(instance);
+        checkOnGround(instance);
     }
     
     //player action by player input, ref:MainGameFunctions:init()
     this.playerAction = function(e){
         switch(e.keyCode){
             case 37: //left button
+                instance.side=-1;
                 instance.ActionStatus = 1;
                 if (instance.speedX > -instance.maxSpeed) {
                     instance.speedX -= instance.walkingSpeed;
                 }
                 break;
             case 38: //up button
-                    instance.ActionStatus = 5;
-                    instance.gravitySpeed = -instance.jumpDistance;
+                    if (instance.onGround) { // check if player is onground in order to jump
+                        instance.onGround = false;
+                        instance.ActionStatus = 5;
+                        instance.gravitySpeed = -instance.jumpDistance;
+                    }
                 break;
             case 39: //right button
+                instance.side=1;
                 instance.ActionStatus = 1;
                 
                 if (instance.speedX < instance.maxSpeed) {
@@ -75,11 +93,27 @@ function character(){
                 break;
             case 65: //A button
                 instance.ActionStatus = 2;
+                if (!instance.bullet[instance.bulletCount]) {
+                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side);
+                }
+                instance.bulletCount++;
+                
+                if (instance.bulletCount >= instance.maxBullet) {
+                    instance.bulletCount = 0;
+                }
+                
                 break;
             case 68: //d button
+                instance.hp--;
                 instance.ActionStatus = 4;
                 break;
             case 83: //s button
+                this.melee = new function(){
+                    this.x=instance.x+instance.width/2+instance.width*instance.side;
+                    this.y=instance.y+instance.height/2;
+                }
+                checkAttackEnemy(melee);
+                delete this.melee;
                 instance.ActionStatus = 3;
                 break;
         }
@@ -91,15 +125,53 @@ function character(){
                 instance.ActionStatus = 0;
     }
     
+    this.bulletPos = function(){
+        for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+                instance.bullet[i].newPos();
+            if (checkWall(instance.bullet[i]) || checkAttackEnemy(instance.bullet[i]) ) {
+                delete instance.bullet[i];
+                }
+            }
+        }
+    }
+    
+    this.drawBullet = function(){
+        for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+                instance.bullet[i].draw();
+            }
+        }
+    }
+    
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
+        var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
-        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,90,104,instance.x,instance.y,90,104);
+        
+        
+        if(instance.side==-1){
+            opposite_side_correction=90; 
+        }else{
+            opposite_side_correction=0; 
+        }
+        
+        
+        ctx.save();
+        ctx.scale(instance.side, 1);
+        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+        ctx.restore();
         instance.seq++;
-        ctx.fillText(instance.x,100,100);
-        ctx.fillText(instance.y,200,100);
-        ctx.fillText(instance.seq,300,100);
+        
+        //temp usage : showing coordiate only    
+        ctx.fillStyle = "black";
+        ctx.fillText("X:"+instance.x,100,20);
+        ctx.fillText("Y:"+instance.y,200,20);
+        ctx.fillText("frame squence:"+instance.seq,300,20);
+        ctx.fillText("drop speed:"+instance.gravitySpeed,450,20);
+        
+        instance.drawBullet();
     }
 }
