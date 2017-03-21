@@ -28,7 +28,7 @@ function enemyA(){
     this.seq = 0;
     this.count = 0;
     
-    this.hp=1000;
+    this.hp=10;
     
     this.loadImage = function(){
         //null now
