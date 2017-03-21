@@ -131,4 +131,6 @@ function enemyA(){
         ctx.restore();
         }
     }
+  }
+ }
 }
