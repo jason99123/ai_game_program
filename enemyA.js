@@ -68,11 +68,16 @@ function enemyA(){
         }
         
         for(var i = 0;i < player.bullet.length;i++){
-            if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
-                      instance.jump();
-            }
-        }  
+            if(player.bullet[i]){
+                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
+                       instance.jump();
+             }
+           }
+        }
+        
+        if(instance.count > 100){
          instance.count = 0;
+        }
     }
     
     this.heal = function()
