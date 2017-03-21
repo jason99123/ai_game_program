@@ -67,6 +67,10 @@ function enemyA(){
             instance.speedX=-3;
         }
         
+        if(checkWall(instance)){
+           instance.jump();
+        }
+        
         for(var i = 0;i < player.bullet.length;i++){
             if(player.bullet[i]){
                 if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
