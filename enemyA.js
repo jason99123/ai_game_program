@@ -82,16 +82,26 @@ function enemyA(){
      instance.hp = 10;   
     }
     
-        //draw player, ref:MainGameFunctions:draw()
-    this.draw = function(){
-        if(instance.skillCount > 0){
+    this.drawSkillAction = function(){
             ctx.save();
             ctx.font="30px Arial";
             ctx.fillText("Heal!",instance.x,instance.y-50);
             instance.skillCount--;
             ctx.restore();
-        }
         
+            ctx.save();
+            ctx.scale(instance.side, 1);
+            ctx.fillStyle="blue";
+            ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+            ctx.fillStyle="black";
+            ctx.font="30px Arial";
+            ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
+            ctx.restore();
+        }
+    }
+    
+        //draw player, ref:MainGameFunctions:draw()
+    this.draw = function(){
         if (!instance.show) {
             instance.show = true;
         }else{
@@ -107,7 +117,9 @@ function enemyA(){
         }else{
             opposite_side_correction=0; 
         }
-        
+        if(instance.skillCount > 0){
+            instance.drawSkillAction();
+        }else{
         ctx.save();
         ctx.scale(instance.side, 1);
         ctx.fillStyle="red";
@@ -116,7 +128,7 @@ function enemyA(){
         ctx.font="30px Arial";
         ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
         ctx.restore();
-        instance.seq++;
+             }
         }
     }
 }
