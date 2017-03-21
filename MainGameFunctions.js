@@ -131,7 +131,7 @@ function checkOnGround(object){ //check player is on ground (not yet fully imple
 
 function checkAttackEnemy(object){ //check if attack sucess to enemy
     if (object.x>=enemy.x && object.x<=enemy.x+enemy.width && object.y>=enemy.y && object.y<=enemy.y+enemy.height) {
-        enemy.hp-=0.5;
+        enemy.hp-=1;
         enemy.show=false;
         return true
     }else{
@@ -141,7 +141,9 @@ function checkAttackEnemy(object){ //check if attack sucess to enemy
 
 function checkAttackPlayer(object){ //check if attack sucess to enemy
     if (object.x>=player.x && object.x<=player.x+player.width && object.y>=player.y && object.y<=player.y+player.height) {
-        player.hp-=1;
+        if (player.ActionStatus != 4) {
+            player.hp-=1;
+        }
         player.show=false;
         return true
     }else{

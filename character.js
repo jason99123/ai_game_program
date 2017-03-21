@@ -105,7 +105,6 @@ function character(){
                 
                 break;
             case 68: //d button
-                instance.hp--;
                 instance.ActionStatus = 4;
                 break;
             case 83: //s button

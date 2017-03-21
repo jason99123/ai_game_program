@@ -9,8 +9,7 @@ function enemyA(){
     this.y = 0; //y location
     this.width = 90; //image width
     this.height = 104; //image height
-    this.lifetimes = 0;
-    this.opposite_side_correction = 0;
+    this.opposite_side_correction = 0; //correct coordination when flipping
     
     this.maxSpeed = 10; // player maxium walking speed
     this.walkingSpeed = 5; //player walking speed
@@ -29,6 +28,7 @@ function enemyA(){
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
+    this.lifetimes = 0;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
@@ -58,7 +58,7 @@ function enemyA(){
         instance.count++;
     
         
-        if(instance.hp<=1 && instance.lifetimes<5){
+        if(instance.hp<=1 && instance.lifetimes<2){
             instance.heal();            
             instance.lifetimes++;
         }
