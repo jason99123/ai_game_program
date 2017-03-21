@@ -98,11 +98,11 @@ function enemyA(){
             ctx.font="30px Arial";
             ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
             ctx.restore();
-        }
     }
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
+        
         if (!instance.show) {
             instance.show = true;
         }else{
@@ -118,6 +118,7 @@ function enemyA(){
         }else{
             opposite_side_correction=0; 
         }
+            
         if(instance.skillCount > 0){
             instance.drawSkillAction();
         }else{
@@ -129,8 +130,8 @@ function enemyA(){
         ctx.font="30px Arial";
         ctx.fillText("Dickson",instance.side*instance.x-opposite_side_correction,instance.y+50);
         ctx.restore();
+                }
+            }
         }
     }
-  }
- }
 }
