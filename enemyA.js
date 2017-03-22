@@ -84,8 +84,6 @@ function enemyA(){
            instance.jump();
         }
         
-        }
-        
         //heal when not enough hp (twice)
         if(instance.hp<=1 && instance.lifetimes<2){
             instance.heal();            
@@ -141,7 +139,6 @@ function enemyA(){
              }
            }
         }
-            
         if (instance.count == 300) {
             instance.count = 0;
         }
