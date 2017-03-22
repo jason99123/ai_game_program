@@ -97,7 +97,7 @@ function enemyA(){
             instance.lifetimes++;
         }
         
-        if (Math.abs(instance.x-player.x)>500) {
+        if (Math.abs(instance.x-player.x)>300) {
             this.random = Math.random()*100;
             if (this.random <80) {
                 instance.shootBullet();
@@ -108,7 +108,7 @@ function enemyA(){
                 instance.walk(-1);
                 instance.actionDelay = 20;
             }
-        }else if ((Math.abs(instance.x-player.x)<500)) {
+        }else if ((Math.abs(instance.x-player.x)<300)) {
             instance.walk(-instance.checkPlayerSide());
         }
         
