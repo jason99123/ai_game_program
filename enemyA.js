@@ -228,7 +228,6 @@ function enemyA(){
     }
     
     this.shootBullet = function(){
-        if (!instance.delay()) {
             instance.ActionStatus = 2;
             instance.speedX = 0;
             instance.side = instance.checkPlayerSide();
@@ -240,7 +239,6 @@ function enemyA(){
             if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
                 instance.bulletCount = 0;
             }
-        }
     }
     
     this.checkPlayerSide = function(){ //check player is on which side of enemy
