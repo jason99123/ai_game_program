@@ -153,7 +153,6 @@ function enemyA(){
     }
     
     this.lazer = function(){
-      if (!instance.delay()) {
         if (!instance.lazers[0] && instance.allowLazer != 0) {
             instance.speedX=0;
             instance.ActionStatus = 2;
@@ -186,7 +185,6 @@ function enemyA(){
                     delete instance.lazers[i];
                 }
              }
-        }
     }
     
     this.stop = function(){
