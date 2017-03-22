@@ -160,12 +160,12 @@ function enemyA(){
         if(instance.allowLazer==1){
             for (var i = 0 ; i < 8 ; i++) {
                 instance.lazerDelay = 50;
-                instance.actionDelay = 50;
+                instance.actionDelay = 25;
                 instance.lazers[i] = {x:Math.random()*100+i*150,y:0,width:15,height:600};
             }
         }else if (instance.allowLazer==2) {
                 instance.lazerDelay = 60;
-                instance.actionDelay = 60;
+                instance.actionDelay = 30;
                 instance.lazers[0] = {x:player.x,y:0,width:90,height:600};
         }
             instance.allowLazer = 0;
