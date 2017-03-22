@@ -6,7 +6,7 @@ function character(){
     this.speedY = 0; //Y acceleration
     this.speedX = 0; //X acceleration
     this.x = 0; //x location
-    this.y = 300; //y location
+    this.y = 400; //y location
     this.width = 90; //image width
     this.height = 104; //image height
     
@@ -177,7 +177,7 @@ function character(){
         ctx.fillText("X:"+instance.x,100,20);
         ctx.fillText("Y:"+instance.y,200,20);
         ctx.fillText("delay:"+player.damageDelay,300,20);
-        ctx.fillText("enemyLazerDelay:"+enemy.lazerDelay,450,20);
+        ctx.fillText("enemyLazerDelay:"+enemy.actionDelay,450,20);
         
         instance.drawBullet();
     }

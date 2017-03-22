@@ -50,6 +50,8 @@ function enemyA(){
         instance.image[2].src="./image/enemyA/attackA.png";
         instance.image[3]= new Image();
         instance.image[3].src="./image/enemyA/attackB.png";
+        instance.image[4]= new Image();
+        instance.image[4].src="./image/enemyA/attackC.png";
         instance.image[5]= new Image();
         instance.image[5].src="./image/enemyA/jump.png";
         
@@ -57,6 +59,7 @@ function enemyA(){
         instance.imageFrame[1]=4;
         instance.imageFrame[2]=3;
         instance.imageFrame[3]=3;
+        instance.imageFrame[4]=3;
         instance.imageFrame[5]=1;
     }
     
@@ -85,38 +88,42 @@ function enemyA(){
         }
         
         //heal when not enough hp (twice)
-        if(instance.hp<=1 && instance.lifetimes<2){
+        if(instance.hp<=1 && instance.lifetimes<1){
             instance.heal();            
             instance.lifetimes++;
         }
         
-        if (Math.abs(instance.x-player.x)>300) {
-            this.random = Math.random()*100;
-            if (this.random <60) {
-                instance.shootBullet();
-            }else if (this.random <80) {
-                instance.walk(1);
-                instance.actionDelay = 20;
-            }else{
-                instance.walk(-1);
-                instance.actionDelay = 20;
-            }
-        }else if ((Math.abs(instance.x-player.x)<300)) {
-            instance.walk(-instance.checkPlayerSide());
-        }
-        
-        if (instance.count == 30) {
-           instance.jump();
-        }
-        
-        if (instance.count == 80 || instance.count==200) {
+        if (instance.count == 80 || instance.count== 250) {
             if (instance.hp >5) {
+            instance.actionDelay = 0;
             instance.allowLazer = 2;
             instance.shootLazer();
             }else{
+            instance.actionDelay = 0;
             instance.allowLazer = 1;
             instance.shootLazer();
             }
+        }else if (Math.abs(instance.x-player.x)>300) {
+            this.random = Math.random()*100;
+            if (this.random < 70) {
+                instance.shootBullet();
+            }else if (this.random <100) {
+                instance.walk(instance.side);
+                instance.actionDelay=10;
+            }
+        }
+        
+        if ((Math.abs(instance.x-player.x)>100)) {
+            instance.walk(-instance.checkPlayerSide());
+        }else if (Math.abs(instance.x-player.x)<50) {
+            instance.actionDelay = 0;
+            instance.allowLazer = 2;
+            instance.shootLazer();
+        }else{
+            instance.stop();  
+        }
+        if (instance.count == 30) {
+           instance.jump();
         }
         
         if (instance.x>=800) { //rebound when too close to right
@@ -130,15 +137,19 @@ function enemyA(){
             instance.walk(1);
             instance.actionDelay = 50;
         }
+        
 
         // jump when player shoot
         for(var i = 0;i < player.bullet.length;i++){
             if(player.bullet[i]){
                 if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
+                        instance.actionDelay = 0;
                        instance.jump();
              }
            }
         }
+        
+        
         if (instance.count == 300) {
             instance.count = 0;
         }
@@ -156,17 +167,17 @@ function enemyA(){
        if (!instance.delay()) {
             if (!instance.lazers[0] && instance.allowLazer != 0) {
             instance.speedX=0;
-            instance.ActionStatus = 2;
+            instance.ActionStatus = 4;
             
         if(instance.allowLazer==1){
             for (var i = 0 ; i < 8 ; i++) {
-                instance.lazerDelay = 50;
-                instance.actionDelay = 25;
+                instance.lazerDelay = 40;
+                instance.actionDelay = 40;
                 instance.lazers[i] = {x:Math.random()*100+i*150,y:0,width:15,height:600};
             }
         }else if (instance.allowLazer==2) {
-                instance.lazerDelay = 60;
-                instance.actionDelay = 30;
+                instance.lazerDelay = 40;
+                instance.actionDelay = 40;
                 instance.lazers[0] = {x:player.x,y:0,width:90,height:600};
         }
             instance.allowLazer = 0;
@@ -226,6 +237,7 @@ function enemyA(){
     }
     
     this.shootBullet = function(){
+        if (!instance.delay()) {
             instance.ActionStatus = 2;
             instance.speedX = 0;
             instance.side = instance.checkPlayerSide();
@@ -237,6 +249,8 @@ function enemyA(){
             if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
                 instance.bulletCount = 0;
             }
+            instance.actionDelay = 5;
+        }
     }
     
     this.checkPlayerSide = function(){ //check player is on which side of enemy
@@ -270,7 +284,10 @@ function enemyA(){
         for(var i = 0;i<8;i++){
             if (instance.lazers[i]) {
                 ctx.save();
-                if(instance.lazerDelay < 20){
+                if(instance.lazerDelay < 10){
+                    ctx.globalAlpha = 0.1/(i+1);
+                    ctx.fillStyle="red";
+                    ctx.fillRect(0,0,width,height);
                     ctx.globalAlpha = 0.8;
                     ctx.fillStyle="red";
                     ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
@@ -284,18 +301,27 @@ function enemyA(){
                     ctx.fillStyle="white";
                     ctx.fillRect(instance.lazers[i].x+instance.lazers[i].width/5*2,instance.lazers[i].y,instance.lazers[i].width/5,instance.lazers[i].height);
 
-                }else{
+                }else if(instance.lazerDelay < 20){
+                    ctx.globalAlpha = 0.05/(i+1);
+                    ctx.fillStyle="red";
+                    ctx.fillRect(0,0,width,height);
                     ctx.globalAlpha = 0.5;
                     ctx.fillStyle="yellow";
                     ctx.fillRect(instance.lazers[i].x-15,instance.lazers[i].y,instance.lazers[i].width+30,instance.lazers[i].height);
                     ctx.globalAlpha = 0.5;
                     ctx.fillStyle="orange";
                     ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
-                }
+                }else{
+                    ctx.globalAlpha = 0.025/(i+1);
+                    ctx.fillStyle="red";
+                    ctx.fillRect(0,0,width,height);
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle="#F2F5A9";
+                    ctx.fillRect(instance.lazers[i].x-25,instance.lazers[i].y,instance.lazers[i].width+50,instance.lazers[i].height);
             }
             ctx.restore();
+           }   
         }
-        
     }
     
         //draw player, ref:MainGameFunctions:draw()
@@ -316,17 +342,19 @@ function enemyA(){
         }else{
             instance.opposite_side_correction=0; 
         }
-        
-        if (instance.lazers[0]) {
-            instance.drawLazer();
-        }
             
         ctx.save();
         ctx.scale(instance.side, 1);
         ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();
+        
         instance.seq++;
         }
         instance.drawBullet();
+
+        if (instance.lazers[0]) {
+            instance.drawLazer();
+        }
     }
+
 }

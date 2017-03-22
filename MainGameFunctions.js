@@ -68,7 +68,7 @@ function init(){
 }
 
  function initObstacle(){
-    obstacleList[0] = new obstacle(0,450,400,25);
+    obstacleList[0] = new obstacle(0,350,400,25);
     obstacleList[1] = new obstacle(0,575,1000,25);
     obstacleList[2] = new obstacle(600,400,300,25);
     obstacleList[3] = new obstacle(0,200,200,25);
@@ -154,7 +154,7 @@ function checkAttackPlayer(object){ //check if attack sucess to enemy
     
     if (hit && player.damageDelay<=0) {
         if (player.ActionStatus != 4) {
-            player.hp-=1;
+            player.hp-=0.5;
         }else if (player.ActionStatus == 4) {
             player.hp-=0.1;
         }
@@ -207,7 +207,10 @@ function drawHP(){
     }
     ctx.strokeStyle="#8A0808";
     ctx.strokeRect(615,42.5,290,40);
-    ctx.drawImage(player.image[0],20,20,50,40,66,82,50,40)
+    ctx.save();
+    ctx.scale(-1,1);
+    ctx.drawImage(enemy.image[0],20,20,50,40,-923,83,50,40);
+    ctx.restore();
     ctx.strokeRect(873.5,82.5,50,40);
     ctx.font="20px Arial";
     ctx.fillText("Enemy",790,110);
