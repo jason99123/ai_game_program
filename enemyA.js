@@ -155,6 +155,7 @@ function enemyA(){
     }
     
     this.shootLazer = function(){
+       if (!instance.delay()) {
             if (!instance.lazers[0] && instance.allowLazer != 0) {
             instance.speedX=0;
             instance.ActionStatus = 2;
@@ -171,7 +172,8 @@ function enemyA(){
                 instance.lazers[0] = {x:player.x,y:0,width:90,height:600};
         }
             instance.allowLazer = 0;
-        }
+            }
+       }
     }
     
     this.lazer = function(){        
