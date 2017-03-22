@@ -79,6 +79,7 @@ function enemyA(){
         
         //jump when sticking on a wall
         if(checkWall(instance)){
+           instance.actionDelay = 0;
            instance.jump();
         }
         
