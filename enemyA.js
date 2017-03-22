@@ -84,13 +84,6 @@ function enemyA(){
            instance.jump();
         }
         
-        // jump when player shoot
-        for(var i = 0;i < player.bullet.length;i++){
-            if(player.bullet[i]){
-                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
-                       instance.jump();
-             }
-           }
         }
         
         //heal when not enough hp (twice)
@@ -140,6 +133,14 @@ function enemyA(){
             instance.actionDelay = 50;
         }
 
+        // jump when player shoot
+        for(var i = 0;i < player.bullet.length;i++){
+            if(player.bullet[i]){
+                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
+                       instance.jump();
+             }
+           }
+    
         if (instance.count == 300) {
             instance.count = 0;
         }
