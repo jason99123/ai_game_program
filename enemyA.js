@@ -79,30 +79,14 @@ function enemyA(){
             instance.lifetimes++;
         }
             
-        if (instance.count<30) {
-            instance.side=1;
-            if (!instance.delay()) {
-                instance.ActionStatus = 1;
-            }
-            instance.speedX=6;
-        }else if (instance.count<80) {
-            instance.speedX=0;
-            if (!instance.delay()) {
-                instance.ActionStatus = 0;
-            }
-        }else if (instance.count<130) {
-            instance.side=-1;
-            if (!instance.delay()) {
-                instance.ActionStatus = 1;
-            }
-            instance.speedX=-6;
+        if (instance.count<60) {
+            instance.walk(1);
+        }else if (instance.count<100) {
+            instance.stop();
+        }else if (instance.count<150) {
+            instance.walk(-1);
         }else{
-            instance.side=-1;
-            if (!instance.delay()) {
-                instance.ActionStatus = 2;
-                instance.shootBullet();
-            }
-            instance.speedX=0;
+            instance.shootBullet();
         }
         
         if(checkWall(instance)){
@@ -118,24 +102,42 @@ function enemyA(){
            }
         }
         
-        if(instance.count > 150){
+        if(instance.count > 210){
          instance.count = 0;
         }
     }
     
     this.heal = function()
     {
-     instance.skillCount = 50;
+     instance.ActionStatus = 3;
+     instance.actionDelay = 39;
      instance.hp = 10;   
     }
     
+    this.stop = function(){
+        if (!instance.delay()) {
+            instance.speedX=0;
+            instance.ActionStatus = 0;
+        }
+    }
+    
+    this.walk = function(side){
+        if (!instance.delay()) {
+            instance.ActionStatus = 1;
+            instance.side=side;
+            instance.speedX=6*side;
+        }
+    }
+    
     this.jump = function(){
+    if (!instance.delay()) {
          if (instance.onGround) {
             instance.onGround = false;
             instance.ActionStatus = 5;
             instance.actionDelay = 15;
             instance.gravitySpeed = -instance.jumpDistance;
          }
+       }
     }
     
     this.delay = function(){
@@ -148,6 +150,10 @@ function enemyA(){
     }
     
     this.shootBullet = function(){
+        if (!instance.delay()) {
+            instance.ActionStatus = 2;
+            instance.speedX = 0;
+            instance.side = instance.checkPlayerSide();
             if (!instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]) {
                     instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,1);
             }
@@ -156,6 +162,15 @@ function enemyA(){
             if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
                 instance.bulletCount = 0;
             }
+        }
+    }
+    
+    this.checkPlayerSide = function(){ //check player is on which side of enemy
+        if (instance.x > player.x) { //player is left side of enemy
+            return -1;
+        } else {
+            return 1;
+        }
     }
     
     this.bulletPos = function(){
@@ -177,25 +192,6 @@ function enemyA(){
         }
     }
     
-    
-    this.drawSkillAction = function(){
-            ctx.save();
-            ctx.fillStyle="black";
-            ctx.font="30px Arial";
-            ctx.fillText("Heal!",instance.x,instance.y-50);
-            instance.skillCount--;
-            ctx.restore();
-        
-            ctx.save();
-            ctx.scale(instance.side, 1);
-            ctx.fillStyle="blue";
-            ctx.fillRect(instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
-            ctx.fillStyle="black";
-            ctx.font="30px Arial";
-            ctx.fillText("Dickson",instance.side*instance.x-instance.opposite_side_correction,instance.y+50);
-            ctx.restore();
-    }
-    
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
         
@@ -215,16 +211,12 @@ function enemyA(){
             instance.opposite_side_correction=0; 
         }
             
-        if(instance.skillCount > 0){
-            instance.drawSkillAction();
-        }else{
-            ctx.save();
-            ctx.scale(instance.side, 1);
-            ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
-            ctx.restore();
-            instance.seq++;
-         }
-      }
-            instance.drawBullet();
+        ctx.save();
+        ctx.scale(instance.side, 1);
+        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
+        ctx.restore();
+        instance.seq++;
+        }
+        instance.drawBullet();
     }
 }
