@@ -143,9 +143,19 @@ function checkAttackEnemy(object){ //check if attack sucess to enemy
 }
 
 function checkAttackPlayer(object){ //check if attack sucess to enemy
-    if (object.x>=player.x && object.x<=player.x+player.width && object.y>=player.y && object.y<=player.y+player.height) {
+    var hit = false;
+    for(var i = object.x;i<object.x+object.width;i++){
+        for(var j = object.y;j<object.y+object.height;j++){
+            if (i>=player.x && i<=player.x+player.width && j>=player.y && j<=player.y+player.height) {
+                hit = true;
+            }
+        }
+    }
+    
+    if (hit && player.damageDelay<=0) {
         if (player.ActionStatus != 4) {
             player.hp-=1;
+            player.damageDelay = 10;
         }
         player.show=false;
         return true

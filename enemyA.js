@@ -30,6 +30,8 @@ function enemyA(){
     this.skillCount = 0;
     this.bulletSpeed = 30;
     this.lifetimes = 0;
+    this.lazers = new Array();
+    this.allowLazer = false;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
@@ -89,6 +91,12 @@ function enemyA(){
             instance.shootBullet();
         }
         
+        if (enemy.hp<8 && instance.count==80) {
+            instance.allowLazer = true;
+        }
+        
+        instance.lazer();
+        
         if(checkWall(instance)){
            instance.jump();
         }
@@ -112,6 +120,32 @@ function enemyA(){
      instance.ActionStatus = 3;
      instance.actionDelay = 39;
      instance.hp = 10;   
+    }
+    
+    this.lazer = function(){
+        if (!instance.lazers[0] && instance.allowLazer) {
+            instance.speedX=0;
+            instance.ActionStatus = 2;
+            instance.actionDelay = 70;
+            for (var i = 0 ; i < 8 ; i++) {
+                instance.lazers[i] = {x:100+i*150,y:0,width:20,height:600};
+            }
+            instance.allowLazer = false;
+        }
+        
+        if (instance.actionDelay<20) {
+            for (var i = 0 ; i < 8 ; i++) {
+                if (instance.lazers[0])
+                    checkAttackPlayer(instance.lazers[i]);
+            }
+        }
+        
+        if (instance.actionDelay==0) {
+            for (var i = 0 ; i < 8 ; i++) {
+                if (instance.lazers[0])
+                    delete instance.lazers[i];
+                }
+        }
     }
     
     this.stop = function(){
@@ -192,6 +226,20 @@ function enemyA(){
         }
     }
     
+    this.drawLazer = function(){
+        for(var i = 0;i<8;i++){
+            ctx.save();
+            if(instance.actionDelay < 20){
+                ctx.fillStyle="red";
+            }else{
+                ctx.fillStyle="yellow";
+            }
+            ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
+            ctx.restore();
+        }
+        
+    }
+    
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
         
@@ -209,6 +257,10 @@ function enemyA(){
             instance.opposite_side_correction=90; 
         }else{
             instance.opposite_side_correction=0; 
+        }
+        
+        if (instance.lazers[0]) {
+            instance.drawLazer();
         }
             
         ctx.save();

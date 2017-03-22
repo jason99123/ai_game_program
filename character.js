@@ -29,6 +29,7 @@ function character(){
     this.show=true;
     
     this.hp=10;
+    this.damageDelay = 0; // delay for next damage
         
     this.loadImage = function(){
         instance.image[0]= new Image();
@@ -56,6 +57,8 @@ function character(){
     this.update = function(){
         instance.newPos();
         instance.bulletPos();
+        
+        instance.damageDelay--;
     }
     
     //update player position, ref:character:update()
