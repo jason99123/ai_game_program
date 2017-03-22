@@ -30,8 +30,10 @@ function enemyA(){
     this.skillCount = 0;
     this.bulletSpeed = 30;
     this.lifetimes = 0;
+    
     this.lazers = new Array();
     this.allowLazer = 0; //0:cant use 1:all screen lazer 2:character-chasing
+    this.lazerDelay = 0;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
@@ -139,6 +141,7 @@ function enemyA(){
         if (instance.count == 300) {
             instance.count = 0;
         }
+        instance.lazerDelay--;
     }
     
     this.heal = function()
@@ -156,24 +159,26 @@ function enemyA(){
             
         if(instance.allowLazer==1){
             for (var i = 0 ; i < 8 ; i++) {
+                instance.lazerDelay = 50;
                 instance.actionDelay = 50;
                 instance.lazers[i] = {x:Math.random()*100+i*150,y:0,width:15,height:600};
             }
         }else if (instance.allowLazer==2) {
+                instance.lazerDelay = 60;
                 instance.actionDelay = 60;
                 instance.lazers[0] = {x:player.x,y:0,width:90,height:600};
         }
             instance.allowLazer = 0;
         }
         
-        if (instance.actionDelay<20) {
+        if (instance.lazerDelay<20) {
             for (var i = 0 ; i < 8 ; i++) {
                 if (instance.lazers[i])
                     checkAttackPlayer(instance.lazers[i]);
             }
         }
         
-        if (instance.actionDelay==0) {
+        if (instance.lazerDelay==0) {
             for (var i = 0 ; i < 8 ; i++) {
                 if (instance.lazers[i])
                     delete instance.lazers[i];
@@ -263,7 +268,7 @@ function enemyA(){
         for(var i = 0;i<8;i++){
             if (instance.lazers[i]) {
                 ctx.save();
-                if(instance.actionDelay < 20){
+                if(instance.lazerDelay < 20){
                     ctx.globalAlpha = 0.8;
                     ctx.fillStyle="red";
                     ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
