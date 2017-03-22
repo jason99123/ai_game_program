@@ -101,6 +101,7 @@ function enemyA(){
             this.random = Math.random()*100;
             if (this.random <80) {
                 instance.shootBullet();
+                instance.actionDelay = 20;
             }else if (this.random <90) {
                 instance.walk(1);
                 instance.actionDelay = 20;
