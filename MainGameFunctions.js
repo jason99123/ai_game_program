@@ -155,10 +155,12 @@ function checkAttackPlayer(object){ //check if attack sucess to enemy
     if (hit && player.damageDelay<=0) {
         if (player.ActionStatus != 4) {
             player.hp-=1;
-            player.damageDelay = 10;
+        }else if (player.ActionStatus == 4) {
+            player.hp-=0.1;
         }
+        player.damageDelay = 10;
         player.show=false;
-        return true
+        return true;
     }else{
         return false;
     }

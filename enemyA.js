@@ -31,7 +31,8 @@ function enemyA(){
     this.bulletSpeed = 30;
     this.lifetimes = 0;
     this.lazers = new Array();
-    this.allowLazer = false;
+    this.allowLazer = 0; //0:cant use 1:all screen lazer 2:character-chasing
+    this.stopLazer = false;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
@@ -74,34 +75,13 @@ function enemyA(){
     
     this.randomAction = function(){ //test random action
         instance.count++;
-    
         
-        if(instance.hp<=1 && instance.lifetimes<2){
-            instance.heal();            
-            instance.lifetimes++;
-        }
-            
-        if (instance.count<60) {
-            instance.walk(1);
-        }else if (instance.count<100) {
-            instance.stop();
-        }else if (instance.count<150) {
-            instance.walk(-1);
-        }else{
-            instance.shootBullet();
-        }
-        
-        if (enemy.hp<5 && (instance.count==80 || instance.count==180)) {
-            instance.allowLazer = true;
-        }
-        
-        instance.lazer();
-        
+        //jump when sticking on a wall
         if(checkWall(instance)){
            instance.jump();
         }
         
-        
+        // jump when player shoot
         for(var i = 0;i < player.bullet.length;i++){
             if(player.bullet[i]){
                 if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
@@ -110,8 +90,60 @@ function enemyA(){
            }
         }
         
-        if(instance.count > 210){
-         instance.count = 0;
+        //heal when not enough hp (twice)
+        if(instance.hp<=1 && instance.lifetimes<2){
+            instance.heal();            
+            instance.lifetimes++;
+        }
+        
+        if (Math.abs(instance.x-player.x)>500) {
+            this.random = Math.random()*100;
+            if (this.random <80) {
+                instance.shootBullet();
+            }else if (this.random <90) {
+                instance.walk(1);
+                instance.actionDelay = 20;
+            }else{
+                instance.walk(-1);
+                instance.actionDelay = 20;
+            }
+        }else if ((Math.abs(instance.x-player.x)<500)) {
+            instance.walk(-instance.checkPlayerSide());
+        }
+        
+        if (instance.count == 30) {
+           instance.jump();
+        }
+        
+        if (instance.count == 80 || instance.count==200) {
+            instance.stopLazer = false;
+            if (instance.hp >5) {
+            instance.allowLazer = 2;
+            }else{
+            instance.allowLazer = 1;
+            }
+        }
+        
+        if (instance.x>=800) { //rebound when too close to right
+            instance.actionDelay = 0;
+            instance.side=-1;
+            instance.walk(-1);
+            instance.actionDelay = 50;
+        }else if (instance.x<=200) { //rebound when too close to left
+            instance.actionDelay = 0;
+            instance.side=1;
+            instance.walk(1);
+            instance.actionDelay = 50;
+        }
+        
+        if (instance.x>=800 || instance.x<=200) {
+            instance.stopLazer = true;
+        }
+        
+        instance.lazer();
+
+        if (instance.count == 300) {
+            instance.count = 0;
         }
     }
     
@@ -123,26 +155,33 @@ function enemyA(){
     }
     
     this.lazer = function(){
-        if (!instance.lazers[0] && instance.allowLazer) {
+        if (!instance.lazers[0] && instance.allowLazer != 0) {
             instance.speedX=0;
             instance.ActionStatus = 2;
-            instance.actionDelay = 50;
+            
+            
+        if(instance.allowLazer==1){
             for (var i = 0 ; i < 8 ; i++) {
-                instance.lazers[i] = {x:Math.random()*100+i*150,y:0,width:20,height:600};
+                instance.actionDelay = 50;
+                instance.lazers[i] = {x:Math.random()*100+i*150,y:0,width:15,height:600};
             }
-            instance.allowLazer = false;
+        }else if (instance.allowLazer==2) {
+                instance.actionDelay = 60;
+                instance.lazers[0] = {x:player.x,y:0,width:90,height:600};
+        }
+            instance.allowLazer = 0;
         }
         
-        if (instance.actionDelay<20) {
+        if (instance.actionDelay<20 && !instance.stopLazer) {
             for (var i = 0 ; i < 8 ; i++) {
-                if (instance.lazers[0])
+                if (instance.lazers[i])
                     checkAttackPlayer(instance.lazers[i]);
             }
         }
         
         if (instance.actionDelay==0) {
             for (var i = 0 ; i < 8 ; i++) {
-                if (instance.lazers[0])
+                if (instance.lazers[i])
                     delete instance.lazers[i];
                 }
         }
@@ -168,7 +207,7 @@ function enemyA(){
          if (instance.onGround) {
             instance.onGround = false;
             instance.ActionStatus = 5;
-            instance.actionDelay = 15;
+            instance.actionDelay = 10;
             instance.gravitySpeed = -instance.jumpDistance;
          }
        }
@@ -228,13 +267,31 @@ function enemyA(){
     
     this.drawLazer = function(){
         for(var i = 0;i<8;i++){
-            ctx.save();
-            if(instance.actionDelay < 20){
-                ctx.fillStyle="red";
-            }else{
-                ctx.fillStyle="yellow";
+            if (instance.lazers[i] && !instance.stopLazer) {
+                ctx.save();
+                if(instance.actionDelay < 20){
+                    ctx.globalAlpha = 0.8;
+                    ctx.fillStyle="red";
+                    ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle="yellow";
+                    ctx.fillRect(instance.lazers[i].x+instance.lazers[i].width/10,instance.lazers[i].y,instance.lazers[i].width/10*8,instance.lazers[i].height);
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle="white";
+                    ctx.fillRect(instance.lazers[i].x+instance.lazers[i].width/3,instance.lazers[i].y,instance.lazers[i].width/3,instance.lazers[i].height);
+                    ctx.globalAlpha = 0.8;
+                    ctx.fillStyle="white";
+                    ctx.fillRect(instance.lazers[i].x+instance.lazers[i].width/5*2,instance.lazers[i].y,instance.lazers[i].width/5,instance.lazers[i].height);
+
+                }else{
+                    ctx.globalAlpha = 0.5;
+                    ctx.fillStyle="yellow";
+                    ctx.fillRect(instance.lazers[i].x-15,instance.lazers[i].y,instance.lazers[i].width+30,instance.lazers[i].height);
+                    ctx.globalAlpha = 0.5;
+                    ctx.fillStyle="orange";
+                    ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
+                }
             }
-            ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
             ctx.restore();
         }
         
