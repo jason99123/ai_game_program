@@ -177,7 +177,7 @@ function character(){
         ctx.fillText("X:"+instance.x,100,20);
         ctx.fillText("Y:"+instance.y,200,20);
         ctx.fillText("delay:"+player.damageDelay,300,20);
-        ctx.fillText(enemy.actionDelay,450,20);
+        ctx.fillText("enemyActionDelay:"+enemy.actionDelay,450,20);
         
         instance.drawBullet();
     }
