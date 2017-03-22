@@ -32,7 +32,6 @@ function enemyA(){
     this.lifetimes = 0;
     this.lazers = new Array();
     this.allowLazer = 0; //0:cant use 1:all screen lazer 2:character-chasing
-    this.stopLazer = false;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0;
@@ -116,7 +115,6 @@ function enemyA(){
         }
         
         if (instance.count == 80 || instance.count==200) {
-            instance.stopLazer = false;
             if (instance.hp >5) {
             instance.allowLazer = 2;
             }else{
@@ -134,10 +132,6 @@ function enemyA(){
             instance.side=1;
             instance.walk(1);
             instance.actionDelay = 50;
-        }
-        
-        if (instance.x>=800 || instance.x<=200) {
-            instance.stopLazer = true;
         }
         
         instance.lazer();
