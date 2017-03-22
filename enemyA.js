@@ -166,7 +166,7 @@ function enemyA(){
             instance.allowLazer = 0;
         }
         
-        if (instance.actionDelay<20 && !instance.stopLazer) {
+        if (instance.actionDelay<20) {
             for (var i = 0 ; i < 8 ; i++) {
                 if (instance.lazers[i])
                     checkAttackPlayer(instance.lazers[i]);
@@ -261,7 +261,7 @@ function enemyA(){
     
     this.drawLazer = function(){
         for(var i = 0;i<8;i++){
-            if (instance.lazers[i] && !instance.stopLazer) {
+            if (instance.lazers[i]) {
                 ctx.save();
                 if(instance.actionDelay < 20){
                     ctx.globalAlpha = 0.8;
