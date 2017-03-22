@@ -140,7 +140,8 @@ function enemyA(){
                        instance.jump();
              }
            }
-    
+        }
+            
         if (instance.count == 300) {
             instance.count = 0;
         }
