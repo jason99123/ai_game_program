@@ -64,6 +64,7 @@ function enemyA(){
     this.update = function(){
         instance.newPos();
         instance.bulletPos();
+        instance.lazer();
     }
     
     //update player position, ref:character:update()
@@ -138,7 +139,7 @@ function enemyA(){
             instance.actionDelay = 50;
         }
         
-        instance.lazer();
+        instance.shootLazer();
 
         if (instance.count == 300) {
             instance.count = 0;
@@ -153,8 +154,8 @@ function enemyA(){
      instance.hp = 10;   
     }
     
-    this.lazer = function(){
-        if (!instance.lazers[0] && instance.allowLazer != 0) {
+    this.shootLazer = function(){
+            if (!instance.lazers[0] && instance.allowLazer != 0) {
             instance.speedX=0;
             instance.ActionStatus = 2;
             
@@ -171,7 +172,9 @@ function enemyA(){
         }
             instance.allowLazer = 0;
         }
-        
+    }
+    
+    this.lazer = function(){        
         if (instance.lazerDelay<20) {
             for (var i = 0 ; i < 8 ; i++) {
                 if (instance.lazers[i])
