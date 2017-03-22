@@ -91,7 +91,7 @@ function enemyA(){
             instance.shootBullet();
         }
         
-        if (enemy.hp<8 && instance.count==80) {
+        if (enemy.hp<5 && (instance.count==80 || instance.count==180)) {
             instance.allowLazer = true;
         }
         
@@ -126,9 +126,9 @@ function enemyA(){
         if (!instance.lazers[0] && instance.allowLazer) {
             instance.speedX=0;
             instance.ActionStatus = 2;
-            instance.actionDelay = 70;
+            instance.actionDelay = 50;
             for (var i = 0 ; i < 8 ; i++) {
-                instance.lazers[i] = {x:100+i*150,y:0,width:20,height:600};
+                instance.lazers[i] = {x:Math.random()*100+i*150,y:0,width:20,height:600};
             }
             instance.allowLazer = false;
         }
