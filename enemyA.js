@@ -122,8 +122,10 @@ function enemyA(){
         if (instance.count == 80 || instance.count==200) {
             if (instance.hp >5) {
             instance.allowLazer = 2;
+            instance.shootLazer();
             }else{
             instance.allowLazer = 1;
+            instance.shootLazer();
             }
         }
         
@@ -138,8 +140,6 @@ function enemyA(){
             instance.walk(1);
             instance.actionDelay = 50;
         }
-        
-        instance.shootLazer();
 
         if (instance.count == 300) {
             instance.count = 0;
