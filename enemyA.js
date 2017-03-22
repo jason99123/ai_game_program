@@ -157,7 +157,6 @@ function enemyA(){
             instance.speedX=0;
             instance.ActionStatus = 2;
             
-            
         if(instance.allowLazer==1){
             for (var i = 0 ; i < 8 ; i++) {
                 instance.lazerDelay = 50;
