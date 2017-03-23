@@ -2,7 +2,7 @@ function character(){
 //variable
     var instance = this; //instance
     this.gravitySpeed = 0; //drop speed
-    this.gravity = 0.25; //drop acceleration
+    this.gravity = 0.5; //drop acceleration
     this.speedY = 0; //Y acceleration
     this.speedX = 0; //X acceleration
     this.x = 0; //x location
@@ -11,7 +11,7 @@ function character(){
     this.height = 104; //image height
     
     this.maxSpeed = 10; // player maxium walking speed
-    this.walkingSpeed = 5; //player walking speed
+    this.walkingSpeed = 10; //player walking speed
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:attackB 4:defense 5:jump
@@ -66,6 +66,11 @@ function character(){
         gravityMove(instance);
         walking(instance);
         checkOnGround(instance);
+        
+        if (checkWall(instance)) {
+            instance.onGround = false;
+            instance.gravitySpeed = -5;
+        }
     }
     
     //player action by player input, ref:MainGameFunctions:init()
@@ -112,8 +117,10 @@ function character(){
                 break;
             case 83: //s button
                 this.melee = new function(){
-                    this.x=instance.x+instance.width/2+instance.width*instance.side;
-                    this.y=instance.y+instance.height/2;
+                    this.x=instance.x+instance.width/2+instance.width*instance.side-30;
+                    this.y=instance.y;
+                    this.width = 60;
+                    this.height = 100;
                 }
                 checkAttackEnemy(melee);
                 delete this.melee;

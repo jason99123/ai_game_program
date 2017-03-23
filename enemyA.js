@@ -93,7 +93,7 @@ function enemyA(){
             instance.lifetimes++;
         }
         
-        if (instance.count == 80 || instance.count== 250) {
+        if (instance.count == 80) {
             if (instance.hp >5) {
             instance.actionDelay = 0;
             instance.allowLazer = 2;

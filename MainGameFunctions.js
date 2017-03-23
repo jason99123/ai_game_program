@@ -71,8 +71,8 @@ function init(){
     obstacleList[0] = new obstacle(0,350,400,25);
     obstacleList[1] = new obstacle(0,575,1000,25);
     obstacleList[2] = new obstacle(600,400,300,25);
-    obstacleList[3] = new obstacle(0,200,200,25);
-    obstacleList[4] = new obstacle(800,300,100,25);
+    obstacleList[3] = new obstacle(200,150,200,25);
+    obstacleList[4] = new obstacle(800,200,100,25);
 
  }
 
@@ -133,7 +133,17 @@ function checkOnGround(object){ //check player is on ground (not yet fully imple
 }
 
 function checkAttackEnemy(object){ //check if attack sucess to enemy
-    if (object.x>=enemy.x && object.x<=enemy.x+enemy.width && object.y>=enemy.y && object.y<=enemy.y+enemy.height) {
+    
+    var hit = false;
+    for(var i = object.x;i<object.x+object.width;i++){
+        for(var j = object.y;j<object.y+object.height;j++){
+            if (i>=enemy.x && i<=enemy.x+enemy.width && j>=enemy.y && j<=enemy.y+enemy.height) {
+                hit = true;
+            }
+        }
+    }
+    
+    if (hit) {
         enemy.hp-=1;
         enemy.show=false;
         return true
