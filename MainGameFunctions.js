@@ -186,7 +186,14 @@ function drawHP(){
     ctx.fillRect(65,41,20,43);
     ctx.fillStyle="black";
     ctx.fillRect(85,42.5,290,40);
-    ctx.fillStyle="#D7DF01";
+    
+    if (player.hp>8) {
+        ctx.fillStyle="#00FF00";
+    }else if(player.hp>5){
+        ctx.fillStyle="#D7DF01";
+    }else{
+        ctx.fillStyle="red";
+    }
     ctx.fillRect(95,50,player.hp*27,25);
     ctx.fillStyle="black";
     for(var i=0;i<10;i++){
@@ -210,6 +217,13 @@ function drawHP(){
     ctx.fillStyle="black";
     ctx.fillRect(615,42.5,290,40);
     ctx.fillStyle="#D7DF01";
+    if (enemy.hp>8) {
+        ctx.fillStyle="#00FF00";
+    }else if(enemy.hp>5){
+        ctx.fillStyle="#D7DF01";
+    }else{
+        ctx.fillStyle="red";
+    }
     ctx.fillRect(895,50,-enemy.hp*27,25);
     ctx.fillStyle="black";
     for(var i=0;i<10;i++){

@@ -54,6 +54,8 @@ function enemyA(){
         instance.image[4].src="./image/enemyA/attackC.png";
         instance.image[5]= new Image();
         instance.image[5].src="./image/enemyA/jump.png";
+        instance.image[100]= new Image();
+        instance.image[100].src="./image/enemyA/talkingBubble.png";
         
         instance.imageFrame[0]=4;
         instance.imageFrame[1]=4;
@@ -280,6 +282,10 @@ function enemyA(){
         }
     }
     
+    this.talk = function(){
+        ctx.drawImage(instance.image[100],instance.x-instance.opposite_side_correction,instance.y-100,150,100);
+    }
+    
     this.drawLazer = function(){
         for(var i = 0;i<8;i++){
             if (instance.lazers[i]) {
@@ -342,11 +348,15 @@ function enemyA(){
         }else{
             instance.opposite_side_correction=0; 
         }
-            
+        
         ctx.save();
         ctx.scale(instance.side, 1);
         ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();
+        
+        if (instance.ActionStatus == 4) {
+            instance.talk();
+        }
         
         instance.seq++;
         }
