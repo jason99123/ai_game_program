@@ -124,6 +124,7 @@ function checkOnGround(object){ //check player is on ground (not yet fully imple
             if (match == false && object.y>=obstacleList[i].y-110 && object.y<=obstacleList[i].y+obstacleList[i].height && object.x+object.width/2+10>=obstacleList[i].x && object.x+object.width/2-10<=obstacleList[i].x+obstacleList[i].width) {
             match = true;
             object.onGround = true;
+            object.y=obstacleList[i].y-object.height;
             object.gravity = 0;
             }
         }
