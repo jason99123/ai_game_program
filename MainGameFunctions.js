@@ -203,7 +203,7 @@ function drawHP(){
     ctx.strokeRect(85,42.5,290,40);
     ctx.drawImage(player.image[0],20,20,50,40,66,82,50,40)
     ctx.strokeRect(66.5,82.5,50,40);
-    ctx.font="20px Arial";
+    ctx.font='13px "Press Start 2P"';
     ctx.fillText("Player",130,110);
     ctx.restore();
     
@@ -236,7 +236,7 @@ function drawHP(){
     ctx.drawImage(enemy.image[0],20,20,50,40,-923,83,50,40);
     ctx.restore();
     ctx.strokeRect(873.5,82.5,50,40);
-    ctx.font="20px Arial";
+    ctx.font='13px "Press Start 2P"';
     ctx.fillText("Enemy",790,110);
     ctx.restore();
 }

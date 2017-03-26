@@ -89,12 +89,6 @@ function enemyA(){
            instance.jump();
         }
         
-        //heal when not enough hp (twice)
-        if(instance.hp<=1 && instance.lifetimes<1){
-            instance.heal();            
-            instance.lifetimes++;
-        }
-        
         if (instance.count == 80) {
             if (instance.hp >5) {
             instance.actionDelay = 0;
@@ -151,6 +145,12 @@ function enemyA(){
            }
         }
         
+        //heal when not enough hp (twice)
+        if(instance.hp<=1 && instance.lifetimes<2){
+            instance.actionDelay = 0;
+            instance.heal();            
+            instance.lifetimes++;
+        }
         
         if (instance.count == 300) {
             instance.count = 0;
@@ -162,7 +162,7 @@ function enemyA(){
     {
      instance.ActionStatus = 3;
      instance.actionDelay = 39;
-     instance.hp = 10;   
+     instance.hp = 6;   
     }
     
     this.shootLazer = function(){
@@ -283,7 +283,15 @@ function enemyA(){
     }
     
     this.talk = function(){
-        ctx.drawImage(instance.image[100],instance.x-instance.opposite_side_correction,instance.y-100,150,100);
+        ctx.drawImage(instance.image[100],instance.x,instance.y-100,150,100);
+        ctx.save();
+        ctx.font='15px "Press Start 2P"';
+        if (instance.ActionStatus == 4) {
+            ctx.fillText("Fire!",instance.x+40,instance.y-50);
+        }else{
+            ctx.fillText("Heal!",instance.x+40,instance.y-50);
+        }
+        ctx.restore();
     }
     
     this.drawLazer = function(){
@@ -354,7 +362,7 @@ function enemyA(){
         ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();
         
-        if (instance.ActionStatus == 4) {
+        if (instance.ActionStatus == 4 || instance.ActionStatus == 3) {
             instance.talk();
         }
         
