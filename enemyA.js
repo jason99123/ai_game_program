@@ -283,8 +283,10 @@ function enemyA(){
     }
     
     this.talk = function(){
-        ctx.drawImage(instance.image[100],instance.x,instance.y-100,150,100);
         ctx.save();
+        ctx.shadowBlur=5;
+        ctx.shadowColor="Black";
+        ctx.drawImage(instance.image[100],instance.x,instance.y-100,150,100);
         ctx.font='15px "Press Start 2P"';
         if (instance.ActionStatus == 4) {
             ctx.fillText("Fire!",instance.x+40,instance.y-50);
@@ -299,6 +301,8 @@ function enemyA(){
             if (instance.lazers[i]) {
                 ctx.save();
                 if(instance.lazerDelay < 10){
+                    ctx.shadowBlur=10;
+                    ctx.shadowColor="red";
                     ctx.globalAlpha = 0.1/(i+1);
                     ctx.fillStyle="red";
                     ctx.fillRect(0,0,width,height);
@@ -316,6 +320,8 @@ function enemyA(){
                     ctx.fillRect(instance.lazers[i].x+instance.lazers[i].width/5*2,instance.lazers[i].y,instance.lazers[i].width/5,instance.lazers[i].height);
 
                 }else if(instance.lazerDelay < 20){
+                    ctx.shadowBlur=10;
+                    ctx.shadowColor="yellow";
                     ctx.globalAlpha = 0.05/(i+1);
                     ctx.fillStyle="red";
                     ctx.fillRect(0,0,width,height);
@@ -326,6 +332,8 @@ function enemyA(){
                     ctx.fillStyle="orange";
                     ctx.fillRect(instance.lazers[i].x,instance.lazers[i].y,instance.lazers[i].width,instance.lazers[i].height);
                 }else{
+                    ctx.shadowBlur=10;
+                    ctx.shadowColor="yellow";
                     ctx.globalAlpha = 0.025/(i+1);
                     ctx.fillStyle="red";
                     ctx.fillRect(0,0,width,height);
@@ -358,6 +366,8 @@ function enemyA(){
         }
         
         ctx.save();
+        ctx.shadowBlur=5;
+        ctx.shadowColor="#FF4000";
         ctx.scale(instance.side, 1);
         ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();

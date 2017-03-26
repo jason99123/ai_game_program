@@ -50,19 +50,23 @@ function init(){
     
 //draw : update game visual output  
  function draw(){
-        // Clear the canvas
+        // Check game end
         if (player.hp<=0 || enemy.hp<=0) {
             gameover();
         }else{
+            
+        //clear rectangle
         ctx.clearRect(0, 0, width, height);
         
         //draw background 
         ctx.drawImage(background,0,-300);
         
+        //draw obstacles
         drawObstacle();
         
         player.draw();
         enemy.draw();
+        
         drawHP();
         }
 }
@@ -178,6 +182,8 @@ function checkAttackPlayer(object){ //check if attack sucess to enemy
 
 function drawHP(){
     ctx.save();
+    ctx.shadowBlur=5;
+    ctx.shadowColor="Black";
     ctx.fillStyle="#0489B1";
     ctx.fillRect(66,82.5,150,40);
     ctx.strokeStyle="#08298A";
@@ -208,6 +214,8 @@ function drawHP(){
     ctx.restore();
     
     ctx.save();
+    ctx.shadowBlur=10;
+    ctx.shadowColor="Black";
     ctx.fillStyle="#FE2E2E";
     ctx.fillRect(773,82.5,150,40);
     ctx.strokeStyle="#8A0808";

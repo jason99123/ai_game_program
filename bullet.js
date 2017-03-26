@@ -28,6 +28,14 @@ function bullet(x,y,side,type){
         }
         
         ctx.save();
+        
+        ctx.shadowBlur=20;
+        if (type == 0) {
+            ctx.shadowColor="white";
+        }else if(type == 1) {
+            ctx.shadowColor="red";
+        }
+        
         ctx.scale(instance.side, 1);
         ctx.drawImage(bulletImage[type],this.width*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x,this.y,this.width,this.height);
         ctx.restore();

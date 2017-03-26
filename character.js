@@ -174,17 +174,19 @@ function character(){
             
         
             ctx.save();
+            ctx.shadowBlur=3;
+            ctx.shadowColor="#DF7401";
             ctx.scale(instance.side, 1);
             ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
             ctx.restore();
             instance.seq++;
         }
         //temp usage : showing coordiate only    
-        ctx.fillStyle = "black";
-        ctx.fillText("X:"+instance.x,100,20);
-        ctx.fillText("Y:"+instance.y,200,20);
-        ctx.fillText("delay:"+player.damageDelay,300,20);
-        ctx.fillText("enemyLazerDelay:"+enemy.actionDelay,450,20);
+        //ctx.fillStyle = "black";
+        //ctx.fillText("X:"+instance.x,100,20);
+        //ctx.fillText("Y:"+instance.y,200,20);
+        //ctx.fillText("delay:"+player.damageDelay,300,20);
+        //ctx.fillText("enemyLazerDelay:"+enemy.actionDelay,450,20);
         
         instance.drawBullet();
     }
