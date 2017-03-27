@@ -148,9 +148,10 @@ function checkAttackEnemy(object){ //check if attack sucess to enemy
         }
     }
     
-    if (hit) {
+    if (hit && enemy.damageDelay<=0) {
         enemy.hp-=1;
         enemy.show=false;
+        enemy.damageDelay = 10;
         return true
     }else{
         return false;

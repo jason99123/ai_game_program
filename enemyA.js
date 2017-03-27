@@ -40,6 +40,7 @@ function enemyA(){
     this.count = 0;
     
     this.hp=10;
+    this.damageDelay = 0; // delay for next damage
     
     this.loadImage = function(){
         instance.image[0]= new Image();
@@ -70,6 +71,8 @@ function enemyA(){
         instance.newPos();
         instance.bulletPos();
         instance.lazer();
+        
+        instance.damageDelay--;
     }
     
     //update player position, ref:character:update()
