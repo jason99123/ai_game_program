@@ -10,6 +10,9 @@ var obstacleList = new Array();
 var background = new Image();
 var chosenEnemy //enemy chosen : A/B/C
 
+var countdown = true;
+var count = 4;
+
 //initiation of game
 function init(){
     //init canvas
@@ -54,12 +57,44 @@ function init(){
 
 //gamestart : call all update function
  function gameStart(){
+    
+    if (count <= 0) {
     player.update();
     enemy.update();
+    }
     draw();
-    setTimeout(gameStart,update_interval);
- }
     
+    if (count<=3 && count >=0) {
+        countDown();
+    }
+    
+    setTimeout(gameStart,update_interval);
+    count--;
+
+ }
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+function countDown() {
+        ctx.save();
+        ctx.font='100px "Press Start 2P"';
+        ctx.fillStyle="white";
+        if (count > 0) {
+            ctx.fillText(count,450,300);
+        }else if (count == 0) {
+            ctx.fillText("start!",250,300);
+        }
+        ctx.restore();
+        sleep(1000);
+}
+
 //draw : update game visual output  
  function draw(){
         // Check game end

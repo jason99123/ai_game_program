@@ -6,8 +6,8 @@ function enemyA(){
     this.gravity = 0.25; //drop acceleration
     this.speedY = 0; //Y acceleration
     this.speedX = 0; //X acceleration
-    this.x = 500; //x location
-    this.y = 0; //y location
+    this.x = 800; //x location
+    this.y = 400; //y location
     this.width = 90; //image width
     this.height = 104; //image height
     this.opposite_side_correction = 0; //correct coordination when flipping
