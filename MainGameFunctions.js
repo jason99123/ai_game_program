@@ -8,7 +8,7 @@ var height = 600; //canvas height
 var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
-var chosenEnemy = "A"; //enemy chosen : A/B/C
+var chosenEnemy //enemy chosen : A/B/C
 
 //initiation of game
 function init(){
@@ -16,6 +16,7 @@ function init(){
     canvas = document.getElementById("game");
     ctx=canvas.getContext && canvas.getContext('2d');
     
+    chosenEnemy = prompt("input enemy type (temp)");
     
     //start game initiation when ctx is ready
     if (ctx) {
@@ -25,7 +26,17 @@ function init(){
         player = new character();
         player.loadImage();
         
-        enemy = new enemyA(); //create enemy object A/B/C
+        switch(chosenEnemy){
+        case "A":
+        enemy = new enemyA(); //create enemy object A
+        break;
+        case "B":
+        enemy = new enemyB(); //create enemy object A
+        break;
+        case "C":
+        enemy = new enemyC(); //create enemy object A
+        break;
+        }
         enemy.loadImage();
         
         loadBulletImage();
@@ -60,7 +71,7 @@ function init(){
         ctx.clearRect(0, 0, width, height);
         
         //draw background 
-        ctx.drawImage(background,0,-300);
+        drawBackground();
         
         //draw obstacles
         drawObstacle();
@@ -75,11 +86,22 @@ function init(){
  function initObstacle(){
     switch(chosenEnemy){
     case "A":
+    obstacleList[0] = new obstacle(0,575,1000,25,"black","#0B2161","#B43104");
+    break;
+    case "B":
     obstacleList[0] = new obstacle(0,350,400,25,"#AEB404","#8A4B08","#B43104");
     obstacleList[1] = new obstacle(0,575,1000,25,"#AEB404","#8A4B08","#B43104");
     obstacleList[2] = new obstacle(600,400,300,25,"#AEB404","#8A4B08","#B43104");
     obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
     obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
+    break;
+    case "C":
+    obstacleList[0] = new obstacle(0,350,400,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[1] = new obstacle(0,575,1000,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[2] = new obstacle(600,400,300,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
+    break;
     }
  }
 
@@ -87,7 +109,27 @@ function init(){
  function loadBackground(){
         switch(chosenEnemy){
         case "A":
+        background.src="./image/backgroundA.png";
+        break;
+        case "B":
+        background.src="./image/backgroundB.jpg";
+        break;
+        case "C":
         background.src="./image/backgroundA.jpg";
+        break;
+    }
+ }
+ 
+ function drawBackground(){
+    switch(chosenEnemy){
+        case "A":
+        ctx.drawImage(background,0,100);
+        break;
+        case "B":
+        ctx.drawImage(background,0,-300);
+        break;
+        case "C":
+        ctx.drawImage(background,0,-300);
         break;
     }
  }
@@ -259,7 +301,7 @@ function drawHP(){
     ctx.restore();
     ctx.strokeRect(873.5,82.5,50,40);
     ctx.font='13px "Press Start 2P"';
-    ctx.fillText("Enemy",790,110);
+    ctx.fillText(enemy.name,780,110);
     ctx.restore();
 }
 
