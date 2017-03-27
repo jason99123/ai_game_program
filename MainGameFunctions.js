@@ -273,7 +273,7 @@ function checkAttackPlayer(object){ //check if attack sucess to enemy
 
 function drawHP(){
     ctx.save();
-    ctx.shadowBlur=5;
+    ctx.shadowBlur=10;
     ctx.shadowColor="Black";
     ctx.fillStyle="#0489B1";
     ctx.fillRect(66,82.5,150,40);
