@@ -82,12 +82,15 @@ function sleep(milliseconds) {
   }
 }
 
-function countDown() {
+function countDown() { //provide count down for loading iamge
+        var str=".";
         ctx.save();
         ctx.font='100px "Press Start 2P"';
         ctx.fillStyle="white";
         if (count > 0) {
             ctx.fillText(count,450,300);
+            ctx.font='10px "Press Start 2P"';
+            ctx.fillText("Loading"+str.repeat(count),800,30);
         }else if (count == 0) {
             ctx.fillText("start!",250,300);
         }
