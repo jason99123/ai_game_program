@@ -36,7 +36,52 @@ function enemyC(){
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
+		instance.bulletPos();
+        instance.lazer();
+        
+        instance.damageDelay--;
     }
+	
+	this.enemyAction = function(){
+		//get the player position
+		
+		
+		//close to player
+		if(instance.x>player.x ){
+            instance.walk(instance.side);
+			instance.actionDelay = 10;
+		} else if (instance.x<player.x){
+            instance.walk(-instance.checkPlayerSide());
+            instance.actionDelay = 10;
+		}
+		
+		if(instance.x-player.x>=0 && instance.x-player.x<=5){
+			nstance.ActionStatus = 1;
+			instance.side = instance.checkPlayerSide();
+		}
+		
+		if (instance.x>=800) { //rebound when too close to right
+            instance.actionDelay = 0;
+            instance.side=-1;
+            instance.walk(-1);
+            instance.actionDelay = 50;
+        }else if (instance.x<=200) { //rebound when too close to left
+            instance.actionDelay = 0;
+            instance.side=1;
+            instance.walk(1);
+            instance.actionDelay = 50;
+        }
+		
+        // jump when player shoot
+        for(var i = 0;i < player.bullet.length;i++){
+            if(player.bullet[i]){
+                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
+                        instance.actionDelay = 0;
+                       instance.jump();
+             }
+           }
+        }
+	}
     
     //update player position, ref:character:update()
     this.newPos = function(){
