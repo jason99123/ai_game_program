@@ -8,6 +8,7 @@ var height = 600; //canvas height
 var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
+var chosenEnemy = "A"; //enemy chosen : A/B/C
 
 //initiation of game
 function init(){
@@ -19,7 +20,7 @@ function init(){
     //start game initiation when ctx is ready
     if (ctx) {
         //gameObject initiation
-        background.src="./image/background.jpg";
+        loadBackground();
         
         player = new character();
         player.loadImage();
@@ -72,12 +73,23 @@ function init(){
 }
 
  function initObstacle(){
-    obstacleList[0] = new obstacle(0,350,400,25);
-    obstacleList[1] = new obstacle(0,575,1000,25);
-    obstacleList[2] = new obstacle(600,400,300,25);
-    obstacleList[3] = new obstacle(200,150,200,25);
-    obstacleList[4] = new obstacle(800,200,100,25);
+    switch(chosenEnemy){
+    case "A":
+    obstacleList[0] = new obstacle(0,350,400,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[1] = new obstacle(0,575,1000,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[2] = new obstacle(600,400,300,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
+    }
+ }
 
+ //load Background
+ function loadBackground(){
+        switch(chosenEnemy){
+        case "A":
+        background.src="./image/backgroundA.jpg";
+        break;
+    }
  }
 
  function drawObstacle(){

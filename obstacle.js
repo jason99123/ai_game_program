@@ -1,4 +1,4 @@
-function obstacle(x,y,width,height){
+function obstacle(x,y,width,height,fillcolor,strokecolor,shadowcolor){
     this.x=x;
     this.y=y;
     this.width=width;
@@ -7,11 +7,11 @@ function obstacle(x,y,width,height){
     this.draw = function(){
         ctx.save();
         ctx.shadowBlur=3;
-        ctx.shadowColor="#B43104";
-        ctx.fillStyle = "#AEB404";
+        ctx.shadowColor= shadowcolor;
+        ctx.fillStyle = fillcolor;
         ctx.fillRect(x,y,width,height);
         
-        ctx.strokeStyle = "#8A4B08";
+        ctx.strokeStyle = strokecolor;
         ctx.lineWidth   = 3;
         ctx.strokeRect(x,y,width,height);
         ctx.restore();
