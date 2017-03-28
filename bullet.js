@@ -37,7 +37,7 @@ function bullet(x,y,side,type){
         }
         
         ctx.scale(instance.side, 1);
-        ctx.drawImage(bulletImage[type],this.width*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x,this.y,this.width,this.height);
+        ctx.drawImage(bulletImage[type],this.width*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x,this.y,this.width*100,this.height*100);
         ctx.restore();
         instance.seq++;
     }
