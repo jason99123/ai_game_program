@@ -26,7 +26,7 @@ function enemyA(){
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
-    this.maxBullet = 100;
+    this.maxBullet = 1;
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
@@ -167,7 +167,7 @@ function enemyA(){
                     instance.ActionStatus = 2;
                     instance.speedX = 0;
                     instance.side = instance.checkPlayerSide();
-                    instance.actionDelay=0;
+                    instance.actionDelay=15;
                     instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,1);
             }
             instance.bulletCount++;
