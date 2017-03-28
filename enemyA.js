@@ -26,7 +26,7 @@ function enemyA(){
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
-    this.maxBullet = 1;
+    this.maxBullet = 100;
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
