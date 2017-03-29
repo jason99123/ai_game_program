@@ -38,6 +38,7 @@ function enemyA(){
     
     this.hp=10;
     this.damageDelay = 0; // delay for next damage
+    this.bulletType = 0; // bullet type 0:normal type 1:jumping type
     
     this.loadImage = function(){
         instance.image[0]= new Image();
@@ -48,6 +49,9 @@ function enemyA(){
         instance.image[2].src="./image/enemyA/attackA.png";
         instance.image[5]= new Image();
         instance.image[5].src="./image/enemyA/jump.png";
+        
+        instance.image[100]= new Image();
+        instance.image[100].src="./image/enemyA/talkingBubble.png";
         
         instance.imageFrame[0]=4;
         instance.imageFrame[1]=4;
@@ -121,8 +125,13 @@ function enemyA(){
            }
         }
         
+        if (instance.count < 20) {
+            instance.talk();
+        }
+        
         if (instance.count == 300) {
             instance.count = 0;
+            instance.bulletType = Math.floor(Math.random()*4);
         }
     }
     
@@ -189,12 +198,57 @@ function enemyA(){
     this.bulletPos = function(){
         for(var i=0;i<instance.bullet.length;i++){    
             if (instance.bullet[i]) {
+                
+                switch(instance.bulletType){
+                case 0:
+                instance.bullet[i].circleMovement(0,0);
                 instance.bullet[i].newPos();
+                break;
+                case 1:
+                instance.bullet[i].circleMovement(60,0.05);
+                instance.bullet[i].newPos();
+                break;
+                case 2:
+                instance.bullet[i].circleMovement(10,0.2);
+                instance.bullet[i].newPos();
+                break;
+                case 3:
+                instance.bullet[i].circleMovement(40,0.1);
+                instance.bullet[i].newPos();
+                break;
+                }
+                
+                
             if (checkWall(instance.bullet[i]) || checkAttackPlayer(instance.bullet[i]) ) {
                 delete instance.bullet[i];
                 }
             }
         }
+    }
+    
+    this.talk = function(){
+        ctx.save();
+        ctx.shadowBlur=5;
+        ctx.shadowColor="Black";
+        ctx.drawImage(instance.image[100],instance.x,instance.y-100,150,100);
+        ctx.font='15px "Press Start 2P"';
+        
+        switch(instance.bulletType){
+                case 0:
+                ctx.fillText("Type#A.",instance.x+20,instance.y-60);
+                break;
+                case 1:
+                ctx.fillText("Type#B.",instance.x+20,instance.y-60);
+                break;
+                case 2:
+                ctx.fillText("Type#C.",instance.x+20,instance.y-60);
+                break;
+                case 3:
+                ctx.fillText("Type#D.",instance.x+20,instance.y-60);
+                break;
+        }
+
+        ctx.restore();
     }
     
     this.drawBullet = function(){
@@ -233,6 +287,11 @@ function enemyA(){
         
         instance.seq++;
         }
+        
+        if (instance.count < 20) {
+            instance.talk();
+        }
+        
         instance.drawBullet();
 
     }

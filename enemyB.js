@@ -293,9 +293,9 @@ function enemyB(){
         ctx.drawImage(instance.image[100],instance.x,instance.y-100,150,100);
         ctx.font='15px "Press Start 2P"';
         if (instance.ActionStatus == 4) {
-            ctx.fillText("Fire!",instance.x+40,instance.y-50);
+            ctx.fillText("Fire!",instance.x+30,instance.y-55);
         }else{
-            ctx.fillText("Heal!",instance.x+40,instance.y-50);
+            ctx.fillText("Heal!",instance.x+30,instance.y-55);
         }
         ctx.restore();
     }
