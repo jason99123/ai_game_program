@@ -45,19 +45,19 @@ function enemyB(){
     
     this.loadImage = function(){
         instance.image[0]= new Image();
-        instance.image[0].src="./image/enemyA/stand.png";
+        instance.image[0].src="./image/enemyB/stand.png";
         instance.image[1]= new Image();
-        instance.image[1].src="./image/enemyA/walking.png";
+        instance.image[1].src="./image/enemyB/walking.png";
         instance.image[2]= new Image();
-        instance.image[2].src="./image/enemyA/attackA.png";
+        instance.image[2].src="./image/enemyB/attackA.png";
         instance.image[3]= new Image();
-        instance.image[3].src="./image/enemyA/attackB.png";
+        instance.image[3].src="./image/enemyB/attackB.png";
         instance.image[4]= new Image();
-        instance.image[4].src="./image/enemyA/attackC.png";
+        instance.image[4].src="./image/enemyB/attackC.png";
         instance.image[5]= new Image();
-        instance.image[5].src="./image/enemyA/jump.png";
+        instance.image[5].src="./image/enemyB/jump.png";
         instance.image[100]= new Image();
-        instance.image[100].src="./image/enemyA/talkingBubble.png";
+        instance.image[100].src="./image/enemyB/talkingBubble.png";
         
         instance.imageFrame[0]=4;
         instance.imageFrame[1]=4;

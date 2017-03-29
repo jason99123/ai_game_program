@@ -4,7 +4,8 @@ function loadBulletImage(){
     bulletImage[0].src = "./image/bullet/bulletA.png";
     bulletImage[1] = new Image();
     bulletImage[1].src = "./image/bullet/bulletB.png";
-    
+    bulletImage[2] = new Image();
+    bulletImage[2].src = "./image/bullet/bulletC.png";
 }
 
 function bullet(x,y,side,speedX,type){
@@ -55,6 +56,8 @@ function bullet(x,y,side,speedX,type){
             ctx.shadowColor="white";
         }else if(type == 1) {
             ctx.shadowColor="red";
+        }else if(type == 2) {
+            ctx.shadowColor="yellow";
         }
         
         ctx.scale(instance.side, 1);
