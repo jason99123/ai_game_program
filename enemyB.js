@@ -248,7 +248,7 @@ function enemyB(){
             instance.speedX = 0;
             instance.side = instance.checkPlayerSide();
             if (!instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]) {
-                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,1);
+                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,10,1);
             }
             instance.bulletCount++;
                 

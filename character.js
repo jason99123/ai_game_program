@@ -103,7 +103,7 @@ function character(){
             case 65: //A button
                 instance.ActionStatus = 2;
                 if (!instance.bullet[instance.bulletCount]) {
-                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,0);
+                    instance.bullet[instance.bulletCount]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,10,0);
                 }
                 instance.bulletCount++;
                 
@@ -185,7 +185,7 @@ function character(){
         //ctx.fillStyle = "white";
         //ctx.fillText("X:"+instance.x,100,20);
         //ctx.fillText("Y:"+instance.y,200,20);
-        //ctx.fillText("delay:"+player.damageDelay,300,20);
+        //ctx.fillText("delay:"+enemy.actionDelay,300,20);
         //ctx.fillText("enemy status:"+enemy.ActionStatus,450,20);
         
         instance.drawBullet();

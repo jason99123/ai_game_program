@@ -7,16 +7,16 @@ function loadBulletImage(){
     
 }
 
-function bullet(x,y,side,type){
+function bullet(x,y,side,speedX,type){
     var instance=this;
     this.x=x;
     this.y=y;
     this.tmpY=y;
     this.tmpX=x;
+    this.speedX = speedX;
     this.side=side;
     this.width=30;
     this.height=30;
-    this.speedX = 10;
     this.seq=0;
     this.animationRate = 13;
     

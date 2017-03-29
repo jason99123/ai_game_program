@@ -26,7 +26,7 @@ function enemyA(){
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
-    this.maxBullet = 1;
+    this.maxBullet = 3;
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
@@ -86,7 +86,8 @@ function enemyA(){
 
         if (Math.abs(instance.x-player.x)>=400) {
             this.random = Math.random()*100;
-            if (this.random < 90) {
+            if (this.random < 80) {
+                instance.actionDelay=0;
                 instance.shootBullet();
             }else if (this.random <100) {
                 instance.walk(instance.side);
@@ -162,7 +163,7 @@ function enemyA(){
     }
     
     this.delay = function(){
-        if (instance.actionDelay>0) {
+        if (instance.actionDelay > 0) {
             instance.actionDelay--;
             return true;
         }else{
@@ -176,9 +177,9 @@ function enemyA(){
                     instance.ActionStatus = 2;
                     instance.speedX = 0;
                     instance.side = instance.checkPlayerSide();
-                    instance.actionDelay=15;
-                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,1);
+                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,2+Math.random()*6,1);
             }
+            instance.actionDelay=15;
             instance.bulletCount++;
                 
             if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
@@ -259,8 +260,26 @@ function enemyA(){
         }
     }
     
+    this.ModeCountDown = function (){
+        ctx.save();
+        ctx.shadowBlur=5;
+        if ((300-instance.count) > 50) {
+            ctx.fillStyle="white";
+            ctx.shadowColor="white";
+        }else{
+            ctx.fillStyle="red";
+            ctx.shadowColor="red";
+        }
+
+        ctx.font='30px "Press Start 2P"';
+        ctx.fillText("Danger:"+(300-instance.count),350,150);
+        ctx.restore();
+    }
+    
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
+        
+        instance.ModeCountDown();
         
         if (!instance.show) {
             instance.show = true;
