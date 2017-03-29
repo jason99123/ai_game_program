@@ -26,7 +26,7 @@ function enemyA(){
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
-    this.maxBullet = 3;
+    this.maxBullet = 5;
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
@@ -270,7 +270,7 @@ function enemyA(){
         if ((300-instance.count) < 3 ) {
             ctx.save();
             ctx.globalAlpha = 0.5;
-            ctx.fillStyle="black";
+            ctx.fillStyle="red";
             ctx.fillRect(0,0,width,height);
             ctx.restore();
         }
