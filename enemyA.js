@@ -132,6 +132,12 @@ function enemyA(){
         
         if (instance.count == 300) {
             instance.count = 0;
+            
+            for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+            delete instance.bullet[i];
+                }
+            }
             instance.bulletType = Math.floor(Math.random()*4);
         }
     }
@@ -261,6 +267,14 @@ function enemyA(){
     }
     
     this.ModeCountDown = function (){
+        if ((300-instance.count) < 3 ) {
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle="black";
+            ctx.fillRect(0,0,width,height);
+            ctx.restore();
+        }
+        
         ctx.save();
         ctx.shadowBlur=5;
         if ((300-instance.count) > 50) {
@@ -307,7 +321,7 @@ function enemyA(){
         instance.seq++;
         }
         
-        if (instance.count < 20) {
+        if (instance.count < 30) {
             instance.talk();
         }
         
