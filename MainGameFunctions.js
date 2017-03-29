@@ -349,7 +349,11 @@ function gameover(){
         ctx.fillStyle="white";
         ctx.font="100px Arial";
         if (enemy.hp<=0) {
+            if (player.hp==10) {
+            ctx.fillText("No damage!",230,250);
+            }else{
             ctx.fillText("you win!",300,250);
+            }
         }else{
         ctx.fillText("you die...",300,250);
         }
