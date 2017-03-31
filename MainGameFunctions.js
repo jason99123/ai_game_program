@@ -8,6 +8,11 @@ var height = 600; //canvas height
 var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
+var chosenEnemy; //enemy chosen : A/B/C
+var menuBackground = new Image();
+var timeout;
+var countdown = true;
+var count = 4;
 
 //initiation of game
 function init(){
@@ -15,16 +20,28 @@ function init(){
     canvas = document.getElementById("game");
     ctx=canvas.getContext && canvas.getContext('2d');
     
+    chosenEnemy = prompt("input enemy type (temp)");
     
     //start game initiation when ctx is ready
     if (ctx) {
         //gameObject initiation
-        background.src="./image/background.jpg";
-        
+        loadBackground();
+        loadMenuBackGround();
+		
         player = new character();
         player.loadImage();
         
-        enemy = new enemyA(); //create enemy object A/B/C
+        switch(chosenEnemy){
+        case "A":
+        enemy = new enemyA(); //create enemy object A
+        break;
+        case "B":
+        enemy = new enemyB(); //create enemy object A
+        break;
+        case "C":
+        enemy = new enemyC(); //create enemy object A
+        break;
+        }
         enemy.loadImage();
         
         loadBulletImage();
@@ -35,45 +52,173 @@ function init(){
         window.addEventListener('keydown',player.playerAction,false);
         window.addEventListener('keyup',player.stopWalking,false);
         
+        
         //game start
-        gameStart();
+        //gameStart();
+        gameMenu();
+		
     }
 }
 
+function drawMenuBackground(){
+    ctx.save();
+    ctx.drawImage(menuBackground,0,0);
+	ctx.fillStyle="white";
+        ctx.font="20px Arial";
+        ctx.fillText("Click Space to start",422.5,382.5);
+    ctx.restore();
+        timeout = setTimeout(drawMenuBackground,0.1);
+    
+}
+
+function drawMenu(){
+	//clear rectangle
+		
+        //ctx.clearRect(0, 0, width, height);
+        //draw background
+        //loadMenuBackGround();
+        drawMenuBackground();
+		
+}
+
+function gameMenu(){
+	drawMenu();
+	window.addEventListener('keydown',start,false); 
+}
+
+function start(e){
+    clearTimeout(timeout);
+	if (e.keyCode == 32) {
+        
+        gameStart();
+        window.removeEventListener('keydown',start);
+    }
+}
+
+
+function loadMenuBackGround(){
+   // menuBackground.onload=gameMenu();
+	menuBackground.src="./image/MenuBackground.jpg";
+    
+    }
+
+/////////////////////////////////////////////////////////////Game Menu ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//////////////
 //gamestart : call all update function
  function gameStart(){
+   
+    
+    if (count <= 0) {
     player.update();
     enemy.update();
+    }
     draw();
-    setTimeout(gameStart,update_interval);
- }
     
+    if (count<=3 && count >=0) {
+        countDown();
+    }
+
+    setTimeout(gameStart,update_interval);
+    count--;
+
+ }
+
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
+function countDown() { //provide count down for loading iamge
+        var str=".";
+        ctx.save();
+        ctx.font='100px "Press Start 2P"';
+        ctx.fillStyle="white";
+        if (count > 0) {
+            ctx.fillText(count,450,300);
+            ctx.font='10px "Press Start 2P"';
+            ctx.fillText("Loading"+str.repeat(count),800,30);
+        }else if (count == 0) {
+            ctx.fillText("start!",250,300);
+        }
+        ctx.restore();
+        sleep(1000);
+}
+
 //draw : update game visual output  
  function draw(){
-        // Clear the canvas
+        // Check game end
         if (player.hp<=0 || enemy.hp<=0) {
             gameover();
         }else{
+            
+        //clear rectangle
         ctx.clearRect(0, 0, width, height);
         
         //draw background 
-        ctx.drawImage(background,0,-300);
+        drawBackground();
         
+        //draw obstacles
         drawObstacle();
         
         player.draw();
         enemy.draw();
+        
         drawHP();
         }
 }
 
  function initObstacle(){
-    obstacleList[0] = new obstacle(0,350,400,25);
-    obstacleList[1] = new obstacle(0,575,1000,25);
-    obstacleList[2] = new obstacle(600,400,300,25);
-    obstacleList[3] = new obstacle(200,150,200,25);
-    obstacleList[4] = new obstacle(800,200,100,25);
+    switch(chosenEnemy){
+    case "A":
+    obstacleList[0] = new obstacle(0,575,1000,25,"black","#0B2161","#B43104");
+    break;
+    case "B":
+    obstacleList[0] = new obstacle(0,350,400,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[1] = new obstacle(0,575,1000,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[2] = new obstacle(600,400,300,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
+    break;
+    case "C":
+    obstacleList[0] = new obstacle(0,350,400,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[1] = new obstacle(0,575,1000,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[2] = new obstacle(600,400,300,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
+    break;
+    }
+ }
 
+ //load Background
+ function loadBackground(){
+        switch(chosenEnemy){
+        case "A":
+        background.src="./image/backgroundA.png";
+        break;
+        case "B":
+        background.src="./image/backgroundB.jpg";
+        break;
+        case "C":
+        background.src="./image/backgroundA.jpg";
+        break;
+    }
+ }
+ 
+ function drawBackground(){
+    switch(chosenEnemy){
+        case "A":
+        ctx.drawImage(background,0,100);
+        break;
+        case "B":
+        ctx.drawImage(background,0,-300);
+        break;
+        case "C":
+        ctx.drawImage(background,0,-300);
+        break;
+    }
  }
 
  function drawObstacle(){
@@ -120,6 +265,7 @@ function checkOnGround(object){ //check player is on ground (not yet fully imple
             if (match == false && object.y>=obstacleList[i].y-110 && object.y<=obstacleList[i].y+obstacleList[i].height && object.x+object.width/2+10>=obstacleList[i].x && object.x+object.width/2-10<=obstacleList[i].x+obstacleList[i].width) {
             match = true;
             object.onGround = true;
+            object.y=obstacleList[i].y-object.height;
             object.gravity = 0;
             }
         }
@@ -143,9 +289,10 @@ function checkAttackEnemy(object){ //check if attack sucess to enemy
         }
     }
     
-    if (hit) {
+    if (hit && enemy.damageDelay<=0) {
         enemy.hp-=1;
         enemy.show=false;
+        enemy.damageDelay = 10;
         return true
     }else{
         return false;
@@ -178,6 +325,8 @@ function checkAttackPlayer(object){ //check if attack sucess to enemy
 
 function drawHP(){
     ctx.save();
+    ctx.shadowBlur=10;
+    ctx.shadowColor="Black";
     ctx.fillStyle="#0489B1";
     ctx.fillRect(66,82.5,150,40);
     ctx.strokeStyle="#08298A";
@@ -186,7 +335,14 @@ function drawHP(){
     ctx.fillRect(65,41,20,43);
     ctx.fillStyle="black";
     ctx.fillRect(85,42.5,290,40);
-    ctx.fillStyle="#D7DF01";
+    
+    if (player.hp>8) {
+        ctx.fillStyle="#00FF00";
+    }else if(player.hp>5){
+        ctx.fillStyle="#D7DF01";
+    }else{
+        ctx.fillStyle="red";
+    }
     ctx.fillRect(95,50,player.hp*27,25);
     ctx.fillStyle="black";
     for(var i=0;i<10;i++){
@@ -196,11 +352,13 @@ function drawHP(){
     ctx.strokeRect(85,42.5,290,40);
     ctx.drawImage(player.image[0],20,20,50,40,66,82,50,40)
     ctx.strokeRect(66.5,82.5,50,40);
-    ctx.font="20px Arial";
+    ctx.font='13px "Press Start 2P"';
     ctx.fillText("Player",130,110);
     ctx.restore();
     
     ctx.save();
+    ctx.shadowBlur=10;
+    ctx.shadowColor="Black";
     ctx.fillStyle="#FE2E2E";
     ctx.fillRect(773,82.5,150,40);
     ctx.strokeStyle="#8A0808";
@@ -210,6 +368,13 @@ function drawHP(){
     ctx.fillStyle="black";
     ctx.fillRect(615,42.5,290,40);
     ctx.fillStyle="#D7DF01";
+    if (enemy.hp>8) {
+        ctx.fillStyle="#00FF00";
+    }else if(enemy.hp>5){
+        ctx.fillStyle="#D7DF01";
+    }else{
+        ctx.fillStyle="red";
+    }
     ctx.fillRect(895,50,-enemy.hp*27,25);
     ctx.fillStyle="black";
     for(var i=0;i<10;i++){
@@ -222,8 +387,8 @@ function drawHP(){
     ctx.drawImage(enemy.image[0],20,20,50,40,-923,83,50,40);
     ctx.restore();
     ctx.strokeRect(873.5,82.5,50,40);
-    ctx.font="20px Arial";
-    ctx.fillText("Enemy",790,110);
+    ctx.font='13px "Press Start 2P"';
+    ctx.fillText(enemy.name,780,110);
     ctx.restore();
 }
 
@@ -233,7 +398,11 @@ function gameover(){
         ctx.fillStyle="white";
         ctx.font="100px Arial";
         if (enemy.hp<=0) {
+            if (player.hp==10) {
+            ctx.fillText("No damage!",230,250);
+            }else{
             ctx.fillText("you win!",300,250);
+            }
         }else{
         ctx.fillText("you die...",300,250);
         }
