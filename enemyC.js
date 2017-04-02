@@ -58,7 +58,7 @@ function enemyC(){
             instance.actionDelay = 10;
 		}
 		
-		if(instance.x-character.x>=0 && instance.x-character.x<=5){
+		if(instance.x-character.x>=0 && instance.x-character.x<=5 || character.x-instance.x>=0 && character.x-instance.x<=5){
 			nstance.ActionStatus = 1;
 			instance.side = instance.checkPlayerSide();
 		}
@@ -74,6 +74,11 @@ function enemyC(){
             instance.walk(1);
             instance.actionDelay = 50;
         }
+		
+		if(instance.y-character.y>20||character.y-instance.y>20){
+			instance.actionDelay = 0;
+			instance.jump();
+		}
 		
         // jump when player shoot
         for(var i = 0;i < player.bullet.length;i++){
@@ -92,6 +97,17 @@ function enemyC(){
             instance.side=side;
             instance.speedX=6*side;
         }
+    }
+	
+	this.jump = function(){
+    if (!instance.delay()) {
+         if (instance.onGround) {
+            instance.onGround = false;
+            instance.ActionStatus = 5;
+            instance.actionDelay = 10;
+            instance.gravitySpeed = -instance.jumpDistance;
+         }
+       }
     }
 	
     //update player position, ref:character:update()
