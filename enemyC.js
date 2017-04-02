@@ -44,18 +44,21 @@ function enemyC(){
 	
 	this.enemyAction = function(){
 		//get the player position
-		
+		character.x;
+		character.y;
 		
 		//close to player
-		if(instance.x>player.x ){
-            instance.walk(instance.side);
+		if(instance.x>character.x ){
+			instance.side = instance.checkPlayerSide();
+            instance.walk(side);
 			instance.actionDelay = 10;
 		} else if (instance.x<player.x){
-            instance.walk(-instance.checkPlayerSide());
+			instance.side = instance.checkPlayerSide();
+            instance.walk(side);
             instance.actionDelay = 10;
 		}
 		
-		if(instance.x-player.x>=0 && instance.x-player.x<=5){
+		if(instance.x-character.x>=0 && instance.x-character.x<=5){
 			nstance.ActionStatus = 1;
 			instance.side = instance.checkPlayerSide();
 		}
@@ -83,6 +86,14 @@ function enemyC(){
         }
 	}
     
+	this.walk = function(side){
+        if (!instance.delay()) {
+            instance.ActionStatus = 1;
+            instance.side=side;
+            instance.speedX=6*side;
+        }
+    }
+	
     //update player position, ref:character:update()
     this.newPos = function(){
         gravityMove(instance);
