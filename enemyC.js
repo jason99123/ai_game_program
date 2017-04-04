@@ -21,8 +21,8 @@ function enemyC(){
     
     this.image = new Array();
     this.imageFrame = new Array();
-    this.animationRate = 13; //how fast the character animation change
-    
+    this.animationRate = 13; //how fast the player animation change
+    this.whirlwind = new Array();
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
@@ -44,11 +44,10 @@ function enemyC(){
 	
 	this.enemyAction = function(){
 		//get the player position
-		character.x;
-		character.y;
+
 		
 		//close to player
-		if(instance.x>character.x ){
+		if(instance.x>player.x ){
 			instance.side = instance.checkPlayerSide();
             instance.walk(side);
 			instance.actionDelay = 10;
@@ -58,7 +57,7 @@ function enemyC(){
             instance.actionDelay = 10;
 		}
 		
-		if(instance.x-character.x>=0 && instance.x-character.x<=5 || character.x-instance.x>=0 && character.x-instance.x<=5){
+		if(instance.x-player.x>=0 && instance.x-player.x<=5 || player.x-instance.x>=0 && player.x-instance.x<=5){
 			nstance.ActionStatus = 1;
 			instance.side = instance.checkPlayerSide();
 		}
@@ -75,7 +74,7 @@ function enemyC(){
             instance.actionDelay = 50;
         }
 		
-		if(instance.y-character.y>20||character.y-instance.y>20){
+		if(instance.y-player.y>20||player.y-instance.y>20){
 			instance.actionDelay = 0;
 			instance.jump();
 		}
@@ -110,7 +109,18 @@ function enemyC(){
        }
     }
 	
-    //update player position, ref:character:update()
+	this.shootwhirlwind = function(){
+		if()
+	}
+	
+	this.Charge = function(side){
+			instance.ActionStatus = 2;
+			instance.side = instance.checkPlayerSide();
+            instance.side=side;tance.speedX = 100;
+
+	}
+	
+    //update player position, ref:player:update()
     this.newPos = function(){
         gravityMove(instance);
         walking(instance);
