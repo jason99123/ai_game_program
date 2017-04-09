@@ -143,6 +143,9 @@ function countDown() { //provide count down for loading iamge
     obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
     obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
     break;
+    case "D":
+    obstacleList[0] = new obstacle(0,575,1000,25,"black","#0B2161","#B43104");
+    break;
     }
  }
 
@@ -158,6 +161,8 @@ function countDown() { //provide count down for loading iamge
         case "C":
         background.src="./image/backgroundA.jpg";
         break;
+        case "D":
+	background.src="./image/backgroundA.png";
     }
  }
  
@@ -172,6 +177,8 @@ function countDown() { //provide count down for loading iamge
         case "C":
         ctx.drawImage(background,0,-300);
         break;
+	case "D":
+	ctx.drawImage(background,0,100);
     }
  }
 
