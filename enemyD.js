@@ -1,4 +1,4 @@
-function enemyA(){
+function enemyD(){
 //variable
     var instance = this; //instance
     this.name="Final Boss" // enemy name
