@@ -39,6 +39,9 @@ function init(){
         case "C":
         enemy = new enemyC(); //create enemy object A
         break;
+	case "D":
+	enemy = new enemyD(); 
+	break;
         }
         enemy.loadImage();
         
