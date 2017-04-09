@@ -163,6 +163,7 @@ function countDown() { //provide count down for loading iamge
         break;
         case "D":
 	background.src="./image/backgroundA.png";
+	break;
     }
  }
  
@@ -179,6 +180,7 @@ function countDown() { //provide count down for loading iamge
         break;
 	case "D":
 	ctx.drawImage(background,0,100);
+	break;
     }
  }
 
