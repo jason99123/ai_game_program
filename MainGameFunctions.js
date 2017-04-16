@@ -9,10 +9,18 @@ var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
 var chosenEnemy; //enemy chosen : A/B/C
-var menuBackground = new Image();
-var timeout;
 var countdown = true;
 var count = 4;
+var wait = true;
+
+///////////////Variables for menu/////////////////
+var enemyAIcon = new Image();
+var enemyBIcon = new Image();
+var enemyCIcon = new Image();
+var menuBackground = new Image();
+var timeout;
+var selectedEnemy;
+///////////////End of Variables for menu/////////////////
 
 //initiation of game
 function init(){
@@ -20,17 +28,30 @@ function init(){
     canvas = document.getElementById("game");
     ctx=canvas.getContext && canvas.getContext('2d');
     
-    chosenEnemy = prompt("input enemy type (temp)");
+    //chosenEnemy = prompt("input enemy type (temp)");
     
+
     //start game initiation when ctx is ready
     if (ctx) {
         //gameObject initiation
-        loadBackground();
-        loadMenuBackGround();
-		
+        
+
         player = new character();
         player.loadImage();
+
+        //Player Control inintiation
+        window.addEventListener('keydown',player.playerAction,false);
+        window.addEventListener('keyup',player.stopWalking,false);
+
+     
+        loadMenuImg();
+        gameMenu();
         
+    }
+}
+
+
+function initImg(){
         switch(chosenEnemy){
         case "A":
         enemy = new enemyA(); //create enemy object A
@@ -41,71 +62,18 @@ function init(){
         case "C":
         enemy = new enemyC(); //create enemy object A
         break;
+		case "D":
+		enemy = new enemyD(); 
+		break;
         }
-        enemy.loadImage();
         
-        loadBulletImage();
-        
-        initObstacle();
-        
-        //Player Control inintiation
-        window.addEventListener('keydown',player.playerAction,false);
-        window.addEventListener('keyup',player.stopWalking,false);
-        
-        
-        //game start
-        //gameStart();
-        gameMenu();
-		
-    }
+    enemy.loadImage();
+    loadBulletImage();
+    loadBackground();
 }
 
-function drawMenuBackground(){
-    ctx.save();
-    ctx.drawImage(menuBackground,0,0);
-	ctx.fillStyle="white";
-        ctx.font="20px Arial";
-        ctx.fillText("Click Space to start",422.5,382.5);
-    ctx.restore();
-        timeout = setTimeout(drawMenuBackground,0.1);
-    
-}
-
-function drawMenu(){
-	//clear rectangle
-		
-        //ctx.clearRect(0, 0, width, height);
-        //draw background
-        //loadMenuBackGround();
-        drawMenuBackground();
-		
-}
-
-function gameMenu(){
-	drawMenu();
-	window.addEventListener('keydown',start,false); 
-}
-
-function start(e){
-    clearTimeout(timeout);
-	if (e.keyCode == 32) {
-        
-        gameStart();
-        window.removeEventListener('keydown',start);
-    }
-}
-
-
-function loadMenuBackGround(){
-   // menuBackground.onload=gameMenu();
-	menuBackground.src="./image/MenuBackground.jpg";
-    
-    }
-
-/////////////////////////////////////////////////////////////Game Menu ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^//////////////
 //gamestart : call all update function
  function gameStart(){
-   
     
     if (count <= 0) {
     player.update();
@@ -116,7 +84,7 @@ function loadMenuBackGround(){
     if (count<=3 && count >=0) {
         countDown();
     }
-
+    
     setTimeout(gameStart,update_interval);
     count--;
 
@@ -140,7 +108,7 @@ function countDown() { //provide count down for loading iamge
             ctx.fillText(count,450,300);
             ctx.font='10px "Press Start 2P"';
             ctx.fillText("Loading"+str.repeat(count),800,30);
-        }else if (count == 0) {
+        }else if (count === 0) {
             ctx.fillText("start!",250,300);
         }
         ctx.restore();
@@ -189,6 +157,9 @@ function countDown() { //provide count down for loading iamge
     obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
     obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
     break;
+    case "D":
+    obstacleList[0] = new obstacle(0,575,1000,25,"black","#0B2161","#B43104");
+    break;
     }
  }
 
@@ -204,6 +175,9 @@ function countDown() { //provide count down for loading iamge
         case "C":
         background.src="./image/backgroundA.jpg";
         break;
+        case "D":
+	background.src="./image/backgroundA.png";
+	break;
     }
  }
  
@@ -218,6 +192,9 @@ function countDown() { //provide count down for loading iamge
         case "C":
         ctx.drawImage(background,0,-300);
         break;
+	case "D":
+	ctx.drawImage(background,0,100);
+	break;
     }
  }
 

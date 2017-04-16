@@ -21,8 +21,8 @@ function enemyC(){
     
     this.image = new Array();
     this.imageFrame = new Array();
-    this.animationRate = 13; //how fast the character animation change
-    
+    this.animationRate = 13; //how fast the player animation change
+    this.whirlwind = new Array();
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
@@ -44,18 +44,20 @@ function enemyC(){
 	
 	this.enemyAction = function(){
 		//get the player position
-		
+
 		
 		//close to player
 		if(instance.x>player.x ){
-            instance.walk(instance.side);
+			instance.side = instance.checkPlayerSide();
+            instance.walk(side);
 			instance.actionDelay = 10;
 		} else if (instance.x<player.x){
-            instance.walk(-instance.checkPlayerSide());
+			instance.side = instance.checkPlayerSide();
+            instance.walk(side);
             instance.actionDelay = 10;
 		}
 		
-		if(instance.x-player.x>=0 && instance.x-player.x<=5){
+		if(instance.x-player.x>=0 && instance.x-player.x<=5 || player.x-instance.x>=0 && player.x-instance.x<=5){
 			nstance.ActionStatus = 1;
 			instance.side = instance.checkPlayerSide();
 		}
@@ -72,6 +74,11 @@ function enemyC(){
             instance.actionDelay = 50;
         }
 		
+		if(instance.y-player.y>20||player.y-instance.y>20){
+			instance.actionDelay = 0;
+			instance.jump();
+		}
+		
         // jump when player shoot
         for(var i = 0;i < player.bullet.length;i++){
             if(player.bullet[i]){
@@ -83,7 +90,37 @@ function enemyC(){
         }
 	}
     
-    //update player position, ref:character:update()
+	this.walk = function(side){
+        if (!instance.delay()) {
+            instance.ActionStatus = 1;
+            instance.side=side;
+            instance.speedX=6*side;
+        }
+    }
+	
+	this.jump = function(){
+    if (!instance.delay()) {
+         if (instance.onGround) {
+            instance.onGround = false;
+            instance.ActionStatus = 5;
+            instance.actionDelay = 10;
+            instance.gravitySpeed = -instance.jumpDistance;
+         }
+       }
+    }
+	
+	this.shootwhirlwind = function(){
+		if()
+	}
+	
+	this.Charge = function(side){
+			instance.ActionStatus = 2;
+			instance.side = instance.checkPlayerSide();
+            instance.side=side;tance.speedX = 100;
+
+	}
+	
+    //update player position, ref:player:update()
     this.newPos = function(){
         gravityMove(instance);
         walking(instance);
