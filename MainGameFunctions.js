@@ -159,7 +159,7 @@ function countDown() { //provide count down for loading iamge
         background.src="./image/backgroundB.jpg";
         break;
         case "C":
-        background.src="./image/backgroundA.jpg";
+        background.src="./image/backgroundA.png";
         break;
         case "D":
 	background.src="./image/backgroundA.png";
@@ -176,7 +176,7 @@ function countDown() { //provide count down for loading iamge
         ctx.drawImage(background,0,-300);
         break;
         case "C":
-        ctx.drawImage(background,0,-300);
+        ctx.drawImage(background,0,100);
         break;
 	case "D":
 	ctx.drawImage(background,0,100);

@@ -9,7 +9,7 @@ function enemyC(){
     this.y = 0; //y location
     this.width = 90; //image width
     this.height = 104; //image height
-    
+
     
     
     this.maxSpeed = 10; // player maxium walking speed
@@ -22,65 +22,79 @@ function enemyC(){
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the player animation change
+	this.actionDelay = 0;
+    this.show=true; // show enemy.image
+	
     this.whirlwind = new Array();
+	this.allowWhirlwind = 0;//0:cant use 1:can use
+	this.WhirlwindDelay = 0;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
-    
+    this.count = 0;
+	
     this.hp=10;
     
     this.loadImage = function(){
-        //null now
+        instance.image[0]= new Image();
+        instance.image[0].src="./image/enemyA/stand.png";
+        instance.image[1]= new Image();
+        instance.image[1].src="./image/enemyA/walking.png";
+        instance.image[2]= new Image();
+        instance.image[2].src="./image/enemyA/attackA.png";
+        instance.image[5]= new Image();
+        instance.image[5].src="./image/enemyA/jump.png";
+        
+        instance.image[100]= new Image();
+        instance.image[100].src="./image/enemyB/talkingBubble.png";
+        
+        instance.imageFrame[0]=2;
+        instance.imageFrame[1]=2;
+        instance.imageFrame[2]=3;
+        instance.imageFrame[5]=1;
     }
     
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
-		instance.bulletPos();
-        instance.lazer();
-        
         instance.damageDelay--;
+	
     }
 	
-	this.enemyAction = function(){
-		//get the player position
-
+	//update player position, ref:player:update()
+    this.newPos = function(){
+		this.randomAction();
+        gravityMove(instance);
+        walking(instance);
+        checkOnGround(instance);
+    }
+	
 		
-		//close to player
-		if(instance.x>player.x ){
-			instance.side = instance.checkPlayerSide();
-            instance.walk(side);
-			instance.actionDelay = 10;
-		} else if (instance.x<player.x){
-			instance.side = instance.checkPlayerSide();
-            instance.walk(side);
-            instance.actionDelay = 10;
-		}
+	this.randomAction = function(){
+	this.diffX = player.x - instance.x;
+	this.diffY = player.y - instance.y;
+	
+	//jump when sticking on a wall
+  
 		
-		if(instance.x-player.x>=0 && instance.x-player.x<=5 || player.x-instance.x>=0 && player.x-instance.x<=5){
-			nstance.ActionStatus = 1;
-			instance.side = instance.checkPlayerSide();
-		}
-		
-		if (instance.x>=800) { //rebound when too close to right
-            instance.actionDelay = 0;
-            instance.side=-1;
-            instance.walk(-1);
-            instance.actionDelay = 50;
-        }else if (instance.x<=200) { //rebound when too close to left
-            instance.actionDelay = 0;
-            instance.side=1;
-            instance.walk(1);
-            instance.actionDelay = 50;
-        }
-		
-		if(instance.y-player.y>20||player.y-instance.y>20){
+		if(this.diffX > 0){
 			instance.actionDelay = 0;
+			instance.x += 5;
+			 instance.actionDelay = 50;
+		}
+		else if(this.diffX < 0){
+			 instance.actionDelay = 0;
+			instance.x -= 5;
+			 instance.actionDelay = 50;
+		}
+		else if(player.y>instance.y){
+			instance.actionDelay=0;
 			instance.jump();
 		}
+
+	
 		
-        // jump when player shoot
-        for(var i = 0;i < player.bullet.length;i++){
+		for(var i = 0;i < player.bullet.length;i++){
             if(player.bullet[i]){
                 if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
                         instance.actionDelay = 0;
@@ -88,8 +102,26 @@ function enemyC(){
              }
            }
         }
+       
 	}
     
+	this.checkPlayerSide = function(){ //check player is on which side of enemy
+        if (instance.x > player.x) { //player is left side of enemy
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
+	this.stop = function(){
+        if (!instance.delay()) {
+            instance.speedX=0;
+            instance.ActionStatus = 0;
+        }
+    }
+	
+	
+	
 	this.walk = function(side){
         if (!instance.delay()) {
             instance.ActionStatus = 1;
@@ -109,8 +141,19 @@ function enemyC(){
        }
     }
 	
+	this.delay = function(){
+        if (instance.actionDelay>0) {
+            instance.actionDelay--;
+            return true;
+        }else{
+        return false;
+        }
+    }
+	
 	this.shootwhirlwind = function(){
-		if()
+		instance.WhirlwindDelay = 20;
+		instance.actionDelay=40;
+		instance.whirlwind[0] = {x:instance.x,y:instance.y,width:90,height:100};
 	}
 	
 	this.Charge = function(side){
@@ -120,12 +163,6 @@ function enemyC(){
 
 	}
 	
-    //update player position, ref:player:update()
-    this.newPos = function(){
-        gravityMove(instance);
-        walking(instance);
-        checkOnGround(instance);
-    }
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
