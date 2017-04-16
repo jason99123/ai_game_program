@@ -13,14 +13,6 @@ var countdown = true;
 var count = 4;
 var wait = true;
 
-///////////////Variables for menu/////////////////
-var enemyAIcon = new Image();
-var enemyBIcon = new Image();
-var enemyCIcon = new Image();
-var menuBackground = new Image();
-var timeout;
-var selectedEnemy;
-///////////////End of Variables for menu/////////////////
 
 //initiation of game
 function init(){

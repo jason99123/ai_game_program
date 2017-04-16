@@ -1,4 +1,14 @@
 
+///////////////Variables for menu/////////////////
+var enemyAIcon = new Image();
+var enemyBIcon = new Image();
+var enemyCIcon = new Image();
+var menuBackground = new Image();
+var timeout;
+
+///////////////End of Variables for menu/////////////////
+
+//////////////Start of function for menu//////////////////////
 function drawMenuBackground(){
     ctx.save();
     ctx.drawImage(menuBackground,0,0,840,525,0,0,1000,600);
@@ -22,9 +32,7 @@ function gameMenu(){ //called in MainGameFunctions
 function start(e){
     clearTimeout(timeout);
 	if (e.keyCode == 32) {
-        
         selectEnemy();
-        //gameStart();
         window.removeEventListener('keydown',start);
     }
 }
@@ -38,7 +46,7 @@ function loadMenuImg(){ //called in MainGameFunctions
 
 function drawEnemyMenu(){
     ctx.save();
-    //alert('drawEnemyMenu');
+
     ctx.drawImage(menuBackground,0,0,840,525,0,0,1000,600);
     ctx.fillStyle="black";
     ctx.font="35px Arial";
@@ -52,7 +60,6 @@ function drawEnemyMenu(){
     
     ctx.restore();
     enemyMenuTimeout = setTimeout(drawEnemyMenu,0.1);
-   
 }
 
 function selectEnemy(){
@@ -81,6 +88,5 @@ function setEnemy(c){
     initObstacle();
     gameStart();
 }
-
 
 ////////////////////////////game menu end////////////////////////////////
