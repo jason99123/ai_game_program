@@ -6,7 +6,7 @@ function enemyC(){
     this.speedY = 0; //Y acceleration
     this.speedX = 0; //X acceleration
     this.x = 500; //x location
-    this.y = 0; //y location
+    this.y = 400; //y location
     this.width = 90; //image width
     this.height = 104; //image height
 
@@ -75,22 +75,46 @@ function enemyC(){
 	this.diffY = player.y - instance.y;
 	
 	//jump when sticking on a wall
-  
+        if(checkWall(instance)){
+           instance.actionDelay = 0;
+           instance.jump();
+        }
 		
-		if(this.diffX > 0){
-			instance.actionDelay = 0;
-			instance.x += 5;
-			 instance.actionDelay = 50;
-		}
-		else if(this.diffX < 0){
-			 instance.actionDelay = 0;
-			instance.x -= 5;
-			 instance.actionDelay = 50;
-		}
-		else if(player.y>instance.y){
+		if(player.y<instance.y){
 			instance.actionDelay=0;
 			instance.jump();
+			
 		}
+		else if(player.y>instance.y){
+			if(this.diffY>-10 && this.diffY<10){
+				instance.speedX=0;
+			}
+			else{
+			instance.side = instance.checkPlayerSide();
+            instance.walk(instance.side);
+            instance.actionDelay = 10;
+			}
+		}
+		else if (this.diffY==0){
+				instance.speedX=0;
+		}
+		
+		
+		if(this.diffX > 0){
+			instance.side = instance.checkPlayerSide();
+			instance.actionDelay = 0;
+			instance.x += 5;
+			instance.actionDelay = 50;
+		}
+		else if(this.diffX < 0){
+			instance.side = instance.checkPlayerSide();
+			instance.actionDelay = 0;
+			instance.x -= 5;
+			instance.actionDelay = 50;
+		}
+		
+	
+		
 
 	
 		
