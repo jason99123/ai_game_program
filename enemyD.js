@@ -74,73 +74,7 @@ function enemyD(){
         checkOnGround(instance);
     }
     
-    this.randomAction = function(){ //test random action
-        instance.count++;
-        
-        //jump when sticking on a wall
-        if(checkWall(instance)){
-           instance.actionDelay = 0;
-           instance.jump();
-        }
-        
-
-        if (Math.abs(instance.x-player.x)>=400) {
-            this.random = Math.random()*100;
-            if (this.random < 80) {
-                instance.actionDelay=0;
-                instance.shootBullet();
-            }else if (this.random <100) {
-                instance.walk(instance.side);
-                instance.actionDelay=10;
-            }
-        }else if ((Math.abs(instance.x-player.x)<400)) {
-            instance.walk(-instance.checkPlayerSide());
-        }else{
-            instance.stop();  
-        }
-        
-        if (instance.count == 30) {
-           instance.jump();
-        }
-        
-        if (instance.x>=800) { //rebound when too close to right
-            instance.actionDelay = 0;
-            instance.side=-1;
-            instance.walk(-1);
-            instance.actionDelay = 50;
-        }else if (instance.x<=200) { //rebound when too close to left
-            instance.actionDelay = 0;
-            instance.side=1;
-            instance.walk(1);
-            instance.actionDelay = 50;
-        }
-        
-
-        // jump when player shoot
-        for(var i = 0;i < player.bullet.length;i++){
-            if(player.bullet[i]){
-                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
-                        instance.actionDelay = 0;
-                       instance.jump();
-             }
-           }
-        }
-        
-        if (instance.count < 20) {
-            instance.talk();
-        }
-        
-        if (instance.count == 300) {
-            instance.count = 0;
-            
-            for(var i=0;i<instance.bullet.length;i++){    
-            if (instance.bullet[i]) {
-            delete instance.bullet[i];
-                }
-            }
-            instance.bulletType = Math.floor(Math.random()*4);
-        }
-    }
+    
     
     this.stop = function(){
         if (!instance.delay()) {
@@ -177,30 +111,9 @@ function enemyD(){
         }
     }
     
-    this.shootBullet = function(){
-        if (!instance.delay()) {
-            if (!instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]) {
-                    instance.ActionStatus = 2;
-                    instance.speedX = 0;
-                    instance.side = instance.checkPlayerSide();
-                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,2+Math.random()*6,2);
-            }
-            instance.actionDelay=15;
-            instance.bulletCount++;
-                
-            if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
-                instance.bulletCount = 0;
-            }
-        }
-    }
+   
     
-    this.checkPlayerSide = function(){ //check player is on which side of enemy
-        if (instance.x > player.x) { //player is left side of enemy
-            return -1;
-        } else {
-            return 1;
-        }
-    }
+    
     
     this.bulletPos = function(){
         for(var i=0;i<instance.bullet.length;i++){    
@@ -266,39 +179,8 @@ function enemyD(){
         }
     }
     
-    this.ModeCountDown = function (){
-        if ((300-instance.count) < 3 ) {
-            ctx.save();
-            ctx.globalAlpha = 0.5;
-            ctx.fillStyle="red";
-            ctx.fillRect(0,0,width,height);
-            ctx.restore();
-        }
-        
-        if ((300-instance.count) > 280 ) {
-        ctx.save();
-        ctx.font='30px "Press Start 2P"';
-        ctx.shadowBlur=8;
-        ctx.fillStyle="red";
-        ctx.shadowColor="red";
-        ctx.fillText("FIRE COMING",335,250);
-        ctx.restore();
-        }
-        
-        ctx.save();
-        ctx.shadowBlur=5;
-        if ((300-instance.count) > 50) {
-            ctx.fillStyle="white";
-            ctx.shadowColor="white";
-        }else{
-            ctx.fillStyle="red";
-            ctx.shadowColor="red";
-        }
 
-        ctx.font='30px "Press Start 2P"';
-        ctx.fillText("Danger:"+(300-instance.count),350,150);
-        ctx.restore();
-    }
+
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
