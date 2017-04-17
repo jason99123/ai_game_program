@@ -73,46 +73,78 @@ function enemyC(){
 	this.randomAction = function(){
 	this.diffX = player.x - instance.x;
 	this.diffY = player.y - instance.y;
-	
+	this.random = Math.random()*100;
+
 	//jump when sticking on a wall
         if(checkWall(instance)){
            instance.actionDelay = 0;
            instance.jump();
         }
 		
-		if(player.y<instance.y){
+		if(this.diffY<-50){
 			instance.actionDelay=0;
 			instance.jump();
-			
+			if(this.diffX > 0){
+  	        instance.actionDelay = 0;
+            instance.side=1;
+            instance.walk(1);
+            instance.actionDelay = 50;
 		}
-		else if(player.y>instance.y){
-			if(this.diffY>-10 && this.diffY<10){
-				instance.speedX=0;
+		else if(this.diffX < 0){   
+		instance.actionDelay = 0;
+            instance.side=-1;
+            instance.walk(-1);
+            instance.actionDelay = 50;
+		}
+		else if(this.diffX==0){
+				instance.stop();
 			}
-			else{
-			instance.side = instance.checkPlayerSide();
-            instance.walk(instance.side);
-            instance.actionDelay = 10;
+		}
+		else if(player.y>instance.y ){
+			if((this.diffY<-30 ||this.diffY>30)){
+			if (this.diffX> 0){
+			instance.actionDelay = 0;
+            instance.side=1;
+            instance.walk(1);
+            instance.actionDelay = 50;
+			}
+			}
+			else if (this.diffX> 0){
+			instance.actionDelay = 0;
+            instance.side=1;
+            instance.walk(1);
+            instance.actionDelay = 50;
+			}
+			else if(this.diffX< 0){
+			instance.actionDelay = 0;
+            instance.side=-1;
+            instance.walk(-1);
+            instance.actionDelay = 50;
+			}
+			else if(this.diffX==0){
+				instance.stop();
 			}
 		}
-		else if (this.diffY==0){
-				instance.speedX=0;
-		}
-		
-		
-		if(this.diffX > 0){
-			instance.side = instance.checkPlayerSide();
+		else if(this.diffY == 0){
+			if (this.diffX> 0){
 			instance.actionDelay = 0;
-			instance.x += 5;
-			instance.actionDelay = 50;
-		}
-		else if(this.diffX < 0){
-			instance.side = instance.checkPlayerSide();
+            instance.side=1;
+            instance.walk(1);
+            instance.actionDelay = 50;
+			}
+			else if(this.diffX< 0){
 			instance.actionDelay = 0;
-			instance.x -= 5;
-			instance.actionDelay = 50;
+            instance.side=-1;
+            instance.walk(-1);
+            instance.actionDelay = 50;
+			}
+			else if(this.diffX==0 && this.random<80){
+				instance.stop();
+				
+			}
 		}
 		
+	
 	
 		
 
@@ -175,11 +207,29 @@ function enemyC(){
     }
 	
 	this.shootwhirlwind = function(){
-		instance.WhirlwindDelay = 20;
-		instance.actionDelay=40;
-		instance.whirlwind[0] = {x:instance.x,y:instance.y,width:90,height:100};
+		if(!instance.delay()){
+			if(!instance.whirlwind[0] && instance.allowWhirlwind != 0){
+				instance.speedX=0;
+				instance.ActionStatus=4;
+				instance.WhirlwindDelay=40;
+				instance.actionDelay=40;
+				instance.whirlwind[0] = {x:instance.x,y:instance.y,width:100,height:200};
+				
+				instance.allowWhirlwind=0;
+			}
+		}
 	}
 	
+	this.whirlwindFinsh = function(){
+		if(instance.WhirlwindDelay<20){
+			if(instance.whirlwind[0])
+				checkAttackPlayer(instance.whirlwind[0]);
+		}
+		if(instance.WhirlwindDelay==0){
+			if(instance.whirlwind[0])
+				delete instance.whirlwind[0];
+		}
+	}
 	this.Charge = function(side){
 			instance.ActionStatus = 2;
 			instance.side = instance.checkPlayerSide();
