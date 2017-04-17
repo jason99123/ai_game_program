@@ -57,6 +57,7 @@ function enemyC(){
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
+		instance.whirlwindFinsh();
         instance.damageDelay--;
 	
     }
@@ -73,7 +74,6 @@ function enemyC(){
 	this.randomAction = function(){
 	this.diffX = player.x - instance.x;
 	this.diffY = player.y - instance.y;
-	this.random = Math.random()*100;
 
 	//jump when sticking on a wall
         if(checkWall(instance)){
@@ -126,6 +126,7 @@ function enemyC(){
 			}
 		}
 		else if(this.diffY == 0){
+			this.random = Math.random()*100;
 			if (this.diffX> 0){
 			instance.actionDelay = 0;
             instance.side=1;
@@ -138,26 +139,23 @@ function enemyC(){
             instance.walk(-1);
             instance.actionDelay = 50;
 			}
-			else if(this.diffX==0 && this.random<80){
-				instance.stop();
-				
+			else if(this.diffX==0 && this.random>50){
+				this.random = Math.random()*100;
+				instance.actionDelay = 0;
+				instance.allowWhirlwind=1;
+				instance.shootwhirlwind();
 			}
 		}
-		
-	
-	
-		
 
-	
-		
 		for(var i = 0;i < player.bullet.length;i++){
-            if(player.bullet[i]){
-                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
+            if(player.bullet[0]){
+                if(player.bullet[0].y > instance.y && player.bullet[0].y < instance.y+instance.height){
                         instance.actionDelay = 0;
                        instance.jump();
              }
            }
         }
+		instance.WhirlwindDelay--;
        
 	}
     
@@ -182,7 +180,7 @@ function enemyC(){
         if (!instance.delay()) {
             instance.ActionStatus = 1;
             instance.side=side;
-            instance.speedX=6*side;
+            instance.speedX=3*side;
         }
     }
 	
@@ -211,9 +209,10 @@ function enemyC(){
 			if(!instance.whirlwind[0] && instance.allowWhirlwind != 0){
 				instance.speedX=0;
 				instance.ActionStatus=4;
+				
 				instance.WhirlwindDelay=40;
 				instance.actionDelay=40;
-				instance.whirlwind[0] = {x:instance.x,y:instance.y,width:100,height:200};
+				instance.whirlwind[0] = {x:instance.x,y:instance.y,width:120,height:150};
 				
 				instance.allowWhirlwind=0;
 			}
@@ -238,9 +237,61 @@ function enemyC(){
 	}
 	
     
+	this.drawWhirlwind = function(){
+		if(instance.whirlwind[0]){
+			ctx.save();
+			 if(instance.WhirlwindDelay < 10){
+                    ctx.shadowBlur=10;
+                    ctx.shadowColor="red";
+                    ctx.globalAlpha = 0.1/(1);
+                    ctx.fillStyle="red";
+                    ctx.fillRect(0,0,width,height);
+                    ctx.globalAlpha = 0.8;
+                    ctx.fillStyle="red";
+                    ctx.fillRect(instance.whirlwind[0].x,instance.whirlwind[0].y,instance.whirlwind[0].width,instance.whirlwind[0].height);
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle="yellow";
+                    ctx.fillRect(instance.whirlwind[0].x+instance.whirlwind[0].width/10,instance.whirlwind[0].y,instance.whirlwind[0].width/10*8,instance.whirlwind[0].height);
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle="white";
+                    ctx.fillRect(instance.whirlwind[0].x+instance.whirlwind[0].width/3,instance.whirlwind[0].y,instance.whirlwind[0].width/3,instance.whirlwind[0].height);
+                    ctx.globalAlpha = 0.8;
+                    ctx.fillStyle="white";
+                    ctx.fillRect(instance.whirlwind[0].x+instance.whirlwind[0].width/5*2,instance.whirlwind[0].y,instance.whirlwind[0].width/5,instance.whirlwind[0].height);
+
+                }else if(instance.WhirlwindDelay < 20){
+                    ctx.shadowBlur=10;
+                    ctx.shadowColor="yellow";
+                    ctx.globalAlpha = 0.05/(1);
+                    ctx.fillStyle="red";
+                    ctx.fillRect(0,0,width,height);
+                    ctx.globalAlpha = 0.5;
+                    ctx.fillStyle="yellow";
+                    ctx.fillRect(instance.whirlwind[0].x-15,instance.whirlwind[0].y,instance.whirlwind[0].width+30,instance.whirlwind[0].height);
+                    ctx.globalAlpha = 0.5;
+                    ctx.fillStyle="orange";
+                    ctx.fillRect(instance.whirlwind[0].x,instance.whirlwind[0].y,instance.whirlwind[0].width,instance.whirlwind[0].height);
+                }else{
+                    ctx.shadowBlur=10;
+                    ctx.shadowColor="yellow";
+                    ctx.globalAlpha = 0.025;
+                    ctx.fillStyle="red";
+                    ctx.fillRect(0,0,width,height);
+                    ctx.globalAlpha = 0.3;
+                    ctx.fillStyle="#F2F5A9";
+                    ctx.fillRect(instance.whirlwind[0].x-25,instance.whirlwind[0].y,instance.whirlwind[0].width+50,instance.whirlwind[0].height);
+            }
+			ctx.restore();
+		}
+	}
+	
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
-        var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
+		
+		if(!instance.show){
+			instance.show = true;
+		}else{
+			 var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
@@ -259,5 +310,10 @@ function enemyC(){
         ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();
         instance.seq++;
-    }
+		}
+    
+	if(instance.whirlwind[0]){
+		instance.drawWhirlwind();
+	}
+	}
 }
