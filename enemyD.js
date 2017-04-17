@@ -26,13 +26,13 @@ function enemyD(){
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
-    this.maxBullet = 5;
+    this.maxBullet = 9;
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
     this.lifetimes = 0;
     
-    this.side = 1; //which side player facing left:-1 right:1
+    this.side = -1; //which side player facing left:-1 right:1
     this.seq = 0;
     this.count = 0;
     
@@ -61,20 +61,50 @@ function enemyD(){
     
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
-        instance.newPos();
+		instance.newPos();
         instance.bulletPos();
         instance.damageDelay--;
     }
     
     //update player position, ref:character:update()
     this.newPos = function(){
-        this.randomAction();
+        this.bossAction();
         gravityMove(instance);
         walking(instance);
         checkOnGround(instance);
     }
     
-    
+    this.bossAction = function(){ //set fixed script timed action
+        instance.count++;        
+
+        instance.setInterval(function(){
+	  if (instance.bulletCount<maxBullet){
+                instance.actionDelay=0;
+       		instance.shootBullet(1);
+		instance.shootBullet(2);
+		instance.shootBullet(3);
+		}
+	},4000);
+
+	instance.setInterval(function(){
+		if (instance.hp<6 && instance.hp>3){
+			instance.fireLaser(3);	
+	}
+		if (instance.hp<3){
+			instance.fireLaser(6);
+		}
+	},15000);
+        if (instance.count == 300) {
+            instance.count = 0;
+            
+            for(var i=0;i<instance.bullet.length;i++){    
+            if (instance.bullet[i]) {
+            delete instance.bullet[i];
+                }
+            }
+            instance.bulletType = Math.floor(Math.random()*4);
+        }
+    }
     
     this.stop = function(){
         if (!instance.delay()) {
@@ -111,9 +141,30 @@ function enemyD(){
         }
     }
     
-   
+    this.shootBullet = function(num){
+        if (!instance.delay()) {
+            
+                    instance.ActionStatus = 2;
+                    instance.speedX = 0;
+
+                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,-1,2+Math.random()*6,2);
+            
+            instance.actionDelay=15;
+            instance.bulletCount++;
+                
+            if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
+                instance.bulletCount = 0;
+            }
+        }
+    }
     
-    
+    this.checkPlayerSide = function(){ //check player is on which side of enemy
+        if (instance.x > player.x) { //player is left side of enemy
+            return -1;
+        } else {
+            return 1;
+        }
+    }
     
     this.bulletPos = function(){
         for(var i=0;i<instance.bullet.length;i++){    
@@ -179,8 +230,39 @@ function enemyD(){
         }
     }
     
+    this.ModeCountDown = function (){
+        if ((300-instance.count) < 3 ) {
+            ctx.save();
+            ctx.globalAlpha = 0.5;
+            ctx.fillStyle="red";
+            ctx.fillRect(0,0,width,height);
+            ctx.restore();
+        }
+        
+        if ((300-instance.count) > 280 ) {
+        ctx.save();
+        ctx.font='30px "Press Start 2P"';
+        ctx.shadowBlur=8;
+        ctx.fillStyle="red";
+        ctx.shadowColor="red";
+        ctx.fillText("FIRE COMING",335,250);
+        ctx.restore();
+        }
+        
+        ctx.save();
+        ctx.shadowBlur=5;
+        if ((300-instance.count) > 50) {
+            ctx.fillStyle="white";
+            ctx.shadowColor="white";
+        }else{
+            ctx.fillStyle="red";
+            ctx.shadowColor="red";
+        }
 
-
+        ctx.font='30px "Press Start 2P"';
+        ctx.fillText("Danger:"+(300-instance.count),350,150);
+        ctx.restore();
+    }
     
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
