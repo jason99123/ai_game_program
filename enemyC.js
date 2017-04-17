@@ -16,7 +16,7 @@ function enemyC(){
     this.walkingSpeed = 5; //player walking speed
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
-    this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:attackB 4:defense 5:jump
+    this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:melee 4:defense 5:jump
     
     
     this.image = new Array();
@@ -74,6 +74,7 @@ function enemyC(){
 	this.randomAction = function(){
 	this.diffX = player.x - instance.x;
 	this.diffY = player.y - instance.y;
+	this.random = Math.random()*100;
 
 	//jump when sticking on a wall
         if(checkWall(instance)){
@@ -127,7 +128,25 @@ function enemyC(){
 		}
 		else if(this.diffY == 0){
 			this.random = Math.random()*100;
-			if (this.diffX> 0){
+			if(this.diffX==0 && this.random>50){
+				instance.actionDelay = 0;
+				instance.allowWhirlwind=1;
+				instance.shootwhirlwind();
+				this.random = Math.random()*100;
+			}else if(this.diffX>-20 && this.diffX<20 && this.random<70){
+				instance.stop();
+				this.melee = new function(){
+				this.x=instance.x+instance.width/2+instance.width*instance.side-30;
+				this.y=instance.y;
+				this.width=60;
+				this.height=100;
+				}				
+				checkAttackPlayer(this.melee);
+				delete this.melee;
+				instance.ActionStatus=3;
+				this.random = Math.random()*100;
+			}
+			else if (this.diffX> 0){
 			instance.actionDelay = 0;
             instance.side=1;
             instance.walk(1);
@@ -139,12 +158,7 @@ function enemyC(){
             instance.walk(-1);
             instance.actionDelay = 50;
 			}
-			else if(this.diffX==0 && this.random>50){
-				this.random = Math.random()*100;
-				instance.actionDelay = 0;
-				instance.allowWhirlwind=1;
-				instance.shootwhirlwind();
-			}
+
 		}
 
 		for(var i = 0;i < player.bullet.length;i++){
@@ -229,6 +243,9 @@ function enemyC(){
 				delete instance.whirlwind[0];
 		}
 	}
+	
+
+	
 	this.Charge = function(side){
 			instance.ActionStatus = 2;
 			instance.side = instance.checkPlayerSide();
@@ -240,6 +257,7 @@ function enemyC(){
 	this.drawWhirlwind = function(){
 		if(instance.whirlwind[0]){
 			ctx.save();
+			ctx.beginPath();
 			 if(instance.WhirlwindDelay < 10){
                     ctx.shadowBlur=10;
                     ctx.shadowColor="red";
