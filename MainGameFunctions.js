@@ -8,11 +8,18 @@ var height = 600; //canvas height
 var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
+<<<<<<< HEAD
 var chosenEnemy; //enemy chosen : A/B/C
 var countdown = true;
 var count = 4;
 var wait = true;
 
+=======
+var chosenEnemy //enemy chosen : A/B/C
+
+var countdown = true;
+var count = 4;
+>>>>>>> master
 
 //initiation of game
 function init(){
@@ -20,17 +27,49 @@ function init(){
     canvas = document.getElementById("game");
     ctx=canvas.getContext && canvas.getContext('2d');
     
+<<<<<<< HEAD
     //chosenEnemy = prompt("input enemy type (temp)");
+=======
+    chosenEnemy = prompt("input enemy type (temp)");
+>>>>>>> master
     
 
     //start game initiation when ctx is ready
     if (ctx) {
         //gameObject initiation
+<<<<<<< HEAD
+=======
+        loadBackground();
+>>>>>>> master
         
 
         player = new character();
         player.loadImage();
+<<<<<<< HEAD
 
+=======
+        
+        switch(chosenEnemy){
+        case "A":
+        enemy = new enemyA(); //create enemy object A
+        break;
+        case "B":
+        enemy = new enemyB(); //create enemy object A
+        break;
+        case "C":
+        enemy = new enemyC(); //create enemy object A
+        break;
+	case "D":
+	enemy = new enemyD(); 
+	break;
+        }
+        enemy.loadImage();
+        
+        loadBulletImage();
+        
+        initObstacle();
+        
+>>>>>>> master
         //Player Control inintiation
         window.addEventListener('keydown',player.playerAction,false);
         window.addEventListener('keyup',player.stopWalking,false);
@@ -100,7 +139,11 @@ function countDown() { //provide count down for loading iamge
             ctx.fillText(count,450,300);
             ctx.font='10px "Press Start 2P"';
             ctx.fillText("Loading"+str.repeat(count),800,30);
+<<<<<<< HEAD
         }else if (count === 0) {
+=======
+        }else if (count == 0) {
+>>>>>>> master
             ctx.fillText("start!",250,300);
         }
         ctx.restore();
@@ -165,7 +208,11 @@ function countDown() { //provide count down for loading iamge
         background.src="./image/backgroundB.jpg";
         break;
         case "C":
+<<<<<<< HEAD
         background.src="./image/backgroundA.jpg";
+=======
+        background.src="./image/backgroundA.png";
+>>>>>>> master
         break;
         case "D":
 	background.src="./image/backgroundA.png";
@@ -182,7 +229,11 @@ function countDown() { //provide count down for loading iamge
         ctx.drawImage(background,0,-300);
         break;
         case "C":
+<<<<<<< HEAD
         ctx.drawImage(background,0,-300);
+=======
+        ctx.drawImage(background,0,100);
+>>>>>>> master
         break;
 	case "D":
 	ctx.drawImage(background,0,100);

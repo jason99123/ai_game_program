@@ -26,13 +26,21 @@ function enemyD(){
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
+<<<<<<< HEAD
     this.maxBullet = 5;
+=======
+    this.maxBullet = 9;
+>>>>>>> master
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
     this.lifetimes = 0;
     
+<<<<<<< HEAD
     this.side = 1; //which side player facing left:-1 right:1
+=======
+    this.side = -1; //which side player facing left:-1 right:1
+>>>>>>> master
     this.seq = 0;
     this.count = 0;
     
@@ -61,19 +69,32 @@ function enemyD(){
     
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
+<<<<<<< HEAD
         instance.newPos();
+=======
+		instance.newPos();
+>>>>>>> master
         instance.bulletPos();
         instance.damageDelay--;
     }
     
     //update player position, ref:character:update()
     this.newPos = function(){
+<<<<<<< HEAD
         this.randomAction();
+=======
+        this.bossActionfire();
+	if (instance.count == 10){
+		alert("reach 10");
+		instance.count = 0
+	}
+>>>>>>> master
         gravityMove(instance);
         walking(instance);
         checkOnGround(instance);
     }
     
+<<<<<<< HEAD
     this.randomAction = function(){ //test random action
         instance.count++;
         
@@ -167,6 +188,32 @@ function enemyD(){
          }
        }
     }
+=======
+    this.bossActionfire = function(){
+	instance.count++;  
+	if (instance.bulletCount<instance.maxBullet){
+                instance.actionDelay=0;
+       		instance.shootBullet(1);
+		instance.shootBullet(2);
+		instance.shootBullet(3);
+		}
+	}
+	    
+    }
+    
+    this.bossAction = function(){ //set fixed script timed action
+        instance.count++;        
+
+	if (instance.hp<6 && instance.hp>3){
+		instance.fireLaser(3);	
+	}
+	if (instance.hp<3){
+		instance.fireLaser(6);
+	}
+
+    }
+    
+>>>>>>> master
     
     this.delay = function(){
         if (instance.actionDelay > 0) {
@@ -177,6 +224,7 @@ function enemyD(){
         }
     }
     
+<<<<<<< HEAD
     this.shootBullet = function(){
         if (!instance.delay()) {
             if (!instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]) {
@@ -185,6 +233,16 @@ function enemyD(){
                     instance.side = instance.checkPlayerSide();
                     instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,2+Math.random()*6,2);
             }
+=======
+    this.shootBullet = function(num){
+        if (!instance.delay()) {
+            
+                    instance.ActionStatus = 2;
+                    instance.speedX = 0;
+
+                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,-1,6,2);
+            
+>>>>>>> master
             instance.actionDelay=15;
             instance.bulletCount++;
                 
@@ -205,6 +263,7 @@ function enemyD(){
     this.bulletPos = function(){
         for(var i=0;i<instance.bullet.length;i++){    
             if (instance.bullet[i]) {
+<<<<<<< HEAD
                 
                 switch(instance.bulletType){
                 case 0:
@@ -226,6 +285,9 @@ function enemyD(){
                 }
                 
                 
+=======
+                instance.bullet[i].newPos();
+>>>>>>> master
             if (checkWall(instance.bullet[i]) || checkAttackPlayer(instance.bullet[i]) ) {
                 delete instance.bullet[i];
                 }
@@ -301,6 +363,7 @@ function enemyD(){
     }
     
         //draw player, ref:MainGameFunctions:draw()
+<<<<<<< HEAD
     this.draw = function(){
         
         instance.ModeCountDown();
@@ -310,12 +373,21 @@ function enemyD(){
         }else{
         
         var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
+=======
+   this.draw = function(){
+		
+		if(!instance.show){
+			instance.show = true;
+		}else{
+			 var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
+>>>>>>> master
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
         
         
         if(instance.side==-1){
+<<<<<<< HEAD
             instance.opposite_side_correction=90; 
         }else{
             instance.opposite_side_correction=0; 
@@ -338,5 +410,22 @@ function enemyD(){
         instance.drawBullet();
 
     }
+=======
+            opposite_side_correction=90; 
+        }else{
+            opposite_side_correction=0; 
+        }
+        
+        
+        ctx.save();
+        ctx.scale(instance.side, 1);
+        ctx.fillStyle="yellow";
+        ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+        ctx.restore();
+        instance.seq++;
+		}
+	instance.drawBullet();
+   }
+>>>>>>> master
 
 }

@@ -61,7 +61,7 @@ function enemyA(){
     
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
-        instance.newPos();
+		instance.newPos();
         instance.bulletPos();
         instance.damageDelay--;
     }
