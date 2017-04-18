@@ -83,6 +83,7 @@ function enemyD(){
        		instance.shootBullet(1);
 		instance.shootBullet(2);
 		instance.shootBullet(3);
+		alert("FUCK ABC");
 		}
 	},4000);
 
