@@ -29,7 +29,7 @@ function enemyD(){
     this.maxBullet = 9;
     this.bulletCount = 0;
     this.skillCount = 0;
-    this.bulletSpeed = 5;
+    this.bulletSpeed = 30;
     this.lifetimes = 0;
     
     this.side = -1; //which side player facing left:-1 right:1
