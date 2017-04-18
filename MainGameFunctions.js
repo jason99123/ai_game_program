@@ -32,8 +32,6 @@ function init(){
         //gameObject initiation
         loadBackground();
 
-        
-
         player = new character();
         player.loadImage();
         
@@ -42,16 +40,15 @@ function init(){
         enemy = new enemyA(); //create enemy object A
         break;
         case "B":
-        enemy = new enemyB(); //create enemy object A
+        enemy = new enemyB(); //create enemy object B
         break;
         case "C":
-        enemy = new enemyC(); //create enemy object A
+        enemy = new enemyC(); //create enemy object C
         break;
-	case "D":
-	enemy = new enemyD(); 
-	break;
+        case "D":
+        enemy = new enemyD(); 
+        break;
         }
-        enemy.loadImage();
         
         loadBulletImage();
         
@@ -196,8 +193,8 @@ function countDown() { //provide count down for loading iamge
         background.src="./image/backgroundA.jpg";
         break;
         case "D":
-	background.src="./image/backgroundA.png";
-	break;
+        background.src="./image/backgroundA.png";
+        break;
     }
  }
  
@@ -212,9 +209,9 @@ function countDown() { //provide count down for loading iamge
         case "C":
         ctx.drawImage(background,0,100);
         break;
-	case "D":
-	ctx.drawImage(background,0,100);
-	break;
+        case "D":
+        ctx.drawImage(background,0,100);
+        break;
     }
  }
 
