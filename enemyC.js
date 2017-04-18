@@ -323,10 +323,9 @@ function enemyC(){
         
         
         ctx.save();
-	ctx.shadowBlur=5;
+        ctx.shadowBlur=5;
         ctx.shadowColor="#41DCBF";
         ctx.scale(instance.side, 1);
-        ctx.fillStyle="yellow";
         ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();
         
