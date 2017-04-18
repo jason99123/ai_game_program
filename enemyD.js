@@ -77,8 +77,7 @@ function enemyD(){
     this.bossActionfire = function(){
 	instance.count++;
 	var bulletfired = 0    
-	setInterval(function(){
-	  if (instance.bulletCount<instance.maxBullet){
+	if (instance.bulletCount<instance.maxBullet){
                 instance.actionDelay=0;
        		instance.shootBullet(1);
 		instance.shootBullet(2);
@@ -87,7 +86,7 @@ function enemyD(){
 	  bulletfired++;
           if (bulletfired>=3)
 		  return;
-	},4000);
+	}
 	    
     }
     
