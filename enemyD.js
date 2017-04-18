@@ -117,7 +117,6 @@ function enemyD(){
     }
     
     this.shootBullet = function(num){
-	alert(num);
         if (!instance.delay()) {
             
                     instance.ActionStatus = 2;
