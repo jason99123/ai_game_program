@@ -29,7 +29,7 @@ function enemyD(){
     this.maxBullet = 9;
     this.bulletCount = 0;
     this.skillCount = 0;
-    this.bulletSpeed = 30;
+    this.bulletSpeed = 5;
     this.lifetimes = 0;
     
     this.side = -1; //which side player facing left:-1 right:1
@@ -122,7 +122,7 @@ function enemyD(){
                     instance.ActionStatus = 2;
                     instance.speedX = 0;
 
-                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,-1,2+Math.random()*6,2);
+                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,-1,6,2);
             
             instance.actionDelay=15;
             instance.bulletCount++;
