@@ -143,7 +143,7 @@ function enemyC(){
 				}				
 				checkAttackPlayer(this.melee);
 				delete this.melee;
-				instance.ActionStatus=3;
+				instance.ActionStatus=2;
 				this.random = Math.random()*100;
 			}
 			else if (this.diffX> 0){
@@ -222,7 +222,7 @@ function enemyC(){
 		if(!instance.delay()){
 			if(!instance.whirlwind[0] && instance.allowWhirlwind != 0){
 				instance.speedX=0;
-				instance.ActionStatus=4;
+				instance.ActionStatus=2;
 				
 				instance.WhirlwindDelay=40;
 				instance.actionDelay=40;
@@ -335,6 +335,5 @@ function enemyC(){
             instance.drawWhirlwind();
         }
     }
-
 
 }
