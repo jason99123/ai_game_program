@@ -145,27 +145,7 @@ function enemyD(){
     this.bulletPos = function(){
         for(var i=0;i<instance.bullet.length;i++){    
             if (instance.bullet[i]) {
-                
-                switch(instance.bulletType){
-                case 0:
-                instance.bullet[i].circleMovement(0,0);
                 instance.bullet[i].newPos();
-                break;
-                case 1:
-                instance.bullet[i].circleMovement(60,0.05);
-                instance.bullet[i].newPos();
-                break;
-                case 2:
-                instance.bullet[i].circleMovement(10,0.2);
-                instance.bullet[i].newPos();
-                break;
-                case 3:
-                instance.bullet[i].circleMovement(40,0.1);
-                instance.bullet[i].newPos();
-                break;
-                }
-                
-                
             if (checkWall(instance.bullet[i]) || checkAttackPlayer(instance.bullet[i]) ) {
                 delete instance.bullet[i];
                 }
@@ -266,7 +246,7 @@ function enemyD(){
         ctx.restore();
         instance.seq++;
 		}
-	
+	instance.drawBullet();
    }
 
 }
