@@ -25,15 +25,19 @@ function bullet(x,y,side,speedX,type){
     this.circleX = 0;
     this.circleY = 0;
     this.angle = 0;
-    this.directionangle = 180;
+    this.directionangle = 0;
     
     this.setDirectionangle = function(val){
            instance.directionangle = val;
     }
     
     this.newPos = function(){
-        instance.tmpY = this.speed * -Math.cos(instance.directionangle) * instance.side;
-        instance.tmpX = this.speed * Math.sin(instance.directionangle);
+        if (!instance.directionangle == 0){
+            instance.tmpY = this.speed * -Math.cos(instance.directionangle) * instance.side;
+            instance.tmpX = this.speed * Math.sin(instance.directionangle);
+        }else{
+        instance.tmpX += instance.speedX*instance.side;
+        }
         instance.x = instance.tmpX + instance.circleX;
         instance.y = instance.tmpY + instance.circleY;
     }
