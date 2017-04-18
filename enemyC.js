@@ -9,11 +9,11 @@ function enemyC(){
     this.y = 400; //y location
     this.width = 90; //image width
     this.height = 104; //image height
-
+    this.opposite_side_correction = 0; //correct coordination when flipping
     
     
-    this.maxSpeed = 10; // player maxium walking speed
-    this.walkingSpeed = 5; //player walking speed
+    this.maxSpeed = 20; // player maxium walking speed
+    this.walkingSpeed = 20; //player walking speed
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:melee 4:defense 5:jump
@@ -34,6 +34,7 @@ function enemyC(){
     this.count = 0;
 	
     this.hp=10;
+    this.damageDelay = 0; // delay for next damage
     
     this.loadImage = function(){
         instance.image[0]= new Image();
@@ -42,15 +43,20 @@ function enemyC(){
         instance.image[1].src="./image/enemyC/walking.png";
         instance.image[2]= new Image();
         instance.image[2].src="./image/enemyC/attackA.png";
+        instance.image[3]= new Image();
+        instance.image[3].src="./image/enemyC/attackB.png";
+        instance.image[4]= new Image();
+        instance.image[4].src="./image/enemyC/attackC.png";
         instance.image[5]= new Image();
         instance.image[5].src="./image/enemyC/jump.png";
-        
-        instance.image[100]= new Image();
-        instance.image[100].src="./image/enemyB/talkingBubble.png";
+        instance.image[6]= new Image();
+        instance.image[6].src="./image/enemyC/fire.png";
         
         instance.imageFrame[0]=2;
         instance.imageFrame[1]=2;
         instance.imageFrame[2]=3;
+        instance.imageFrame[3]=3;
+        instance.imageFrame[4]=4;
         instance.imageFrame[5]=1;
     }
     
@@ -104,23 +110,17 @@ function enemyC(){
 		else if(player.y>instance.y ){
 			if((this.diffY<-30 ||this.diffY>30)){
 			if (this.diffX> 0){
-			instance.actionDelay = 0;
             instance.side=1;
             instance.walk(1);
-            instance.actionDelay = 50;
 			}
 			}
 			else if (this.diffX> 0){
-			instance.actionDelay = 0;
             instance.side=1;
             instance.walk(1);
-            instance.actionDelay = 50;
 			}
 			else if(this.diffX< 0){
-			instance.actionDelay = 0;
             instance.side=-1;
             instance.walk(-1);
-            instance.actionDelay = 50;
 			}
 			else if(this.diffX==0){
 				instance.stop();
@@ -128,13 +128,16 @@ function enemyC(){
 		}
 		else if(this.diffY == 0){
 			this.random = Math.random()*100;
-			if(this.diffX==0 && this.random>50){
+			if(this.diffX>-10 && this.diffX<10 && this.random>50){
 				instance.actionDelay = 0;
 				instance.allowWhirlwind=1;
+                instance.ActionStatus = 4;
+                instance.actionDelay = 30;
 				instance.shootwhirlwind();
 				this.random = Math.random()*100;
 			}else if(this.diffX>-20 && this.diffX<20 && this.random<70){
 				instance.stop();
+                if (!instance.delay()) {
 				this.melee = new function(){
 				this.x=instance.x+instance.width/2+instance.width*instance.side-30;
 				this.y=instance.y;
@@ -143,20 +146,18 @@ function enemyC(){
 				}				
 				checkAttackPlayer(this.melee);
 				delete this.melee;
-				instance.ActionStatus=2;
+				instance.ActionStatus=3;
 				this.random = Math.random()*100;
+                instance.actionDelay = 20;
+                }
 			}
 			else if (this.diffX> 0){
-			instance.actionDelay = 0;
             instance.side=1;
             instance.walk(1);
-            instance.actionDelay = 50;
 			}
 			else if(this.diffX< 0){
-			instance.actionDelay = 0;
             instance.side=-1;
             instance.walk(-1);
-            instance.actionDelay = 50;
 			}
 
 		}
@@ -219,17 +220,14 @@ function enemyC(){
     }
 	
 	this.shootwhirlwind = function(){
-		if(!instance.delay()){
 			if(!instance.whirlwind[0] && instance.allowWhirlwind != 0){
 				instance.speedX=0;
-				instance.ActionStatus=2;
-				
+                
 				instance.WhirlwindDelay=40;
 				instance.actionDelay=40;
-				instance.whirlwind[0] = {x:instance.x,y:instance.y,width:120,height:150};
+				instance.whirlwind[0] = {x:instance.x,y:instance.y-48,width:120,height:150};
 				
 				instance.allowWhirlwind=0;
-			}
 		}
 	}
 	
@@ -266,38 +264,22 @@ function enemyC(){
                     ctx.fillRect(0,0,width,height);
                     ctx.globalAlpha = 0.8;
                     ctx.fillStyle="red";
-                    ctx.fillRect(instance.whirlwind[0].x,instance.whirlwind[0].y,instance.whirlwind[0].width,instance.whirlwind[0].height);
-                    ctx.globalAlpha = 0.3;
-                    ctx.fillStyle="yellow";
-                    ctx.fillRect(instance.whirlwind[0].x+instance.whirlwind[0].width/10,instance.whirlwind[0].y,instance.whirlwind[0].width/10*8,instance.whirlwind[0].height);
-                    ctx.globalAlpha = 0.3;
-                    ctx.fillStyle="white";
-                    ctx.fillRect(instance.whirlwind[0].x+instance.whirlwind[0].width/3,instance.whirlwind[0].y,instance.whirlwind[0].width/3,instance.whirlwind[0].height);
-                    ctx.globalAlpha = 0.8;
-                    ctx.fillStyle="white";
-                    ctx.fillRect(instance.whirlwind[0].x+instance.whirlwind[0].width/5*2,instance.whirlwind[0].y,instance.whirlwind[0].width/5,instance.whirlwind[0].height);
-
+                    ctx.drawImage(instance.image[6],0,instance.whirlwind[0].height*2,instance.whirlwind[0].width,instance.whirlwind[0].height,instance.whirlwind[0].x,instance.whirlwind[0].y,instance.whirlwind[0].width,instance.whirlwind[0].height);
                 }else if(instance.WhirlwindDelay < 20){
                     ctx.shadowBlur=10;
                     ctx.shadowColor="yellow";
                     ctx.globalAlpha = 0.05/(1);
                     ctx.fillStyle="red";
-                    ctx.fillRect(0,0,width,height);
-                    ctx.globalAlpha = 0.5;
-                    ctx.fillStyle="yellow";
-                    ctx.fillRect(instance.whirlwind[0].x-15,instance.whirlwind[0].y,instance.whirlwind[0].width+30,instance.whirlwind[0].height);
-                    ctx.globalAlpha = 0.5;
-                    ctx.fillStyle="orange";
-                    ctx.fillRect(instance.whirlwind[0].x,instance.whirlwind[0].y,instance.whirlwind[0].width,instance.whirlwind[0].height);
+                    ctx.drawImage(instance.image[6],0,instance.whirlwind[0].height,instance.whirlwind[0].width,instance.whirlwind[0].height,instance.whirlwind[0].x,instance.whirlwind[0].y,instance.whirlwind[0].width,instance.whirlwind[0].height);
+
                 }else{
                     ctx.shadowBlur=10;
                     ctx.shadowColor="yellow";
                     ctx.globalAlpha = 0.025;
                     ctx.fillStyle="red";
                     ctx.fillRect(0,0,width,height);
-                    ctx.globalAlpha = 0.3;
-                    ctx.fillStyle="#F2F5A9";
-                    ctx.fillRect(instance.whirlwind[0].x-25,instance.whirlwind[0].y,instance.whirlwind[0].width+50,instance.whirlwind[0].height);
+                    ctx.globalAlpha = 0.5;
+                    ctx.drawImage(instance.image[6],0,0,instance.whirlwind[0].width,instance.whirlwind[0].height,instance.whirlwind[0].x,instance.whirlwind[0].y,instance.whirlwind[0].width,instance.whirlwind[0].height);
             }
 			ctx.restore();
 		}

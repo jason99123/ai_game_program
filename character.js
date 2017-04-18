@@ -182,11 +182,11 @@ function character(){
             instance.seq++;
         }
         //temp usage : showing coordiate only    
-        //ctx.fillStyle = "white";
+        ctx.fillStyle = "white";
         //ctx.fillText("X:"+instance.x,100,20);
         //ctx.fillText("Y:"+instance.y,200,20);
-        //ctx.fillText("delay:"+enemy.actionDelay,300,20);
-        //ctx.fillText("enemy status:"+enemy.ActionStatus,450,20);
+        ctx.fillText("delay:"+enemy.actionDelay,300,20);
+        ctx.fillText("enemy status:"+enemy.ActionStatus,450,20);
         
         instance.drawBullet();
     }
