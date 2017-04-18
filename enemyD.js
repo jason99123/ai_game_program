@@ -94,10 +94,10 @@ function enemyD(){
        		instance.shootBullet(1);
 		instance.shootBullet(2);
 		instance.shootBullet(3);
-		}
 	}
-	    
     }
+	    
+    
     
     this.bossAction = function(){ //set fixed script timed action
         instance.count++;        
