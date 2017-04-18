@@ -25,7 +25,7 @@ function bullet(x,y,side,speedX,type){
     this.circleX = 0;
     this.circleY = 0;
     this.angle = 0;
-    this.directionangle = 0;
+    this.directionangle = 90;
     
     this.setDirectionangle = function(val){
            instance.directionangle = val;
