@@ -11,11 +11,11 @@ var timeout;
 //////////////Start of function for menu//////////////////////
 function drawMenuBackground(){
     ctx.save();
-    ctx.drawImage(menuBackground,0,0,840,525,0,0,1000,600);
+    ctx.drawImage(menuBackground,0,0,1000,600,0,0,1000,600);
 
-		ctx.fillStyle="Black";
-        ctx.font="30px Arial";
-        ctx.fillText("~ Click Space to start ~",350,382.5);
+		ctx.fillStyle="white";
+        ctx.font='20px "Press Start 2P"';
+        ctx.fillText("~ Click Space to start ~",250,382.5);
     ctx.restore();
     timeout = setTimeout(drawMenuBackground,0.1);
 }
@@ -38,7 +38,7 @@ function start(e){
 }
 
 function loadMenuImg(){ //called in MainGameFunctions  
-	menuBackground.src="./image/MenuBackground.jpg";
+	menuBackground.src="./image/MenuBackground.png";
     enemyAIcon.src="./image/enemyA/iconA.png";
     enemyBIcon.src="./image/enemyB/iconB.png";
     enemyCIcon.src="./image/enemyC/iconC.png";
@@ -47,17 +47,28 @@ function loadMenuImg(){ //called in MainGameFunctions
 function drawEnemyMenu(){
     ctx.save();
 
-    ctx.drawImage(menuBackground,0,0,840,525,0,0,1000,600);
-    ctx.fillStyle="black";
-    ctx.font="35px Arial";
-    ctx.fillText("Select your enemy by pressing corresponding key",120, 250);
-    ctx.drawImage(enemyAIcon,150,300);
-    ctx.fillText("A",170, 430);
-    ctx.drawImage(enemyBIcon,450,300);
-    ctx.fillText("B",470, 430);
-    ctx.drawImage(enemyCIcon,750,300);
-    ctx.fillText("C",770, 430);
+    ctx.drawImage(menuBackground,0,0,1000,600,0,0,1000,600);
     
+    ctx.save();
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle="red";
+    ctx.fillRect(0,0,width,height);
+    ctx.restore();
+    
+    ctx.save();
+    ctx.fillStyle="white";
+    ctx.font='15px "Press Start 2P"';
+    ctx.fillText("Select your enemy by pressing corresponding key",140, 250);
+    ctx.drawImage(enemyAIcon,20,0,70,70,150,300,100,100);
+    ctx.lineWidth=5;
+    ctx.strokeRect(150,300,100,100);
+    ctx.fillText("A",190, 430);
+    ctx.drawImage(enemyBIcon,20,0,70,70,450,300,100,100);
+    ctx.strokeRect(450,300,100,100);
+    ctx.fillText("B",490, 430);
+    ctx.drawImage(enemyCIcon,20,0,70,70,750,300,100,100);
+    ctx.strokeRect(750,300,100,100);
+    ctx.fillText("C",790, 430);
     ctx.restore();
     enemyMenuTimeout = setTimeout(drawEnemyMenu,0.1);
 }
