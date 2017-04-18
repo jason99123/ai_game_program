@@ -323,9 +323,26 @@ function enemyC(){
         
         
         ctx.save();
+	ctx.shadowBlur=5;
+        ctx.shadowColor="#41DCBF";
         ctx.scale(instance.side, 1);
         ctx.fillStyle="yellow";
-        ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
+        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
+        ctx.restore();
+        
+        instance.seq++;
+        }
+        
+        if (instance.count < 30) {
+            instance.talk();
+        }
+        
+        instance.drawBullet();
+
+    }
+
+}
+
         ctx.restore();
         instance.seq++;
 		}
