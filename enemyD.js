@@ -77,7 +77,7 @@ function enemyD(){
     this.bossAction = function(){ //set fixed script timed action
         instance.count++;        
 
-        instance.setInterval(function(){
+        setInterval(function(){
 	  if (instance.bulletCount<maxBullet){
                 instance.actionDelay=0;
        		instance.shootBullet(1);
@@ -86,7 +86,7 @@ function enemyD(){
 		}
 	},4000);
 
-	instance.setInterval(function(){
+	setInterval(function(){
 		if (instance.hp<6 && instance.hp>3){
 			instance.fireLaser(3);	
 	}
