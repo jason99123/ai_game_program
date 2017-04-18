@@ -78,7 +78,7 @@ function enemyD(){
         instance.count++;        
 
         setInterval(function(){
-	  if (instance.bulletCount<maxBullet){
+	  if (instance.bulletCount<instance.maxBullet){
                 instance.actionDelay=0;
        		instance.shootBullet(1);
 		instance.shootBullet(2);
