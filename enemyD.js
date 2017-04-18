@@ -106,31 +106,6 @@ function enemyD(){
         }
     }
     
-    this.stop = function(){
-        if (!instance.delay()) {
-            instance.speedX=0;
-            instance.ActionStatus = 0;
-        }
-    }
-    
-    this.walk = function(side){
-        if (!instance.delay()) {
-            instance.ActionStatus = 1;
-            instance.side=side;
-            instance.speedX=6*side;
-        }
-    }
-    
-    this.jump = function(){
-    if (!instance.delay()) {
-         if (instance.onGround) {
-            instance.onGround = false;
-            instance.ActionStatus = 5;
-            instance.actionDelay = 10;
-            instance.gravitySpeed = -instance.jumpDistance;
-         }
-       }
-    }
     
     this.delay = function(){
         if (instance.actionDelay > 0) {
@@ -265,42 +240,32 @@ function enemyD(){
     }
     
         //draw player, ref:MainGameFunctions:draw()
-    this.draw = function(){
-        
-        instance.ModeCountDown();
-        
-        if (!instance.show) {
-            instance.show = true;
-        }else{
-        
-        var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
+   this.draw = function(){
+		
+		if(!instance.show){
+			instance.show = true;
+		}else{
+			 var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
         
         
         if(instance.side==-1){
-            instance.opposite_side_correction=90; 
+            opposite_side_correction=90; 
         }else{
-            instance.opposite_side_correction=0; 
+            opposite_side_correction=0; 
         }
+        
         
         ctx.save();
-        ctx.shadowBlur=5;
-        ctx.shadowColor="#41DCBF";
         ctx.scale(instance.side, 1);
-        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
+        ctx.fillStyle="yellow";
+        ctx.fillRect(instance.side*instance.x-opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();
-        
         instance.seq++;
-        }
-        
-        if (instance.count < 30) {
-            instance.talk();
-        }
-        
-        instance.drawBullet();
-
-    }
+		}
+	instance.drawbullet();
+   }
 
 }
