@@ -304,37 +304,37 @@ function enemyC(){
 	}
 	
         //draw player, ref:MainGameFunctions:draw()
-    this.draw = function(){
-		
-	if(!instance.show){
-		instance.show = true;
-	}else{
-		var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
+	this.draw = function(){
+        
+        if (!instance.show) {
+            instance.show = true;
+        }else{
+        
+        var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
         
         
         if(instance.side==-1){
-            opposite_side_correction=90; 
+            instance.opposite_side_correction=90; 
         }else{
-            opposite_side_correction=0; 
+            instance.opposite_side_correction=0; 
         }
-        
         
         ctx.save();
         ctx.shadowBlur=5;
-        ctx.shadowColor="#41DCBF";
+        ctx.shadowColor="#FF4000";
         ctx.scale(instance.side, 1);
         ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
         ctx.restore();
         
         instance.seq++;
         }
+        if (instance.whirlwind[0]) {
+            instance.drawWhirlwind();
+        }
+    }
 
-    
-	if(instance.whirlwind[0]){
-		instance.drawWhirlwind();
-	}
-	}
+
 }
