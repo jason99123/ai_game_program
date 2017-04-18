@@ -26,21 +26,17 @@ function enemyD(){
     this.show=true; // show enemy.image
     
     this.bullet = new Array();
-<<<<<<< HEAD
-    this.maxBullet = 5;
-=======
+
     this.maxBullet = 9;
->>>>>>> master
+
     this.bulletCount = 0;
     this.skillCount = 0;
     this.bulletSpeed = 30;
     this.lifetimes = 0;
     
-<<<<<<< HEAD
-    this.side = 1; //which side player facing left:-1 right:1
-=======
+
     this.side = -1; //which side player facing left:-1 right:1
->>>>>>> master
+
     this.seq = 0;
     this.count = 0;
     
@@ -69,126 +65,28 @@ function enemyD(){
     
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
-<<<<<<< HEAD
-        instance.newPos();
-=======
-		instance.newPos();
->>>>>>> master
+
+	instance.newPos();
+
         instance.bulletPos();
         instance.damageDelay--;
     }
     
     //update player position, ref:character:update()
     this.newPos = function(){
-<<<<<<< HEAD
-        this.randomAction();
-=======
+
         this.bossActionfire();
 	if (instance.count == 10){
 		alert("reach 10");
 		instance.count = 0
 	}
->>>>>>> master
+
         gravityMove(instance);
         walking(instance);
         checkOnGround(instance);
     }
     
-<<<<<<< HEAD
-    this.randomAction = function(){ //test random action
-        instance.count++;
-        
-        //jump when sticking on a wall
-        if(checkWall(instance)){
-           instance.actionDelay = 0;
-           instance.jump();
-        }
-        
 
-        if (Math.abs(instance.x-player.x)>=400) {
-            this.random = Math.random()*100;
-            if (this.random < 80) {
-                instance.actionDelay=0;
-                instance.shootBullet();
-            }else if (this.random <100) {
-                instance.walk(instance.side);
-                instance.actionDelay=10;
-            }
-        }else if ((Math.abs(instance.x-player.x)<400)) {
-            instance.walk(-instance.checkPlayerSide());
-        }else{
-            instance.stop();  
-        }
-        
-        if (instance.count == 30) {
-           instance.jump();
-        }
-        
-        if (instance.x>=800) { //rebound when too close to right
-            instance.actionDelay = 0;
-            instance.side=-1;
-            instance.walk(-1);
-            instance.actionDelay = 50;
-        }else if (instance.x<=200) { //rebound when too close to left
-            instance.actionDelay = 0;
-            instance.side=1;
-            instance.walk(1);
-            instance.actionDelay = 50;
-        }
-        
-
-        // jump when player shoot
-        for(var i = 0;i < player.bullet.length;i++){
-            if(player.bullet[i]){
-                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
-                        instance.actionDelay = 0;
-                       instance.jump();
-             }
-           }
-        }
-        
-        if (instance.count < 20) {
-            instance.talk();
-        }
-        
-        if (instance.count == 300) {
-            instance.count = 0;
-            
-            for(var i=0;i<instance.bullet.length;i++){    
-            if (instance.bullet[i]) {
-            delete instance.bullet[i];
-                }
-            }
-            instance.bulletType = Math.floor(Math.random()*4);
-        }
-    }
-    
-    this.stop = function(){
-        if (!instance.delay()) {
-            instance.speedX=0;
-            instance.ActionStatus = 0;
-        }
-    }
-    
-    this.walk = function(side){
-        if (!instance.delay()) {
-            instance.ActionStatus = 1;
-            instance.side=side;
-            instance.speedX=6*side;
-        }
-    }
-    
-    this.jump = function(){
-    if (!instance.delay()) {
-         if (instance.onGround) {
-            instance.onGround = false;
-            instance.ActionStatus = 5;
-            instance.actionDelay = 10;
-            instance.gravitySpeed = -instance.jumpDistance;
-         }
-       }
-    }
-=======
     this.bossActionfire = function(){
 	instance.count++;  
 	if (instance.bulletCount<instance.maxBullet){
@@ -213,7 +111,6 @@ function enemyD(){
 
     }
     
->>>>>>> master
     
     this.delay = function(){
         if (instance.actionDelay > 0) {
@@ -224,16 +121,7 @@ function enemyD(){
         }
     }
     
-<<<<<<< HEAD
-    this.shootBullet = function(){
-        if (!instance.delay()) {
-            if (!instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]) {
-                    instance.ActionStatus = 2;
-                    instance.speedX = 0;
-                    instance.side = instance.checkPlayerSide();
-                    instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,2+Math.random()*6,2);
-            }
-=======
+
     this.shootBullet = function(num){
         if (!instance.delay()) {
             
@@ -242,7 +130,6 @@ function enemyD(){
 
                     instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,-1,6,2);
             
->>>>>>> master
             instance.actionDelay=15;
             instance.bulletCount++;
                 
@@ -263,31 +150,10 @@ function enemyD(){
     this.bulletPos = function(){
         for(var i=0;i<instance.bullet.length;i++){    
             if (instance.bullet[i]) {
-<<<<<<< HEAD
-                
-                switch(instance.bulletType){
-                case 0:
-                instance.bullet[i].circleMovement(0,0);
+       
+
                 instance.bullet[i].newPos();
-                break;
-                case 1:
-                instance.bullet[i].circleMovement(60,0.05);
-                instance.bullet[i].newPos();
-                break;
-                case 2:
-                instance.bullet[i].circleMovement(10,0.2);
-                instance.bullet[i].newPos();
-                break;
-                case 3:
-                instance.bullet[i].circleMovement(40,0.1);
-                instance.bullet[i].newPos();
-                break;
-                }
-                
-                
-=======
-                instance.bullet[i].newPos();
->>>>>>> master
+
             if (checkWall(instance.bullet[i]) || checkAttackPlayer(instance.bullet[i]) ) {
                 delete instance.bullet[i];
                 }
@@ -363,54 +229,19 @@ function enemyD(){
     }
     
         //draw player, ref:MainGameFunctions:draw()
-<<<<<<< HEAD
-    this.draw = function(){
-        
-        instance.ModeCountDown();
-        
-        if (!instance.show) {
-            instance.show = true;
-        }else{
-        
-        var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
-=======
    this.draw = function(){
 		
 		if(!instance.show){
 			instance.show = true;
 		}else{
 			 var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
->>>>>>> master
+
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
         
         
         if(instance.side==-1){
-<<<<<<< HEAD
-            instance.opposite_side_correction=90; 
-        }else{
-            instance.opposite_side_correction=0; 
-        }
-        
-        ctx.save();
-        ctx.shadowBlur=5;
-        ctx.shadowColor="#41DCBF";
-        ctx.scale(instance.side, 1);
-        ctx.drawImage(instance.image[instance.ActionStatus],90*Math.floor((instance.seq/10)),0,this.width,this.height,instance.side*instance.x-instance.opposite_side_correction,instance.y,this.width,this.height);
-        ctx.restore();
-        
-        instance.seq++;
-        }
-        
-        if (instance.count < 30) {
-            instance.talk();
-        }
-        
-        instance.drawBullet();
-
-    }
-=======
             opposite_side_correction=90; 
         }else{
             opposite_side_correction=0; 
@@ -426,6 +257,6 @@ function enemyD(){
 		}
 	instance.drawBullet();
    }
->>>>>>> master
+
 
 }

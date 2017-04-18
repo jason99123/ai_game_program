@@ -22,16 +22,14 @@ function enemyC(){
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the player animation change
-<<<<<<< HEAD
-    this.whirlwind = new Array();
-=======
+
 	this.actionDelay = 0;
     this.show=true; // show enemy.image
 	
     this.whirlwind = new Array();
 	this.allowWhirlwind = 0;//0:cant use 1:can use
 	this.WhirlwindDelay = 0;
->>>>>>> master
+
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
@@ -67,100 +65,14 @@ function enemyC(){
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
-<<<<<<< HEAD
-		instance.bulletPos();
-        instance.lazer();
-        
-        instance.damageDelay--;
-    }
-	
-	this.enemyAction = function(){
-		//get the player position
 
-		
-		//close to player
-		if(instance.x>player.x ){
-			instance.side = instance.checkPlayerSide();
-            instance.walk(side);
-			instance.actionDelay = 10;
-		} else if (instance.x<player.x){
-			instance.side = instance.checkPlayerSide();
-            instance.walk(side);
-            instance.actionDelay = 10;
-		}
-		
-		if(instance.x-player.x>=0 && instance.x-player.x<=5 || player.x-instance.x>=0 && player.x-instance.x<=5){
-			nstance.ActionStatus = 1;
-			instance.side = instance.checkPlayerSide();
-		}
-		
-		if (instance.x>=800) { //rebound when too close to right
-            instance.actionDelay = 0;
-            instance.side=-1;
-            instance.walk(-1);
-            instance.actionDelay = 50;
-        }else if (instance.x<=200) { //rebound when too close to left
-            instance.actionDelay = 0;
-            instance.side=1;
-            instance.walk(1);
-            instance.actionDelay = 50;
-        }
-		
-		if(instance.y-player.y>20||player.y-instance.y>20){
-			instance.actionDelay = 0;
-			instance.jump();
-		}
-		
-        // jump when player shoot
-        for(var i = 0;i < player.bullet.length;i++){
-            if(player.bullet[i]){
-                if(player.bullet[i].y > instance.y && player.bullet[i].y < instance.y+instance.height){
-                        instance.actionDelay = 0;
-                       instance.jump();
-             }
-           }
-        }
-	}
-    
-	this.walk = function(side){
-        if (!instance.delay()) {
-            instance.ActionStatus = 1;
-            instance.side=side;
-            instance.speedX=6*side;
-        }
-    }
-	
-	this.jump = function(){
-    if (!instance.delay()) {
-         if (instance.onGround) {
-            instance.onGround = false;
-            instance.ActionStatus = 5;
-            instance.actionDelay = 10;
-            instance.gravitySpeed = -instance.jumpDistance;
-         }
-       }
-    }
-	
-	this.shootwhirlwind = function(){
-		if()
-	}
-	
-	this.Charge = function(side){
-			instance.ActionStatus = 2;
-			instance.side = instance.checkPlayerSide();
-            instance.side=side;tance.speedX = 100;
-
-	}
-	
-    //update player position, ref:player:update()
-=======
 		instance.whirlwindFinsh();
         instance.damageDelay--;
 	
     }
 	
 	//update player position, ref:player:update()
->>>>>>> master
+
     this.newPos = function(){
 		this.randomAction();
         gravityMove(instance);
