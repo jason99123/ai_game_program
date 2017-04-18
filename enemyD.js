@@ -69,23 +69,23 @@ function enemyD(){
     //update player position, ref:character:update()
     this.newPos = function(){
         this.bossActionfire();
+	if (instance.count == 10){
+		alert("reach 10");
+		instance.count = 0
+	}
         gravityMove(instance);
         walking(instance);
         checkOnGround(instance);
     }
     
     this.bossActionfire = function(){
-	instance.count++;
-	var bulletfired = 0    
+	instance.count++;  
 	if (instance.bulletCount<instance.maxBullet){
                 instance.actionDelay=0;
        		instance.shootBullet(1);
 		instance.shootBullet(2);
 		instance.shootBullet(3);
 		}
-	  bulletfired++;
-          if (bulletfired>=3)
-		  return;
 	}
 	    
     }
