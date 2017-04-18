@@ -83,7 +83,6 @@ function enemyD(){
        		instance.shootBullet(1);
 		instance.shootBullet(2);
 		instance.shootBullet(3);
-		alert("FUCK ABC");
 		}
 	},4000);
 
@@ -118,6 +117,7 @@ function enemyD(){
     }
     
     this.shootBullet = function(num){
+	alert(num);
         if (!instance.delay()) {
             
                     instance.ActionStatus = 2;
