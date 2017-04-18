@@ -55,8 +55,8 @@ function enemyC(){
         instance.image[6]= new Image();
         instance.image[6].src="./image/enemyC/fire.png";
         
-        instance.imageFrame[0]=2;
-        instance.imageFrame[1]=2;
+        instance.imageFrame[0]=3;
+        instance.imageFrame[1]=4;
         instance.imageFrame[2]=3;
         instance.imageFrame[3]=3;
         instance.imageFrame[4]=4;
