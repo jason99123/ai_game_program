@@ -265,7 +265,7 @@ function enemyD(){
         ctx.restore();
         instance.seq++;
 		}
-	instance.drawbullet();
+	
    }
 
 }
