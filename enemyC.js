@@ -306,10 +306,10 @@ function enemyC(){
         //draw player, ref:MainGameFunctions:draw()
     this.draw = function(){
 		
-		if(!instance.show){
-			instance.show = true;
-		}else{
-			 var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
+	if(!instance.show){
+		instance.show = true;
+	}else{
+		var opposite_side_correction; //need correction x coordinate when flipping image,flipping image will cause x coordinate error
         if (instance.seq>(instance.imageFrame[instance.ActionStatus]-1)*instance.animationRate) {
             instance.seq = 0;
         }
@@ -331,20 +331,7 @@ function enemyC(){
         
         instance.seq++;
         }
-        
-        if (instance.count < 30) {
-            instance.talk();
-        }
-        
-        instance.drawBullet();
 
-    }
-
-}
-
-        ctx.restore();
-        instance.seq++;
-		}
     
 	if(instance.whirlwind[0]){
 		instance.drawWhirlwind();
