@@ -77,7 +77,7 @@ function enemyD(){
     this.bossActionfire = function(){
 	instance.count++;
 	var bulletfired = 0    
-	setInterval((function(){
+	setInterval(function(){
 	  if (instance.bulletCount<instance.maxBullet){
                 instance.actionDelay=0;
        		instance.shootBullet(1);
