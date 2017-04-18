@@ -168,11 +168,11 @@ function countDown() { //provide count down for loading iamge
     obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
     break;
     case "C":
-    obstacleList[0] = new obstacle(0,350,400,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[1] = new obstacle(0,575,1000,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[2] = new obstacle(600,400,300,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[0] = new obstacle(0,350,400,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[1] = new obstacle(0,575,1000,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[2] = new obstacle(600,400,300,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[3] = new obstacle(200,150,200,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[4] = new obstacle(800,200,100,25,"#DF0101","#8A0808","#B43104");
     break;
     case "D":
     obstacleList[0] = new obstacle(0,575,1000,25,"black","#0B2161","#B43104");
@@ -190,7 +190,7 @@ function countDown() { //provide count down for loading iamge
         background.src="./image/backgroundB.jpg";
         break;
         case "C":
-        background.src="./image/backgroundA.jpg";
+        background.src="./image/backgroundC.jpg";
         break;
         case "D":
         background.src="./image/backgroundA.png";
@@ -207,7 +207,7 @@ function countDown() { //provide count down for loading iamge
         ctx.drawImage(background,0,-300);
         break;
         case "C":
-        ctx.drawImage(background,0,100);
+        ctx.drawImage(background,0,0,1000,600);
         break;
         case "D":
         ctx.drawImage(background,0,100);

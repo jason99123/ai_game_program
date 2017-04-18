@@ -321,6 +321,12 @@ function enemyC(){
         if (instance.whirlwind[0]) {
             instance.drawWhirlwind();
         }
+        
+        ctx.save();
+        ctx.globalAlpha = 0.15;
+        ctx.fillStyle="red";
+        ctx.fillRect(0,0,width,height);
+        ctx.restore();
     }
 
 }
