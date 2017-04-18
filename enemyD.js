@@ -68,42 +68,39 @@ function enemyD(){
     
     //update player position, ref:character:update()
     this.newPos = function(){
-        this.bossAction();
+        this.bossActionfire();
         gravityMove(instance);
         walking(instance);
         checkOnGround(instance);
     }
     
-    this.bossAction = function(){ //set fixed script timed action
-        instance.count++;        
-
-        setInterval(function(){
+    this.bossActionfire = function(){
+	instance.count++;
+	var bulletfired = 0    
+	setInterval((function(){
 	  if (instance.bulletCount<instance.maxBullet){
                 instance.actionDelay=0;
        		instance.shootBullet(1);
 		instance.shootBullet(2);
 		instance.shootBullet(3);
 		}
+	  bulletfired++;
+          if (bulletfired>=3)
+		  return;
 	},4000);
+	    
+    }
+    
+    this.bossAction = function(){ //set fixed script timed action
+        instance.count++;        
 
-	setInterval(function(){
-		if (instance.hp<6 && instance.hp>3){
-			instance.fireLaser(3);	
+	if (instance.hp<6 && instance.hp>3){
+		instance.fireLaser(3);	
 	}
-		if (instance.hp<3){
-			instance.fireLaser(6);
-		}
-	},15000);
-        if (instance.count == 300) {
-            instance.count = 0;
-            
-            for(var i=0;i<instance.bullet.length;i++){    
-            if (instance.bullet[i]) {
-            delete instance.bullet[i];
-                }
-            }
-            instance.bulletType = Math.floor(Math.random()*4);
-        }
+	if (instance.hp<3){
+		instance.fireLaser(6);
+	}
+
     }
     
     
