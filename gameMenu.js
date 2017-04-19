@@ -4,6 +4,7 @@ var enemyAIcon = new Image();
 var enemyBIcon = new Image();
 var enemyCIcon = new Image();
 var menuBackground = new Image();
+var click_sound = new Audio("./sound/click_sound.mp3");
 var timeout;
 
 ///////////////End of Variables for menu/////////////////
@@ -85,14 +86,17 @@ function setEnemy(c){
     
 	if (c.keyCode == 65) {
         chosenEnemy="A";
+	click_sound.play();
     }
     
     if (c.keyCode == 66) {
         chosenEnemy="B";
+	click_sound.play();
     }
     
     if (c.keyCode == 67) {
         chosenEnemy="C";
+	click_sound.play();
     }
    
     if (c.keyCode == 68) {
