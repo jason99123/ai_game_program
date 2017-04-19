@@ -13,8 +13,8 @@ function enemyC(){
     this.opposite_side_correction = 0; //correct coordination when flipping
     
     
-    this.maxSpeed = 20; // player maxium walking speed
-    this.walkingSpeed = 20; //player walking speed
+    this.maxSpeed = 15; // player maxium walking speed
+    this.walkingSpeed = 15; //player walking speed
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:melee 4:defense 5:jump
@@ -200,7 +200,7 @@ function enemyC(){
         if (!instance.delay()) {
             instance.ActionStatus = 1;
             instance.side=side;
-            instance.speedX=3*side;
+            instance.speedX=instance.walkingSpeed*side;
         }
     }
 	
