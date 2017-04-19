@@ -294,9 +294,16 @@ function checkAttackEnemy(object){ //check if attack sucess to enemy
     }
     
     if (hit && enemy.damageDelay<=0) {
+		if(chosenEnemy=='C'){
+		enemy.hp-=0.3;
+        enemy.show=false;
+        enemy.damageDelay = 10;
+		}
+		else{
         enemy.hp-=1;
         enemy.show=false;
         enemy.damageDelay = 10;
+		}
         return true
     }else{
         return false;

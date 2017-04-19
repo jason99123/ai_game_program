@@ -13,17 +13,17 @@ function enemyC(){
     this.opposite_side_correction = 0; //correct coordination when flipping
     
     
-    this.maxSpeed = 15; // player maxium walking speed
-    this.walkingSpeed = 15; //player walking speed
+    this.maxSpeed = 20; // player maxium walking speed
+    this.walkingSpeed = 9; //player walking speed
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
-    this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:melee 4:defense 5:jump
+    this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:Charge 3:melee 4:Whirlwind 5:jump
     
     
     this.image = new Array();
     this.imageFrame = new Array();
     this.animationRate = 13; //how fast the player animation change
-
+	
 	this.actionDelay = 0;
     this.show=true; // show enemy.image
 	
@@ -31,6 +31,9 @@ function enemyC(){
 	this.allowWhirlwind = 0;//0:cant use 1:can use
 	this.WhirlwindDelay = 0;
 
+	this.charge = new Array();
+	this.allowCharge = 0;
+	this.ChargeDelay = 0;
     
     this.side = 1; //which side player facing left:-1 right:1
     this.seq = 0; 
@@ -66,7 +69,7 @@ function enemyC(){
     //update player information, ref:MainGameFunctions:gameStart()
     this.update = function(){
         instance.newPos();
-
+		instance.chargeFinish();
 		instance.whirlwindFinsh();
         instance.damageDelay--;
 	
@@ -108,9 +111,7 @@ function enemyC(){
             instance.walk(-1);
             instance.actionDelay = 50;
 		}
-		else if(this.diffX==0){
-				instance.stop();
-			}
+		
 		}
 		else if(player.y>instance.y ){
 			if((this.diffY<-30 ||this.diffY>30)){
@@ -127,24 +128,28 @@ function enemyC(){
             instance.side=-1;
             instance.walk(-1);
 			}
-			else if(this.diffX==0){
-				instance.stop();
-			}
+			
 		}
 		else if(this.diffY == 0){
 			this.random = Math.random()*100;
 			if(this.diffX>-10 && this.diffX<10 && this.random>50){
-				instance.actionDelay = 0;
+				if(instance.walkingSpeed<15){
 				instance.allowWhirlwind=1;
                 instance.ActionStatus = 4;
-                instance.actionDelay = 30;
-				instance.shootwhirlwind();
+                instance.actionDelay = 10;
+				instance.shootwhirlwind();}
+				else if(instance.walkingSpeed==15){
+				instance.allowCharge=1;
+                instance.ActionStatus = 2;
+                instance.actionDelay = 10;
+				instance.useCharge();
+				}
 				this.random = Math.random()*100;
-			}else if(this.diffX>-20 && this.diffX<20 && this.random<70){
+			}else if(this.diffX>-40 && this.diffX<40){
 				instance.stop();
                 if (!instance.delay()) {
 				this.melee = new function(){
-				this.x=instance.x+instance.width/2+instance.width*instance.side-30;
+				this.x=instance.x-10;
 				this.y=instance.y;
 				this.width=60;
 				this.height=100;
@@ -153,29 +158,34 @@ function enemyC(){
 				delete this.melee;
 				instance.ActionStatus=3;
 				this.random = Math.random()*100;
-                instance.actionDelay = 20;
+                instance.actionDelay = 10;
                 }
 			}
 			else if (this.diffX> 0){
+			if(instance.hp<5){
+				instance.walkingSpeed=15;
+			}
+			else
+				instance.walkingSpeed=9;
             instance.side=1;
             instance.walk(1);
+		
 			}
 			else if(this.diffX< 0){
+				if(this.hp<5){
+				instance.walkingSpeed=15;
+			}
+			else
+				instance.walkingSpeed=9;
             instance.side=-1;
             instance.walk(-1);
 			}
 
 		}
 
-		for(var i = 0;i < player.bullet.length;i++){
-            if(player.bullet[0]){
-                if(player.bullet[0].y > instance.y && player.bullet[0].y < instance.y+instance.height){
-                        instance.actionDelay = 0;
-                       instance.jump();
-             }
-           }
-        }
+
 		instance.WhirlwindDelay--;
+		instance.ChargeDelay--;
        
 	}
     
@@ -236,6 +246,27 @@ function enemyC(){
 		}
 	}
 	
+	this.useCharge = function(){
+		if(!instance.charge[0] && instance.allowCharge!=0){
+			instance.ChargeDelay=40;
+			instance.actionDelay=10;
+			instance.charge[0] = {x:instance.x-10,y:instance.y,width:60,height:100};
+			
+			instance.allowCharge=0;
+		}
+	}
+	
+	this.chargeFinish = function(){
+		if(instance.ChargeDelay<20){
+			if(instance.charge[0])
+				checkAttackPlayer(instance.charge[0]);
+		}
+		if(instance.ChargeDelay==0){
+			if(instance.charge[0])
+				delete instance.charge[0];
+		}
+	}
+	
 	this.whirlwindFinsh = function(){
 		if(instance.WhirlwindDelay<20){
 			if(instance.whirlwind[0])
@@ -249,10 +280,11 @@ function enemyC(){
 	
 
 	
-	this.Charge = function(side){
-			instance.ActionStatus = 2;
-			instance.side = instance.checkPlayerSide();
-            instance.side=side;tance.speedX = 100;
+	this.Charge = function(){
+				this.x=instance.x-10;
+				this.y=instance.y;
+				this.width=60;
+				this.height=100;
 
 	}
 	
