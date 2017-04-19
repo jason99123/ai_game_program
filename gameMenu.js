@@ -94,6 +94,10 @@ function setEnemy(c){
     if (c.keyCode == 67) {
         chosenEnemy="C";
     }
+   
+    if (c.keyCode == 68) {
+	chosenEnemy="D";
+    }
      window.removeEventListener('keydown',setEnemy,false);
     initImg();
     initObstacle();
