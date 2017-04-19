@@ -1,7 +1,7 @@
 function enemyC(){
 //variable
     var instance = this; //instance
-    this.name="Dixn" // enemy name
+    this.name="Dixon" // enemy name
     this.gravitySpeed = 0; //drop speed
     this.gravity = 0.25; //drop acceleration
     this.speedY = 0; //Y acceleration
