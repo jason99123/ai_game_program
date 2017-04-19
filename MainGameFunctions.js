@@ -8,19 +8,29 @@ var height = 600; //canvas height
 var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
+var background_audio = new Audio("./sound/test_background.mp3");
 
 var chosenEnemy //enemy chosen : A/B/C
 
 var countdown = true;
 var count = 4;
 
+function playbackgroundaudio(){
+//start to play background
+	background_audio.play();
 
+}
+function stopbackgroundaudio(){
+//stop playing of background
+	background_audio.pause();
+	background_audio.currentTime = 0;
+}
 //initiation of game
 function init(){
     //init canvas
     canvas = document.getElementById("game");
     ctx=canvas.getContext && canvas.getContext('2d');
-    
+    playbackgroundaudio();
 
     //chosenEnemy = prompt("input enemy type (temp)");
 
@@ -387,6 +397,7 @@ function drawHP(){
 }
 
 function gameover(){
+	stopbackgroundaudio();
         ctx.fillStyle="black";
         ctx.fillRect(0,0,width,height);
         ctx.fillStyle="white";

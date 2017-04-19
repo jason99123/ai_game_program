@@ -86,23 +86,21 @@ function setEnemy(c){
     
 	if (c.keyCode == 65) {
         chosenEnemy="A";
-	click_sound.play();
     }
     
     if (c.keyCode == 66) {
         chosenEnemy="B";
-	click_sound.play();
     }
     
     if (c.keyCode == 67) {
         chosenEnemy="C";
-	click_sound.play();
     }
    
     if (c.keyCode == 68) {
 	chosenEnemy="D";
     }
      window.removeEventListener('keydown',setEnemy,false);
+     click_sound.play();
     initImg();
     initObstacle();
     gameStart();
