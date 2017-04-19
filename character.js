@@ -1,6 +1,8 @@
 function character(){
 //variable
     var instance = this; //instance
+    var sword_audio = new Audio("./sound/sword.mp3");
+    var bullet_audio = new Audio("./sound/gun.mp3");
     this.gravitySpeed = 0; //drop speed
     this.gravity = 0.5; //drop acceleration
     this.speedY = 0; //Y acceleration
@@ -110,7 +112,7 @@ function character(){
                 if (instance.bulletCount >= instance.maxBullet) {
                     instance.bulletCount = 0;
                 }
-                
+                bullet_audio.play();
                 break;
             case 68: //d button
                 instance.ActionStatus = 4;
@@ -121,6 +123,7 @@ function character(){
                     this.y=instance.y;
                     this.width = 60;
                     this.height = 100;
+		    sword_audio.play();
                 }
                 checkAttackEnemy(melee);
                 delete this.melee;
