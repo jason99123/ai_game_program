@@ -1,11 +1,7 @@
 function enemyC(){
 //variable
     var instance = this; //instance
-<<<<<<< HEAD
-	this.name="Madman" // enemy name
-=======
     this.name="Dixon" // enemy name
->>>>>>> 7b94f46e196b4ab5bd34199416053247e8cbb6cd
     this.gravitySpeed = 0; //drop speed
     this.gravity = 0.25; //drop acceleration
     this.speedY = 0; //Y acceleration
@@ -15,12 +11,8 @@ function enemyC(){
     this.width = 90; //image width
     this.height = 104; //image height
     this.opposite_side_correction = 0; //correct coordination when flipping
-<<<<<<< HEAD
-	
-=======
     
     
->>>>>>> 7b94f46e196b4ab5bd34199416053247e8cbb6cd
     this.maxSpeed = 15; // player maxium walking speed
     this.walkingSpeed = 15; //player walking speed
     this.onGround = false; //check player is on ground
@@ -46,11 +38,7 @@ function enemyC(){
 	
     this.hp=10;
     this.damageDelay = 0; // delay for next damage
-<<<<<<< HEAD
-	
-=======
     
->>>>>>> 7b94f46e196b4ab5bd34199416053247e8cbb6cd
     this.loadImage = function(){
         instance.image[0]= new Image();
         instance.image[0].src="./image/enemyC/stand.png";
