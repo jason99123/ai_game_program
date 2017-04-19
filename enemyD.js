@@ -129,7 +129,7 @@ function enemyD(){
 
                     instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,-1,6,2);
             
-            instance.actionDelay=15;
+            instance.actionDelay=5;
             instance.bulletCount++;
                 
             if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
