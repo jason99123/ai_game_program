@@ -8,27 +8,75 @@ var height = 600; //canvas height
 var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
+var background_audio = new Audio("./sound/test_background.mp3");
+
 var chosenEnemy //enemy chosen : A/B/C
 
 var countdown = true;
 var count = 4;
 
+function playbackgroundaudio(){
+//start to play background
+	background_audio.play();
+
+}
+function stopbackgroundaudio(){
+//stop playing of background
+	background_audio.pause();
+	background_audio.currentTime = 0;
+}
 //initiation of game
 function init(){
     //init canvas
     canvas = document.getElementById("game");
     ctx=canvas.getContext && canvas.getContext('2d');
+    playbackgroundaudio();
+
+    //chosenEnemy = prompt("input enemy type (temp)");
+
+
     
-    chosenEnemy = prompt("input enemy type (temp)");
-    
+
     //start game initiation when ctx is ready
     if (ctx) {
         //gameObject initiation
         loadBackground();
-        
+
         player = new character();
         player.loadImage();
         
+        switch(chosenEnemy){
+        case "A":
+        enemy = new enemyA(); //create enemy object A
+        break;
+        case "B":
+        enemy = new enemyB(); //create enemy object B
+        break;
+        case "C":
+        enemy = new enemyC(); //create enemy object C
+        break;
+        case "D":
+        enemy = new enemyD(); 
+        break;
+        }
+        
+        loadBulletImage();
+        
+        initObstacle();
+        
+        //Player Control inintiation
+        window.addEventListener('keydown',player.playerAction,false);
+        window.addEventListener('keyup',player.stopWalking,false);
+
+     
+        loadMenuImg();
+        gameMenu();
+        
+    }
+}
+
+
+function initImg(){
         switch(chosenEnemy){
         case "A":
         enemy = new enemyA(); //create enemy object A
@@ -39,23 +87,14 @@ function init(){
         case "C":
         enemy = new enemyC(); //create enemy object A
         break;
-	case "D":
-	enemy = new enemyD(); 
-	break;
+		case "D":
+		enemy = new enemyD(); 
+		break;
         }
-        enemy.loadImage();
         
-        loadBulletImage();
-        
-        initObstacle();
-        
-        //Player Control inintiation
-        window.addEventListener('keydown',player.playerAction,false);
-        window.addEventListener('keyup',player.stopWalking,false);
-        
-        //game start
-        gameStart();
-    }
+    enemy.loadImage();
+    loadBulletImage();
+    loadBackground();
 }
 
 //gamestart : call all update function
@@ -94,7 +133,9 @@ function countDown() { //provide count down for loading iamge
             ctx.fillText(count,450,300);
             ctx.font='10px "Press Start 2P"';
             ctx.fillText("Loading"+str.repeat(count),800,30);
+
         }else if (count == 0) {
+
             ctx.fillText("start!",250,300);
         }
         ctx.restore();
@@ -137,11 +178,11 @@ function countDown() { //provide count down for loading iamge
     obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
     break;
     case "C":
-    obstacleList[0] = new obstacle(0,350,400,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[1] = new obstacle(0,575,1000,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[2] = new obstacle(600,400,300,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[3] = new obstacle(200,150,200,25,"#AEB404","#8A4B08","#B43104");
-    obstacleList[4] = new obstacle(800,200,100,25,"#AEB404","#8A4B08","#B43104");
+    obstacleList[0] = new obstacle(0,350,400,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[1] = new obstacle(0,575,1000,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[2] = new obstacle(600,400,300,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[3] = new obstacle(200,150,200,25,"#DF0101","#8A0808","#B43104");
+    obstacleList[4] = new obstacle(800,200,100,25,"#DF0101","#8A0808","#B43104");
     break;
     case "D":
     obstacleList[0] = new obstacle(0,575,1000,25,"black","#0B2161","#B43104");
@@ -159,11 +200,11 @@ function countDown() { //provide count down for loading iamge
         background.src="./image/backgroundB.jpg";
         break;
         case "C":
-        background.src="./image/backgroundA.png";
+        background.src="./image/backgroundC.jpg";
         break;
         case "D":
-	background.src="./image/backgroundA.png";
-	break;
+        background.src="./image/backgroundA.png";
+        break;
     }
  }
  
@@ -176,11 +217,11 @@ function countDown() { //provide count down for loading iamge
         ctx.drawImage(background,0,-300);
         break;
         case "C":
+        ctx.drawImage(background,0,0,1000,600);
+        break;
+        case "D":
         ctx.drawImage(background,0,100);
         break;
-	case "D":
-	ctx.drawImage(background,0,100);
-	break;
     }
  }
 
@@ -356,6 +397,7 @@ function drawHP(){
 }
 
 function gameover(){
+	stopbackgroundaudio();
         ctx.fillStyle="black";
         ctx.fillRect(0,0,width,height);
         ctx.fillStyle="white";
