@@ -1,6 +1,7 @@
 function enemyA(){
 //variable
     var instance = this; //instance
+    var bullet_audio = new Audio("./sound/gun2.mp3");
     this.name="Gunman" // enemy name
     this.gravitySpeed = 0; //drop speed
     this.gravity = 0.25; //drop acceleration
@@ -89,6 +90,7 @@ function enemyA(){
             if (this.random < 80) {
                 instance.actionDelay=0;
                 instance.shootBullet();
+		bullet_audio.play();
             }else if (this.random <100) {
                 instance.walk(instance.side);
                 instance.actionDelay=10;

@@ -1,6 +1,9 @@
 function enemyB(){
 //variable
     var instance = this; //instance
+    var heal_audio = new Audio("./sound/heal.ogg");
+    var laser_audio = new Audio("./sound/laser.ogg");
+    var bullet_audio = new Audio("./sound/gun2.mp3");
     this.name="Fireman" // enemy name
     this.gravitySpeed = 0; //drop speed
     this.gravity = 0.25; //drop acceleration
@@ -166,7 +169,8 @@ function enemyB(){
     {
      instance.ActionStatus = 3;
      instance.actionDelay = 39;
-     instance.hp = 6;   
+     instance.hp = 6;  
+     heal_audio.play(); 
     }
     
     this.shootLazer = function(){
@@ -187,6 +191,7 @@ function enemyB(){
                 instance.lazers[0] = {x:player.x,y:0,width:90,height:600};
         }
             instance.allowLazer = 0;
+	    laser_audio.play();
             }
        }
     }
@@ -251,7 +256,7 @@ function enemyB(){
                     instance.bullet[Math.floor(instance.bulletCount/instance.bulletSpeed)]=new bullet(instance.x+instance.width/2,instance.y+instance.height/2,instance.side,10,1);
             }
             instance.bulletCount++;
-                
+            bullet_audio.play();    
             if (Math.floor(instance.bulletCount/instance.bulletSpeed) >= instance.maxBullet) {
                 instance.bulletCount = 0;
             }
