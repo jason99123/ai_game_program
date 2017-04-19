@@ -77,7 +77,6 @@ function enemyD(){
 
         this.bossActionfire();
 	if (instance.count == 10){
-		alert("reach 10");
 		instance.count = 0
 	}
 
