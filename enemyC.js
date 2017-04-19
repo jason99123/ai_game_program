@@ -1,6 +1,7 @@
 function enemyC(){
 //variable
     var instance = this; //instance
+	this.name="Madman" // enemy name
     this.gravitySpeed = 0; //drop speed
     this.gravity = 0.25; //drop acceleration
     this.speedY = 0; //Y acceleration
@@ -9,11 +10,10 @@ function enemyC(){
     this.y = 400; //y location
     this.width = 90; //image width
     this.height = 104; //image height
-
-    
-    
-    this.maxSpeed = 10; // player maxium walking speed
-    this.walkingSpeed = 5; //player walking speed
+    this.opposite_side_correction = 0; //correct coordination when flipping
+	
+    this.maxSpeed = 15; // player maxium walking speed
+    this.walkingSpeed = 15; //player walking speed
     this.onGround = false; //check player is on ground
     this.jumpDistance = 10; //player jump distance
     this.ActionStatus = 0; //player action status for animation 0:stop 1:walking 2:attackA 3:melee 4:defense 5:jump
@@ -34,7 +34,8 @@ function enemyC(){
     this.count = 0;
 	
     this.hp=10;
-    
+    this.damageDelay = 0; // delay for next damage
+	
     this.loadImage = function(){
         instance.image[0]= new Image();
         instance.image[0].src="./image/enemyC/stand.png";
@@ -194,7 +195,7 @@ function enemyC(){
         if (!instance.delay()) {
             instance.ActionStatus = 1;
             instance.side=side;
-            instance.speedX=3*side;
+            instance.speedX=instance.walkingSpeed*side;
         }
     }
 	
