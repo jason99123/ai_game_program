@@ -133,7 +133,7 @@ function countDown() { //provide count down for loading iamge
         if (count > 0) {
             ctx.fillText(count,450,300);
             ctx.font='10px "Press Start 2P"';
-            ctx.fillText("Loading"+str.repeat(count),800,30);
+            ctx.fillText("Loading"+str.repeat(count),800,130);
 
         }else if (count == 0) {
 
@@ -163,6 +163,7 @@ function countDown() { //provide count down for loading iamge
         enemy.draw();
         
         drawHP();
+        drawTutor();
         }
 }
 
@@ -402,6 +403,23 @@ function drawHP(){
     ctx.font='13px "Press Start 2P"';
     ctx.fillText(enemy.name,780,110);
     ctx.restore();
+}
+
+function drawTutor(){
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.fillStyle="black";
+        ctx.fillRect(0,0,width,30);
+        ctx.restore();
+        ctx.save();
+        ctx.fillStyle = "white";
+        ctx.font='5px "Press Start 2P"';
+        ctx.fillText("-Control-",100,20);
+        ctx.fillText("Move : arrow button",230,20);
+        ctx.fillText("Melee: a",500,20);
+        ctx.fillText("Shoot: s",650,20);
+        ctx.fillText("Guard: d",800,20);
+        ctx.restore();
 }
 
 function gameover(){
