@@ -1,6 +1,8 @@
 function enemyC(){
 //variable
     var instance = this; //instance
+	var whirlwind_audio = new Audio("./sound/whirlwind.ogg");
+	var charge_audio = new Audio("./sound/charge.ogg");
     this.name="Dixon" // enemy name
     this.gravitySpeed = 0; //drop speed
     this.gravity = 0.25; //drop acceleration
@@ -140,7 +142,7 @@ function enemyC(){
 				instance.shootwhirlwind();}
 				else if(instance.walkingSpeed==15){
 				instance.allowCharge=1;
-                instance.ActionStatus = 2;
+                //instance.ActionStatus = 2;
                 instance.actionDelay = 10;
 				instance.useCharge();
 				}
@@ -208,6 +210,10 @@ function enemyC(){
 	
 	this.walk = function(side){
         if (!instance.delay()) {
+			if(instance.walkingSpeed==15){
+				instance.ActionStatus =2;
+			}
+			else
             instance.ActionStatus = 1;
             instance.side=side;
             instance.speedX=instance.walkingSpeed*side;
@@ -242,6 +248,7 @@ function enemyC(){
 				instance.actionDelay=40;
 				instance.whirlwind[0] = {x:instance.x,y:instance.y-48,width:120,height:150};
 				
+				whirlwind_audio.play();
 				instance.allowWhirlwind=0;
 		}
 	}
@@ -252,6 +259,7 @@ function enemyC(){
 			instance.actionDelay=10;
 			instance.charge[0] = {x:instance.x-10,y:instance.y,width:60,height:100};
 			
+			charge_audio.play();
 			instance.allowCharge=0;
 		}
 	}
