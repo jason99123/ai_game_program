@@ -32,6 +32,7 @@ function gameMenu(){ //called in MainGameFunctions
 
 function start(e){
     clearTimeout(timeout);
+    button_audio.play();
 	if (e.keyCode == 32) {
         selectEnemy();
         window.removeEventListener('keydown',start);
@@ -83,6 +84,7 @@ function selectEnemy(){
 
 function setEnemy(c){
     clearTimeout(enemyMenuTimeout);
+    button_audio.play();
     
 	if (c.keyCode == 65) {
         chosenEnemy="A";

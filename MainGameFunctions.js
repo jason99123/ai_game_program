@@ -9,6 +9,7 @@ var width = 1000; //canvas width
 var obstacleList = new Array();
 var background = new Image();
 var background_audio = new Audio("./sound/test_background.mp3");
+var button_audio = new Audio("./sound/button_sound.mp3");
 
 var chosenEnemy //enemy chosen : A/B/C
 
@@ -408,7 +409,7 @@ function gameover(){
         ctx.fillStyle="black";
         ctx.fillRect(0,0,width,height);
         ctx.fillStyle="white";
-        ctx.font="100px Arial";
+        ctx.font='50px "Press Start 2P"';
         if (enemy.hp<=0) {
             if (player.hp==10) {
             ctx.fillText("No damage!",230,250);
